@@ -4,7 +4,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import pylab as pl
 
-def prettyPicture(clf, X_test, y_test):
+def prettyPicture(clf, X_test, y_test, show_flag=False):
     x_min = 0.0; x_max = 1.0
     y_min = 0.0; y_max = 1.0
     
@@ -34,6 +34,9 @@ def prettyPicture(clf, X_test, y_test):
     plt.ylabel("grade")
 
     plt.savefig("test.png")
+
+    if show_flag == True:
+        plt.show()
 
 import base64
 import json
