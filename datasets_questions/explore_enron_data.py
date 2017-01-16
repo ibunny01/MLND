@@ -44,5 +44,11 @@ print "# of enron_data's features : ",len(enron_data.items()[0][1].keys())
 count_of_poi = 0
 for (k,v) in enron_data.items():
     if v['poi'] == 1:
+        print count_of_poi,' ', k
         count_of_poi+=1
 print "# of data which has poi features : ",count_of_poi
+
+# print the total value of stock belonging to James Prentice
+# print enron_data.viewkeys()
+print enron_data[" ".join('James Prentice'.upper().split(' ')[::-1])].keys()
+print enron_data[" ".join('James Prentice'.upper().split(' ')[::-1])]['total_stock_value']

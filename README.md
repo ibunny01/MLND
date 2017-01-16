@@ -9,4 +9,14 @@ The email + finance (E+F) data dictionary is stored as a pickle file, which is a
 
 How many data points (people) are in the dataset?
 
+##datasets_questions
+For each person, how many features are available?
 
+##datasets_questions
+The “poi” feature records whether the person is a person of interest, according to our definition. How many POIs are there in the E+F dataset?
+
+##evaluation
+We compiled a list of all POI names (in ../final_project/poi_names.txt) and associated email addresses (in ../final_project/poi_email_addresses.py).
+
+How many POI’s were there total? (Use the names file, not the email addresses, since many folks have more than one address and a few didn’t work for Enron, so we don’t have their emails.)
+http://usatoday30.usatoday.com/money/industries/energy/2005-12-28-enron-participants_x.htm
