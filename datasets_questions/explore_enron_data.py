@@ -89,3 +89,22 @@ for k in enron_data.keys():
         cnt_of_email+=1
 
 print cnt_of_qual_sal, cnt_of_email
+
+# find count of people who doesn't have total payment
+cnt_poi_person = 0.0
+cnt_poi_tot = 0.0
+cnt_person_no_pay = 0.0
+for (k, v) in enron_data.items():
+    if enron_data[k]['poi'] == 1:
+        cnt_poi_person+=1
+        if enron_data[k]['total_payments'] == 'NaN':
+            cnt_poi_tot+=1
+    
+    if enron_data[k]['total_payments'] == 'NaN':
+        cnt_person_no_pay+=1
+
+print cnt_person_no_pay
+print cnt_poi_person;
+print cnt_poi_tot;
+print cnt_poi_tot/cnt_poi_person*100,'%'
+

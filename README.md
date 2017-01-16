@@ -25,3 +25,7 @@ http://usatoday30.usatoday.com/money/industries/energy/2005-12-28-enron-particip
 'Enron: The Smartest Guys in the Room'
 https://g.co/kgs/yHEPfm
 
+##Reference
+http://scikit-learn.org/0.17/modules/cross_validation.html
+http://scikit-learn.org/stable/modules/preprocessing.html#preprocessing-categorical-features
+http://scikit-learn.org/stable/modules/preprocessing_targets.html#label-encoding
