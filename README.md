@@ -20,3 +20,8 @@ We compiled a list of all POI names (in ../final_project/poi_names.txt) and asso
 
 How many POI’s were there total? (Use the names file, not the email addresses, since many folks have more than one address and a few didn’t work for Enron, so we don’t have their emails.)
 http://usatoday30.usatoday.com/money/industries/energy/2005-12-28-enron-participants_x.htm
+
+##Documentary
+'Enron: The Smartest Guys in the Room'
+https://g.co/kgs/yHEPfm
+
