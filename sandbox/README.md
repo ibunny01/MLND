@@ -23,3 +23,6 @@ While we will not dive deep into explained variance score and R2 score in this l
 
 http://scikit-learn.org/stable/modules/generated/sklearn.metrics.r2_score.html#sklearn.metrics.r2_score
 http://scikit-learn.org/stable/modules/generated/sklearn.metrics.explained_variance_score.html#sklearn.metrics.explained_variance_score
+
+##Understanding the Bias-Variance Tradeoff
+http://scott.fortmann-roe.com/docs/BiasVariance.html
