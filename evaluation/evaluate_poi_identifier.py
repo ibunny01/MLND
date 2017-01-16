@@ -11,6 +11,9 @@
     Start by loading/formatting the data...
 """
 
+import os,sys
+os.chdir(sys.path[0])
+
 import pickle
 import sys
 sys.path.append("../tools/")
@@ -28,4 +31,6 @@ labels, features = targetFeatureSplit(data)
 
 ### your code goes here 
 
-
+print features_list
+print data
+print labels, features

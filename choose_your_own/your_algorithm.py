@@ -1,5 +1,9 @@
 #!/usr/bin/python
 
+import os,sys
+os.chdir(sys.path[0])
+
+
 import matplotlib.pyplot as plt
 from prep_terrain_data import makeTerrainData
 from class_vis import prettyPicture
