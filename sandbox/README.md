@@ -70,3 +70,6 @@ clf.fit(iris.data, iris.target)
 And the second bit of magic. The fit function now tries all the parameter combinations, and returns a fitted classifier that's automatically tuned to the optimal parameter combination. You can now access the parameter values via clf.best_params_.
 
 http://scikit-learn.org/stable/modules/generated/sklearn.grid_search.GridSearchCV.html
+
+##Understanding the Bias-Variance Tradeoff
+http://scott.fortmann-roe.com/docs/BiasVariance.html
