@@ -1,12 +1,12 @@
-= Managing Error and Complexity
+# Managing Error and Complexity
 
-== Causes of Error
+## Causes of Error
 
-== Representative Power of a Model
+## Representative Power of a Model
 
-== Learning Curves and Model Complexity
+## Learning Curves and Model Complexity
 
-== Cross Validation
+## Cross Validation
 GridSearchCV is a way of systematically working through multiple combinations of parameter tunes, cross-validating as it goes to determine which tune gives the best performance. The beauty is that it can work through many combinations in only a couple extra lines of code.
 
 Here's an example from the sklearn documentation:
