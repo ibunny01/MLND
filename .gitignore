@@ -1,5 +1,6 @@
 .DS_Store
 Model_Evaluation_and_Validation/lfw_funneled/*
+tags
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

@@ -51,11 +51,16 @@ class Perceptron:
         # YOUR CODE HERE
 
         # TODO: for each data point...
-        
+        for (value, target) in zip(values, train):
+
             # TODO: obtain the neuron's prediction for that point
+            predicted_y = 0
+            if self.activate(value):
+                predicted_y = 1
 
             # TODO: update self.weights based on prediction accuracy, learning
             # rate and input value
+            self.weights += eta * (target - predicted_y)*value
 
 def test():
     """
