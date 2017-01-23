@@ -1,0 +1,207 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.8	//
+Age	sandbox/sample.py	/^Age=[25, 26, 33, 29, 27, 21, 26, 35, 21, 37, 21, 38, 18, 19, 36, 30, 29, 24, 24, 36, 36, 27, 33, 23, 21, 26, 27, 27, 24, 26, 25, 24, 22, 25, 40, 39, 19, 31, 33, 30, 33, 27, 40, 32, 31, 35, 26, 34, 27, 34, 33, 20, 19, 40, 39, 39, 37, 18, 35, 20, 28, 31, 30, 29, 31, 18, 40, 20, 32, 20, 34, 34, 25, 29, 40, 40, 39, 36, 39, 34, 34, 35, 39, 38, 33, 32, 21, 29, 36, 33, 30, 39, 21, 19, 38, 30, 40, 36, 34, 28, 37, 29, 39, 25, 36, 33, 37, 19, 28, 26, 18, 22, 40, 20, 40, 20, 39, 29, 26, 26, 22, 37, 34, 29, 24, 23, 21, 19, 29, 30, 23, 40, 30, 30, 19, 39, 39, 25, 36, 38, 24, 32, 34, 33, 36, 30, 35, 26, 28, 23, 25, 23, 40, 20, 26, 26, 22, 23, 18, 36, 34, 36, 35, 40, 39, 39, 33, 22, 37, 20, 37, 35, 20, 23, 37, 32, 25, 35, 35, 22, 21, 31, 40, 26, 24, 29, 37, 19, 33, 31, 29, 27, 21, 19, 39, 34, 34, 40, 26, 39, 35, 31, 35, 24, 19, 27, 27, 20, 28, 30, 23, 21, 20, 26, 31, 24, 25, 25, 22, 32, 28, 36, 21, 38, 18, 25, 21, 33, 40, 19, 38, 33, 37, 32, 31, 31, 38, 19, 37, 37, 32, 36, 34, 35, 35, 35, 37, 35, 39, 34, 24, 25, 18, 40, 33, 32, 23, 25, 19, 39, 38, 36, 32, 27, 22, 40, 28, 29, 25, 36, 26, 28, 32, 34, 34, 21, 21, 32, 19, 35, 30, 35, 26, 31, 38, 34, 33, 35, 37, 38, 36, 40, 22, 30, 28, 28, 29, 36, 24, 28, 28, 28, 26, 21, 35, 22, 32, 28, 19, 33, 18, 22, 36, 26, 19, 26, 30, 27, 28, 24, 36, 37, 20, 32, 38, 39, 38, 30, 32, 30, 26, 23, 19, 29, 33, 34, 23, 30, 32, 40, 36, 29, 39, 34, 34, 22, 22, 22, 36, 38, 38, 30, 26, 40, 34, 21, 34, 38, 32, 35, 35, 26, 28, 20, 40, 23, 24, 26, 24, 39, 21, 33, 31, 39, 39, 20, 22, 18, 23, 36, 32, 37, 36, 26, 30, 30, 30, 21, 22, 40, 38, 22, 27, 23, 21, 22, 20, 30, 31, 40, 19, 32, 24, 21, 27, 32, 30, 34, 18, 25, 22, 40, 23, 19, 24, 24, 25, 40, 27, 29, 22, 39, 38, 34, 39, 30, 31, 33, 34, 25, 20, 20, 20, 20, 24, 19, 21, 31, 31, 29, 38, 39, 33, 40, 24, 38, 37, 18, 24, 38, 38, 22, 40, 21, 36, 30, 21, 30, 35, 20, 25, 25, 29, 30, 20, 29, 29, 31, 20, 26, 26, 38, 37, 39, 31, 35, 36, 30, 38, 36, 23, 39, 39, 20, 30, 34, 21, 23, 21, 33, 30, 33, 32, 36, 18, 31, 32, 25, 23, 23, 21, 34, 18, 40, 21, 29, 29, 21, 38, 35, 38, 32, 38, 27, 23, 33, 29, 19, 20, 35, 29, 27, 28, 20, 40, 35, 40, 40, 20, 36, 38, 28, 30, 30, 36, 29, 27, 25, 33, 19, 27, 28, 34, 36, 27, 40, 38, 37, 31, 33, 38, 36, 25, 23, 22, 23, 34, 26, 24, 28, 32, 22, 18, 29, 19, 21, 27, 28, 35, 30, 40, 28, 37, 34, 24, 40, 33, 29, 30, 36, 25, 26, 26, 28, 34, 39, 34, 26, 24, 33, 38, 37, 36, 34, 37, 33, 25, 27, 30, 26, 21, 40, 26, 25, 25, 40, 28, 35, 36, 39, 33, 36, 40, 32, 36, 26, 24, 36, 27, 28, 26, 37, 36, 37, 36, 20, 34, 30, 32, 40, 20, 31, 23, 27, 19, 24, 23, 24, 25, 36, 26, 33, 30, 27, 26, 28, 28, 21, 31, 24, 27, 24, 29, 29, 28, 22, 20, 23, 35, 30, 37, 31, 31, 21, 32, 29, 27, 27, 30, 39, 34, 23, 35, 39, 27, 40, 28, 36, 35, 38, 21, 18, 21, 38, 37, 24, 21, 25, 35, 27, 35, 24, 36, 32, 20]$/;"	kind:variable	line:4
+ClassifyNB.py	sandbox/ClassifyNB.py	1;"	kind:file	line:1
+DataFrame	sandbox/sandbox_numpy.py	/^from pandas import DataFrame, Series$/;"	kind:namespace	line:2
+GaussianNB	sandbox/ClassifyNB.py	/^from sklearn.naive_bayes import GaussianNB$/;"	kind:namespace	line:2
+GaussianNB	sandbox/naive_bayes_gaussian.py	/^from sklearn.naive_bayes import GaussianNB$/;"	kind:namespace	line:5
+GridSearchCV	Model_Evaluation_and_Validation/face_recognition.py	/^from sklearn.grid_search import GridSearchCV$/;"	kind:namespace	line:38
+PCA	Model_Evaluation_and_Validation/face_recognition.py	/^from sklearn.decomposition import PCA$/;"	kind:namespace	line:44
+SVC	Model_Evaluation_and_Validation/face_recognition.py	/^from sklearn.svm import SVC$/;"	kind:namespace	line:45
+Series	sandbox/sandbox_numpy.py	/^from pandas import DataFrame, Series$/;"	kind:namespace	line:2
+Wage	sandbox/sample.py	/^Wage=[17000, 13000, 28000, 45000, 28000, 1200, 15500, 26400, 14000, 35000, 16400, 50000, 2600, 9000, 27000, 150000, 32000, 22000, 65000, 56000, 6500, 30000, 70000, 9000, 6000, 34000, 40000, 30000, 6400, 87000, 20000, 45000, 4800, 34000, 75000, 26000, 4000, 50000, 63000, 14700, 45000, 42000, 10000, 40000, 70000, 14000, 54000, 14000, 23000, 24400, 27900, 4700, 8000, 19000, 17300, 45000, 3900, 2900, 138000, 2100, 60000, 55000, 45000, 40000, 45700, 90000, 40000, 13000, 30000, 2000, 75000, 60000, 70000, 41000, 42000, 31000, 39000, 104000, 52000, 20000, 59000, 66000, 63000, 32000, 11000, 16000, 6400, 17000, 47700, 5000, 25000, 35000, 20000, 14000, 29000, 267000, 31000, 27000, 64000, 39600, 267000, 7100, 33000, 31500, 40000, 23000, 3000, 14000, 44000, 15100, 2600, 6200, 50000, 3000, 25000, 2000, 38000, 22000, 20000, 2500, 1500, 42000, 30000, 27000, 7000, 11900, 27000, 24000, 4300, 30200, 2500, 30000, 70000, 38700, 8000, 36000, 66000, 24000, 95000, 39000, 20000, 23000, 56000, 25200, 62000, 12000, 13000, 35000, 35000, 14000, 24000, 12000, 14000, 31000, 40000, 22900, 12000, 14000, 1600, 12000, 80000, 90000, 126000, 1600, 100000, 8000, 71000, 40000, 42000, 40000, 120000, 35000, 1200, 4000, 32000, 8000, 14500, 65000, 15000, 3000, 2000, 23900, 1000, 22000, 18200, 8000, 30000, 23000, 30000, 27000, 70000, 40000, 18000, 3100, 57000, 25000, 32000, 10000, 4000, 49000, 93000, 35000, 49000, 40000, 5500, 30000, 25000, 5700, 6000, 30000, 42900, 8000, 5300, 90000, 85000, 15000, 17000, 5600, 11500, 52000, 1000, 42000, 2100, 50000, 1500, 40000, 28000, 5300, 149000, 3200, 12000, 83000, 45000, 31200, 25000, 72000, 70000, 7000, 23000, 40000, 40000, 28000, 10000, 48000, 20000, 60000, 19000, 25000, 39000, 68000, 2300, 23900, 5000, 16300, 80000, 45000, 12000, 9000, 1300, 35000, 35000, 47000, 32000, 18000, 20000, 20000, 23400, 48000, 8000, 5200, 33500, 22000, 22000, 52000, 104000, 28000, 13000, 12000, 15000, 53000, 27000, 50000, 13900, 23000, 28100, 23000, 12000, 55000, 83000, 31000, 33200, 45000, 3000, 18000, 11000, 41000, 36000, 33600, 38000, 45000, 53000, 24000, 3000, 37500, 7700, 4800, 29000, 6600, 12400, 20000, 2000, 1100, 55000, 13400, 10000, 6000, 6000, 16000, 19000, 8300, 52000, 58000, 27000, 25000, 80000, 10000, 22000, 18000, 21000, 8000, 15200, 15000, 5000, 50000, 89000, 7000, 65000, 58000, 42000, 55000, 40000, 14000, 36000, 30000, 7900, 6000, 1200, 10000, 54000, 12800, 35000, 34000, 40000, 45000, 9600, 3300, 39000, 22000, 40000, 68000, 24400, 1000, 10800, 8400, 50000, 22000, 20000, 20000, 1300, 9000, 14200, 32000, 65000, 18000, 18000, 3000, 16700, 1500, 1400, 15000, 55000, 42000, 70000, 35000, 21600, 5800, 35000, 5700, 1700, 40000, 40000, 45000, 25000, 13000, 6400, 11000, 4200, 30000, 32000, 120000, 10000, 19000, 12000, 13000, 37000, 40000, 38000, 60000, 3100, 16000, 18000, 130000, 5000, 5000, 35000, 1000, 14300, 100000, 20000, 33000, 8000, 9400, 87000, 2500, 12000, 12000, 33000, 16500, 25500, 7200, 2300, 3100, 2100, 3200, 45000, 40000, 3800, 30000, 12000, 62000, 45000, 46000, 50000, 40000, 13000, 50000, 23000, 4000, 40000, 25000, 16000, 3000, 80000, 27000, 68000, 3500, 1300, 10000, 46000, 5800, 24000, 12500, 50000, 48000, 29000, 19000, 26000, 30000, 10000, 10000, 20000, 43000, 105000, 55000, 5000, 65000, 68000, 38000, 47000, 48700, 6100, 55000, 30000, 5000, 3500, 23400, 11400, 7000, 1300, 80000, 65000, 45000, 19000, 3000, 17100, 22900, 31200, 35000, 3000, 5000, 1000, 36000, 4800, 60000, 9800, 30000, 85000, 18000, 24000, 60000, 30000, 2000, 39000, 12000, 10500, 60000, 36000, 10500, 3600, 1200, 28600, 48000, 20800, 5400, 9600, 30000, 30000, 20000, 6700, 30000, 3200, 42000, 37000, 5000, 18000, 20000, 14000, 12000, 18000, 3000, 13500, 35000, 38000, 30000, 36000, 66000, 45000, 32000, 46000, 80000, 27000, 4000, 21000, 7600, 16000, 10300, 27000, 19000, 14000, 19000, 3100, 20000, 2700, 27000, 7000, 13600, 75000, 35000, 36000, 25000, 6000, 36000, 50000, 46000, 3000, 37000, 40000, 30000, 48800, 19700, 16000, 14000, 12000, 25000, 25000, 28600, 17000, 31200, 57000, 23000, 23500, 46000, 18700, 26700, 9900, 16000, 3000, 52000, 51000, 14000, 14400, 27000, 26000, 60000, 25000, 6000, 20000, 3000, 69000, 24800, 12000, 3100, 18000, 20000, 267000, 28000, 9800, 18200, 80000, 6800, 21100, 20000, 68000, 20000, 45000, 8000, 40000, 31900, 28000, 24000, 2000, 32000, 11000, 20000, 5900, 16100, 23900, 40000, 37500, 11000, 55000, 37500, 60000, 23000, 9500, 34500, 4000, 9000, 11200, 35200, 30000, 18000, 21800, 19700, 16700, 12500, 11300, 4000, 39000, 32000, 14000, 65000, 50000, 2000, 30400, 22000, 1600, 56000, 40000, 85000, 9000, 10000, 19000, 5300, 5200, 43000, 60000, 50000, 38000, 267000, 15600, 1800, 17000, 45000, 31000, 5000, 8000, 43000, 103000, 45000, 8800, 26000, 47000, 40000, 8000]$/;"	kind:variable	line:6
+X	Model_Evaluation_and_Validation/face_recognition.py	/^X = lfw_people.data$/;"	kind:variable	line:64
+X	sandbox/naive_bayes_gaussian.py	/^X = np.array([[-1, -1], [-2, -1], [-3, -2], [1, 1], [2, 1], [3, 2]])$/;"	kind:variable	line:2
+X_test_pca	Model_Evaluation_and_Validation/face_recognition.py	/^X_test_pca = pca.transform(X_test)$/;"	kind:variable	line:103
+X_train_pca	Model_Evaluation_and_Validation/face_recognition.py	/^X_train_pca = pca.transform(X_train)$/;"	kind:variable	line:102
+Y	sandbox/naive_bayes_gaussian.py	/^Y = np.array([1, 1, 1, 2, 2, 2])$/;"	kind:variable	line:3
+a	sandbox/test.py	/^a = muy4 - (sum([(nx - mux4)*(ny-muy4) for (nx,ny) in dxy4]) \/ sum([(nx-mux4)**2 for (nx, ny) in dxy4]))*mux4$/;"	kind:variable	line:107
+accuracy_score	sandbox/sklearn_accuracy_score.py	/^from sklearn.metrics import accuracy_score$/;"	kind:namespace	line:2
+arange	sandbox/plotting.py	/^from numpy import arange$/;"	kind:namespace	line:2
+avg_medal_count	sandbox/sandbox_numpy.py	/^def avg_medal_count():$/;"	kind:function	line:5
+b	sandbox/test.py	/^b = sum([(nx - mux4)*(ny-muy4) for (nx,ny) in dxy4]) \/ sum([(nx-mux4)**2 for (nx, ny) in dxy4])$/;"	kind:variable	line:104
+barchart	sandbox/plotting.py	/^def barchart(x,y,numbins=5):$/;"	kind:function	line:26
+barplot	sandbox/plotting.py	/^def barplot(labels,data):$/;"	kind:function	line:11
+base64	DecisionTree/class_vis.py	/^import base64$/;"	kind:namespace	line:49
+base64	sandbox/class_vis.1.py	/^import base64$/;"	kind:namespace	line:41
+base64	sandbox/class_vis.py	/^import base64$/;"	kind:namespace	line:49
+bisect	sandbox/plotting.py	/^import bisect$/;"	kind:namespace	line:3
+bumpy_fast	sandbox/studentMain.py	/^bumpy_fast = [features_train[ii][1] for ii in range(0, len(features_train)) if labels_train[ii]==0]$/;"	kind:variable	line:25
+bumpy_slow	sandbox/studentMain.py	/^bumpy_slow = [features_train[ii][1] for ii in range(0, len(features_train)) if labels_train[ii]==1]$/;"	kind:variable	line:27
+ci	sandbox/test.py	/^ci = 1.96*sqrt(sum([(nx-mux5)**2 for nx in dx5]) \/ len(dx5)) \/ sqrt(len(dx5))$/;"	kind:variable	line:148
+class_vis.1.py	sandbox/class_vis.1.py	1;"	kind:file	line:1
+class_vis.py	DecisionTree/class_vis.py	1;"	kind:file	line:1
+class_vis.py	sandbox/class_vis.py	1;"	kind:file	line:1
+classification_report	Model_Evaluation_and_Validation/face_recognition.py	/^from sklearn.metrics import classification_report$/;"	kind:namespace	line:42
+classify	DecisionTree/classifyDT.py	/^def classify(features_train, labels_train):$/;"	kind:function	line:1
+classify	DecisionTree/studentMain.py	/^from classifyDT import classify$/;"	kind:namespace	line:12
+classify	sandbox/ClassifyNB.py	/^def classify(features_train, labels_train):   $/;"	kind:function	line:4
+classify	sandbox/studentMain.py	/^from ClassifyNB import classify$/;"	kind:namespace	line:13
+classifyDT.py	DecisionTree/classifyDT.py	1;"	kind:file	line:1
+clf	DecisionTree/studentMain.py	/^clf = classify(features_train, labels_train)$/;"	kind:variable	line:20
+clf	Model_Evaluation_and_Validation/face_recognition.py	/^clf = GridSearchCV(SVC(kernel='rbf', class_weight='balanced'), param_grid)$/;"	kind:variable	line:114
+clf	Model_Evaluation_and_Validation/face_recognition.py	/^clf = clf.fit(X_train_pca, y_train)$/;"	kind:variable	line:115
+clf	sandbox/naive_bayes_gaussian.py	/^clf = GaussianNB()$/;"	kind:variable	line:6
+clf	sandbox/sklearn_cross_validation.py	/^clf = svm.SVC(kernel='linear', C=1)$/;"	kind:variable	line:25
+clf	sandbox/sklearn_cross_validation.py	/^clf = svm.SVC(kernel='linear', C=1).fit(X_train, y_train)$/;"	kind:variable	line:19
+clf	sandbox/studentMain.py	/^clf = classify(features_train, labels_train)$/;"	kind:variable	line:32
+clf_pf	sandbox/naive_bayes_gaussian.py	/^clf_pf = GaussianNB()$/;"	kind:variable	line:11
+compute_ci	sandbox/test.py	/^def compute_ci(d):$/;"	kind:function	line:33
+confusion_matrix	Model_Evaluation_and_Validation/face_recognition.py	/^from sklearn.metrics import confusion_matrix$/;"	kind:namespace	line:43
+confusion_matrix	sandbox/sklearn_confusion_matrix.py	/^from sklearn.metrics import confusion_matrix$/;"	kind:namespace	line:1
+cross_validation	sandbox/sklearn_cross_validation.py	/^from sklearn import cross_validation$/;"	kind:namespace	line:4
+data	sandbox/test.py	/^data = [21]*4+[24]*6+[26]*7+[29]*11+[40]*2$/;"	kind:variable	line:5
+datasets	sandbox/sklearn_cross_validation.py	/^from sklearn import datasets$/;"	kind:namespace	line:5
+datax	sandbox/test.py	/^datax=[6, 2, 1, -1]$/;"	kind:variable	line:7
+datax2	sandbox/test.py	/^datax2 = range(0,10) + [1000]$/;"	kind:variable	line:10
+datax3	sandbox/test.py	/^datax3 = [1,2,3]$/;"	kind:variable	line:14
+dataxy2	sandbox/test.py	/^dataxy2 = zip(datax2, datay2)$/;"	kind:variable	line:66
+dataxy3	sandbox/test.py	/^dataxy3 = zip(datax3, datay3)$/;"	kind:variable	line:80
+datay	sandbox/test.py	/^datay=[7,3,2,0]$/;"	kind:variable	line:8
+datay2	sandbox/test.py	/^datay2 = [0]*10 + [1000]$/;"	kind:variable	line:11
+datay3	sandbox/test.py	/^datay3 = [4,7,13]$/;"	kind:variable	line:15
+dx4	sandbox/test.py	/^dx4 = [70,57,63,70,53,75,58]$/;"	kind:variable	line:18
+dx5	sandbox/test.py	/^dx5 = [0.79,0.70,0.73,0.66,0.65,0.70,0.74,0.81,0.71,0.70]$/;"	kind:variable	line:145
+dxy4	sandbox/test.py	/^dxy4 = zip(dx4,dy4)$/;"	kind:variable	line:95
+dy4	sandbox/test.py	/^dy4 = [1,1,1,1,2,2,1]$/;"	kind:variable	line:19
+eigenface_titles	Model_Evaluation_and_Validation/face_recognition.py	/^eigenface_titles = ["eigenface %d" % i for i in range(eigenfaces.shape[0])]$/;"	kind:variable	line:162
+eigenfaces	Model_Evaluation_and_Validation/face_recognition.py	/^eigenfaces = pca.components_.reshape((n_components, h, w))$/;"	kind:variable	line:98
+enc	sandbox/sklearn_preprocessing_categorical_features.py	/^enc = preprocessing.OneHotEncoder()$/;"	kind:variable	line:6
+enc	sandbox/sklearn_preprocessing_categorical_features.py	/^enc = preprocessing.OneHotEncoder(n_values=[2, 3, 4])$/;"	kind:variable	line:10
+f1_score	sandbox/sklearn_f1_score.py	/^from sklearn.metrics import f1_score$/;"	kind:namespace	line:1
+face_recognition.py	Model_Evaluation_and_Validation/face_recognition.py	1;"	kind:file	line:1
+fetch_lfw_people	Model_Evaluation_and_Validation/face_recognition.py	/^from sklearn.datasets import fetch_lfw_people$/;"	kind:namespace	line:41
+grade_fast	sandbox/studentMain.py	/^grade_fast = [features_train[ii][0] for ii in range(0, len(features_train)) if labels_train[ii]==0]$/;"	kind:variable	line:24
+grade_slow	sandbox/studentMain.py	/^grade_slow = [features_train[ii][0] for ii in range(0, len(features_train)) if labels_train[ii]==1]$/;"	kind:variable	line:26
+histplot	sandbox/plotting.py	/^def histplot(data,bins=None,nbins=5):$/;"	kind:function	line:17
+iris	sandbox/sklearn_cross_validation.py	/^iris = datasets.load_iris()$/;"	kind:variable	line:8
+json	DecisionTree/class_vis.py	/^import json$/;"	kind:namespace	line:50
+json	sandbox/class_vis.1.py	/^import json$/;"	kind:namespace	line:42
+json	sandbox/class_vis.py	/^import json$/;"	kind:namespace	line:50
+le	sandbox/sklearn_preprocessiong_label_encoding.py	/^le = preprocessing.LabelEncoder()$/;"	kind:variable	line:2
+lfw_people	Model_Evaluation_and_Validation/face_recognition.py	/^lfw_people = fetch_lfw_people(min_faces_per_person=70, resize=0.4)$/;"	kind:variable	line:57
+logging	Model_Evaluation_and_Validation/face_recognition.py	/^import logging$/;"	kind:namespace	line:33
+makeTerrainData	DecisionTree/prep_terrain_data.py	/^def makeTerrainData(n_points=1000):$/;"	kind:function	line:5
+makeTerrainData	DecisionTree/studentMain.py	/^from prep_terrain_data import makeTerrainData$/;"	kind:namespace	line:7
+makeTerrainData	sandbox/prep_terrain_data.py	/^def makeTerrainData(n_points=1000):$/;"	kind:function	line:5
+makeTerrainData	sandbox/studentMain.py	/^from prep_terrain_data import makeTerrainData$/;"	kind:namespace	line:11
+matplotlib	DecisionTree/class_vis.py	/^import matplotlib $/;"	kind:namespace	line:7
+matplotlib	DecisionTree/class_vis.py	/^import matplotlib.pyplot as plt$/;"	kind:namespace	line:10
+matplotlib	DecisionTree/studentMain.py	/^import matplotlib.pyplot as plt$/;"	kind:namespace	line:9
+matplotlib	Model_Evaluation_and_Validation/face_recognition.py	/^import matplotlib.pyplot as plt$/;"	kind:namespace	line:34
+matplotlib	sandbox/class_vis.1.py	/^import matplotlib.pyplot as plt$/;"	kind:namespace	line:4
+matplotlib	sandbox/class_vis.py	/^import matplotlib $/;"	kind:namespace	line:7
+matplotlib	sandbox/class_vis.py	/^import matplotlib.pyplot as plt$/;"	kind:namespace	line:10
+mean	sandbox/test.py	/^def mean(d):$/;"	kind:function	line:22
+mean_squared_error	sandbox/sklearn_mean_squared.py	/^from sklearn.metrics import mean_squared_error$/;"	kind:namespace	line:1
+mux	sandbox/test.py	/^mux = mean(datax)$/;"	kind:variable	line:52
+mux2	sandbox/test.py	/^mux2 = mean(datax2)$/;"	kind:variable	line:70
+mux3	sandbox/test.py	/^mux3 = mean(datax3)$/;"	kind:variable	line:82
+mux4	sandbox/test.py	/^mux4 = mean(dx4)$/;"	kind:variable	line:99
+mux5	sandbox/test.py	/^mux5 = sum(dx5) \/ len(dx5)$/;"	kind:variable	line:146
+muy	sandbox/test.py	/^muy = mean(datay)$/;"	kind:variable	line:53
+muy2	sandbox/test.py	/^muy2 = mean(datay2)$/;"	kind:variable	line:71
+muy3	sandbox/test.py	/^muy3 = mean(datay3)$/;"	kind:variable	line:83
+muy4	sandbox/test.py	/^muy4 = mean(dy4)$/;"	kind:variable	line:100
+n_classes	Model_Evaluation_and_Validation/face_recognition.py	/^n_classes = target_names.shape[0]$/;"	kind:variable	line:70
+n_components	Model_Evaluation_and_Validation/face_recognition.py	/^n_components = 150$/;"	kind:variable	line:89
+n_features	Model_Evaluation_and_Validation/face_recognition.py	/^n_features = X.shape[1]$/;"	kind:variable	line:65
+naive_bayes_gaussian.py	sandbox/naive_bayes_gaussian.py	1;"	kind:file	line:1
+newdataxy2	sandbox/test.py	/^newdataxy2 = [(nx - mux2, ny - muy2) for (nx, ny) in dataxy2]$/;"	kind:variable	line:75
+np	DecisionTree/class_vis.py	/^import numpy as np$/;"	kind:namespace	line:12
+np	DecisionTree/studentMain.py	/^import numpy as np$/;"	kind:namespace	line:10
+np	sandbox/ClassifyNB.py	/^import numpy as np$/;"	kind:namespace	line:1
+np	sandbox/class_vis.1.py	/^import numpy as np$/;"	kind:namespace	line:3
+np	sandbox/class_vis.py	/^import numpy as np$/;"	kind:namespace	line:12
+np	sandbox/naive_bayes_gaussian.py	/^import numpy as np$/;"	kind:namespace	line:1
+np	sandbox/sklearn_accuracy_score.py	/^import numpy as np$/;"	kind:namespace	line:1
+np	sandbox/sklearn_cross_validation.py	/^import numpy as np$/;"	kind:namespace	line:3
+np	sandbox/sklearn_preprocessing_categorical_features.py	/^import numpy as np$/;"	kind:namespace	line:4
+np	sandbox/studentMain.py	/^import numpy as np$/;"	kind:namespace	line:15
+numpy	sandbox/sandbox_numpy.py	/^import numpy$/;"	kind:namespace	line:1
+output_image	DecisionTree/class_vis.py	/^def output_image(name, format, bytes):$/;"	kind:function	line:53
+output_image	DecisionTree/studentMain.py	/^from class_vis import prettyPicture, output_image$/;"	kind:namespace	line:6
+output_image	sandbox/class_vis.1.py	/^def output_image(name, format, bytes):$/;"	kind:function	line:45
+output_image	sandbox/class_vis.py	/^def output_image(name, format, bytes):$/;"	kind:function	line:53
+output_image	sandbox/studentMain.py	/^from class_vis import prettyPicture, output_image$/;"	kind:namespace	line:12
+param_grid	Model_Evaluation_and_Validation/face_recognition.py	/^param_grid = {'C': [1e3, 5e3, 1e4, 5e4, 1e5],$/;"	kind:variable	line:112
+pca	Model_Evaluation_and_Validation/face_recognition.py	/^pca = PCA(n_components=n_components, svd_solver='randomized',$/;"	kind:variable	line:94
+piechart	sandbox/plotting.py	/^def piechart(labels,data):$/;"	kind:function	line:50
+pl	DecisionTree/class_vis.py	/^import pylab as pl$/;"	kind:namespace	line:11
+pl	DecisionTree/studentMain.py	/^import pylab as pl$/;"	kind:namespace	line:11
+pl	sandbox/class_vis.1.py	/^import pylab as pl$/;"	kind:namespace	line:5
+pl	sandbox/class_vis.py	/^import pylab as pl$/;"	kind:namespace	line:11
+pl	sandbox/studentMain.py	/^import pylab as pl$/;"	kind:namespace	line:16
+plot_gallery	Model_Evaluation_and_Validation/face_recognition.py	/^def plot_gallery(images, titles, h, w, n_row=3, n_col=4):$/;"	kind:function	line:136
+plotting.py	sandbox/plotting.py	1;"	kind:file	line:1
+plt	DecisionTree/class_vis.py	/^import matplotlib.pyplot as plt$/;"	kind:namespace	line:10
+plt	DecisionTree/studentMain.py	/^import matplotlib.pyplot as plt$/;"	kind:namespace	line:9
+plt	Model_Evaluation_and_Validation/face_recognition.py	/^import matplotlib.pyplot as plt$/;"	kind:namespace	line:34
+plt	sandbox/class_vis.1.py	/^import matplotlib.pyplot as plt$/;"	kind:namespace	line:4
+plt	sandbox/class_vis.py	/^import matplotlib.pyplot as plt$/;"	kind:namespace	line:10
+prediction_titles	Model_Evaluation_and_Validation/face_recognition.py	/^prediction_titles = [title(y_pred, y_test, target_names, i)$/;"	kind:variable	line:155
+prep_terrain_data.py	DecisionTree/prep_terrain_data.py	1;"	kind:file	line:1
+prep_terrain_data.py	sandbox/prep_terrain_data.py	1;"	kind:file	line:1
+preprocessing	sandbox/sklearn_preprocessing_categorical_features.py	/^from sklearn import preprocessing$/;"	kind:namespace	line:3
+preprocessing	sandbox/sklearn_preprocessiong_label_encoding.py	/^from sklearn import preprocessing$/;"	kind:namespace	line:1
+prettyPicture	DecisionTree/class_vis.py	/^def prettyPicture(clf, X_test, y_test):$/;"	kind:function	line:18
+prettyPicture	DecisionTree/studentMain.py	/^from class_vis import prettyPicture, output_image$/;"	kind:namespace	line:6
+prettyPicture	sandbox/class_vis.1.py	/^def prettyPicture(clf, X_test, y_test, show_flag=False):$/;"	kind:function	line:7
+prettyPicture	sandbox/class_vis.py	/^def prettyPicture(clf, X_test, y_test):$/;"	kind:function	line:18
+prettyPicture	sandbox/studentMain.py	/^from class_vis import prettyPicture, output_image$/;"	kind:namespace	line:12
+print_function	Model_Evaluation_and_Validation/face_recognition.py	/^from __future__ import print_function$/;"	kind:namespace	line:30
+pyplot	sandbox/plotting.py	/^from matplotlib import pyplot$/;"	kind:namespace	line:1
+random	DecisionTree/prep_terrain_data.py	/^import random$/;"	kind:namespace	line:2
+random	sandbox/prep_terrain_data.py	/^import random$/;"	kind:namespace	line:2
+sample.py	sandbox/sample.py	1;"	kind:file	line:1
+sandbox_numpy.py	sandbox/sandbox_numpy.py	1;"	kind:file	line:1
+scatterplot	sandbox/plotting.py	/^def scatterplot(x,y):$/;"	kind:function	line:5
+scores	sandbox/sklearn_cross_validation.py	/^scores = cross_validation.cross_val_score($/;"	kind:variable	line:26
+sklearn_accuracy_score.py	sandbox/sklearn_accuracy_score.py	1;"	kind:file	line:1
+sklearn_confusion_matrix.py	sandbox/sklearn_confusion_matrix.py	1;"	kind:file	line:1
+sklearn_cross_validation.py	sandbox/sklearn_cross_validation.py	1;"	kind:file	line:1
+sklearn_f1_score.py	sandbox/sklearn_f1_score.py	1;"	kind:file	line:1
+sklearn_mean_squared.py	sandbox/sklearn_mean_squared.py	1;"	kind:file	line:1
+sklearn_preprocessing_categorical_features.py	sandbox/sklearn_preprocessing_categorical_features.py	1;"	kind:file	line:1
+sklearn_preprocessiong_label_encoding.py	sandbox/sklearn_preprocessiong_label_encoding.py	1;"	kind:file	line:1
+sqrt	sandbox/test.py	/^from math import sqrt$/;"	kind:namespace	line:1
+stddev	sandbox/test.py	/^def stddev(d):$/;"	kind:function	line:30
+studentMain.py	DecisionTree/studentMain.py	1;"	kind:file	line:1
+studentMain.py	sandbox/studentMain.py	1;"	kind:file	line:1
+subprocess	DecisionTree/class_vis.py	/^import subprocess$/;"	kind:namespace	line:51
+subprocess	sandbox/class_vis.1.py	/^import subprocess$/;"	kind:namespace	line:43
+subprocess	sandbox/class_vis.py	/^import subprocess$/;"	kind:namespace	line:51
+svm	sandbox/sklearn_cross_validation.py	/^from sklearn import svm$/;"	kind:namespace	line:6
+sys	DecisionTree/studentMain.py	/^import sys$/;"	kind:namespace	line:5
+t0	Model_Evaluation_and_Validation/face_recognition.py	/^t0 = time()$/;"	kind:variable	line:101
+t0	Model_Evaluation_and_Validation/face_recognition.py	/^t0 = time()$/;"	kind:variable	line:111
+t0	Model_Evaluation_and_Validation/face_recognition.py	/^t0 = time()$/;"	kind:variable	line:125
+t0	Model_Evaluation_and_Validation/face_recognition.py	/^t0 = time()$/;"	kind:variable	line:93
+target_names	Model_Evaluation_and_Validation/face_recognition.py	/^target_names = lfw_people.target_names$/;"	kind:variable	line:69
+test.py	sandbox/test.py	1;"	kind:file	line:1
+time	Model_Evaluation_and_Validation/face_recognition.py	/^from time import time$/;"	kind:namespace	line:32
+title	Model_Evaluation_and_Validation/face_recognition.py	/^def title(y_pred, y_test, target_names, i):$/;"	kind:function	line:150
+train_test_split	Model_Evaluation_and_Validation/face_recognition.py	/^from sklearn.cross_validation import train_test_split$/;"	kind:namespace	line:40
+tree	DecisionTree/classifyDT.py	/^    from sklearn import tree$/;"	kind:namespace	line:4
+var	sandbox/test.py	/^def var(d):$/;"	kind:function	line:25
+warnings	DecisionTree/class_vis.py	/^import warnings$/;"	kind:namespace	line:4
+warnings	sandbox/class_vis.py	/^import warnings$/;"	kind:namespace	line:4
+whiten	Model_Evaluation_and_Validation/face_recognition.py	/^          whiten=True).fit(X_train)$/;"	kind:variable	line:95
+y	Model_Evaluation_and_Validation/face_recognition.py	/^y = lfw_people.target$/;"	kind:variable	line:68
+y_pred	Model_Evaluation_and_Validation/face_recognition.py	/^y_pred = clf.predict(X_test_pca)$/;"	kind:variable	line:126
+y_pred	sandbox/sklearn_accuracy_score.py	/^y_pred = [0, 2, 1, 3]$/;"	kind:variable	line:3
+y_pred	sandbox/sklearn_confusion_matrix.py	/^y_pred = ["ant", "ant", "cat", "cat", "ant", "cat"]$/;"	kind:variable	line:7
+y_pred	sandbox/sklearn_confusion_matrix.py	/^y_pred = [0, 0, 2, 2, 0, 2]$/;"	kind:variable	line:3
+y_pred	sandbox/sklearn_f1_score.py	/^y_pred = [0, 2, 1, 0, 0, 1]$/;"	kind:variable	line:3
+y_pred	sandbox/sklearn_mean_squared.py	/^y_pred = [2.5, 0.0, 2, 8]$/;"	kind:variable	line:3
+y_pred	sandbox/sklearn_mean_squared.py	/^y_pred = [[0, 2],[-1, 2],[8, -5]]$/;"	kind:variable	line:7
+y_true	sandbox/sklearn_accuracy_score.py	/^y_true = [0, 1, 2, 3]$/;"	kind:variable	line:4
+y_true	sandbox/sklearn_confusion_matrix.py	/^y_true = ["cat", "ant", "cat", "cat", "ant", "bird"]$/;"	kind:variable	line:6
+y_true	sandbox/sklearn_confusion_matrix.py	/^y_true = [2, 0, 2, 2, 0, 1]$/;"	kind:variable	line:2
+y_true	sandbox/sklearn_f1_score.py	/^y_true = [0, 1, 2, 0, 1, 2]$/;"	kind:variable	line:2
+y_true	sandbox/sklearn_mean_squared.py	/^y_true = [3, -0.5, 2, 7]$/;"	kind:variable	line:2
+y_true	sandbox/sklearn_mean_squared.py	/^y_true = [[0.5, 1],[-1, 1],[7, -6]]$/;"	kind:variable	line:6
