@@ -21,14 +21,6 @@ def NBAccuracy(features_train, labels_train, features_test, labels_test):
     ### you might need to import an sklearn module
 
     # TODO : need to code to calculate r^2 (coefficient of determination)
-    x_bar = np.average(features_test)
-    y_bar = np.average(pred)
-
-    # r = np.sum((features_test - x_bar)*(pred - y_bar)) / math.sqrt(np.sum(np.power(features_test - x_bar, 2))*np.sum(np.power(pred - y_bar, 2)))
-    # print r
-    
-
-
     accuracy = clf.score(features_test, labels_test)
     return accuracy
 
