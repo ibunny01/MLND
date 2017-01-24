@@ -33,6 +33,7 @@ def submitAccuracy():
 
 
 def test():
+    prettyPicture(features_test, labels_test)
     print acc
 
 if __name__ == "__main__":
