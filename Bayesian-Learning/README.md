@@ -75,22 +75,23 @@
  71     |  >> Well wait. Two things. One is so D                                            
  72     |  is not distribution which we've had in the past.                                 
  73     |  >> That's true.                                                                  
-        |  00:03:21,910 --> 00:03:25,130                                                    
-        |  00:03:25,130 --> 00:03:26,730                                                    
-        |  00:03:26,730 --> 00:03:29,280                                                    
-        |  00:03:29,280 --> 00:03:31,580                                                    
-        |  00:03:31,580 --> 00:03:34,620                                                    
-        |  00:03:34,620 --> 00:03:40,010                                                    
-        |  00:03:40,010 --> 00:03:40,360                                                    
-        |  00:03:40,360 --> 00:03:47,220                                                    
-        |  00:03:47,220 --> 00:03:49,260                                                    
-        |  00:03:49,260 --> 00:03:52,800                                                    
-        |  00:03:52,800 --> 00:03:53,400                                                    
-        |  00:03:53,400 --> 00:03:57,250                                                    
-        |  00:03:57,250 --> 00:03:59,039                                                    
-        |  00:03:59,039 --> 00:04:00,310                                                    
-        |  00:04:00,310 --> 00:04:03,480                                                    
-        |  00:04:03,480 --> 00:04:06,000                                                    
+ 73     |  >> So I                                                                          
+ 74     |  guess as long as we keep that straight. And the other one is                     
+ 75     |  No that's, you're just telling me                                                
+ 76     |  the probability of some particular hypothesis h.                                 
+ 77     |  >> That's right. So, we want to somehow,                                         
+ 78     |  given this quantity we want to find, the                                         
+ 79     |  best or the, most likely, of the hypothesis given this. Does that make sense?    
+ 80     |  >> Yes.                                                                          
+ 81     |  >> So we want to find the argmax, of h, drawn from Your hypothesis class.        
+ 82     |  That is we want to find the hypothesis drawn from                                
+ 83     |  the hypothesis class that has the highest probability given the data.            
+ 84     |  >> Perfect.                                                                      
+ 85     |  >> Okay, good. So we're going to spend the next 45 hours.                        
+ 86     |  >> [LAUGH]                                                                       
+ 87     |  >> Exploring this expression.                                                    
+ 88     |  >> Okay so that's like what, like 6 hours per letter.                            
+ 89     |  >> [LAUGH] Yeah and that's fine because its important.                           
 
 
 ##  02 - Bayes Rule
