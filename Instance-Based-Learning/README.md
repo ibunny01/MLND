@@ -1,9 +1,8 @@
 #  Instance Based Learning Subtitles
 ##  01 - Instance Based Learning Before
  
- |  no     |  subtitle                                                                          | 
- 
- |  -----  |  --------------------------------------------------------------------------------  | 
+ no     |  subtitle                                                                          
+ -----  |  -------------------------------------------------------------------------------- 
  
  |  1      |  Hi Michael!                                                                       | 
  |  2      |  >> Hey Charles! How's it going?                                                   | 
