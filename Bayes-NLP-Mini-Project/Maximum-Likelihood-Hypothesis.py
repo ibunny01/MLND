@@ -18,15 +18,22 @@ Hello Peter, whats happening? Ummm, I'm gonna need you to go ahead and come in t
 #   Just use .split() to split the sample_memo text into words separated by spaces.
 
 def NextWordProbability(sampletext,word):
-    words = sampletext.lowercase().replace('?',' ').replace(',',' ').replace('\n').split(' ')
-    word = word.lowercase()
+    normalized_sampletext = sampletext.lower().replace('\'',' ').replace('?',' ').replace(':',' ').replace(',',' ').replace('\n',' ').replace('.',' ').split(' ')
+    word = word.lower()
 
     afterWordFreq = {}
-    for i in range(0,len(words)-1,1):
-        curWord = words[i]
-        afterWord = words[i+1]
+    for i in range(0,len(normalized_sampletext)-1,1):
+        if normalized_sampletext[i] != word:
+            continue
 
-        if curWord == word and not afterWordFreq.has_key(afterWord):
-            afterWordFreq[afterWord] = words[i:].count(afterWord)
+        curWord = normalized_sampletext[i]
+        laterWord = normalized_sampletext[i+1]
+
+        if curWord == word and not afterWordFreq.has_key(laterWord):
+            afterWordFreq[laterWord] = 0
+            index_list = [idx for idx in range(i, len(normalized_sampletext),1) if normalized_sampletext[idx]==curWord ]
+            for idx in index_list:
+                if normalized_sampletext[idx+1] == laterWord:
+                    afterWordFreq[laterWord] += 1
     
     return afterWordFreq

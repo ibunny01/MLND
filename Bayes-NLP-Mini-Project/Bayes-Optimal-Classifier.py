@@ -76,5 +76,15 @@ def LaterWords(sample,word,distance):
         return dictNextWord2[firstWord][0]
 
     return {}
+
+if __name__ == '__main__':
+    print LaterWords(sample_memo,"gonna",1)    
+    print LaterWords(sample_memo,"ahead",1)
+    print LaterWords(sample_memo,"ahead",2)
+    print LaterWords(sample_memo,"could",1)
+    print LaterWords(sample_memo,"could",2)
+    print LaterWords(sample_memo,"be",1)
+    print LaterWords(sample_memo,"go",1)
+    print LaterWords(sample_memo,"go",2)
+    print LaterWords(sample_memo,"could",1)
     
-print LaterWords(sample_memo,"ahead",2)
