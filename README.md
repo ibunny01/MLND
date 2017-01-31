@@ -55,5 +55,11 @@ The modified census dataset consists of approximately 32,000 data points, with e
 **Target Variable**
 - `income`: Income Class (<=50K, >50K)
 
+# JOHNPARK82's Notes
 ## Finding Donors for CharityML project rubric
 ![](Finding-Donors-for-CharityML-project-rubric.png)
+
+## The dataset of this project originated from 
+https://archive.ics.uci.edu/ml/datasets/Census+Income
+https://www.aaai.org/Papers/KDD/1996/KDD96-033.pdf
+
