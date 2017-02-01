@@ -65,13 +65,13 @@ plt.show()
 ### cluster here; create predictions of the cluster labels
 ### for the data and store them to a list called pred
 from sklearn.cluster import KMeans
-kmeans = KMeans(n_clusters=2, random_state=27)
+kmeans = KMeans(n_clusters=2, init='k-means++', n_init=10, max_iter=15)
 kmeans.fit(finance_features)
 pred = kmeans.predict(finance_features)
 
 ### rename the "name" parameter when you change the number of features
 ### so that the figure gets saved to a different file
 try:
-    Draw(pred, finance_features, poi, mark_poi=False, name="clusters.pdf", f1_name=feature_1, f2_name=feature_2)
+    Draw(pred, finance_features, poi, mark_poi=False, name="clusters_2features.png", f1_name=feature_1, f2_name=feature_2)
 except NameError:
     print "no predictions object named pred found, no clusters to plot"
