@@ -54,6 +54,20 @@ features_list = [poi, feature_1, feature_2, feature_3]
 data = featureFormat(data_dict, features_list )
 poi, finance_features = targetFeatureSplit( data )
 
+### stock option feature normalize preprocessing
+exercised_stock_options_data = featureFormat(data_dict, ['exercised_stock_options'])
+
+print numpy.max(exercised_stock_options_data), numpy.min(exercised_stock_options_data)
+
+### salary feature normalize preprocessing
+salary_data = featureFormat(data_dict, ['salary'])
+
+print numpy.max(salary_data), numpy.min(salary_data)
+
+
+
+sys.exit()
+
 
 ### in the "clustering with 3 features" part of the mini-project,
 ### you'll want to change this line to 
