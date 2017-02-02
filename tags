@@ -12,7 +12,7 @@ GaussianNB	choose_your_own/your_algorithm.py	/^from sklearn.naive_bayes import G
 GaussianNB	decision_tree/dt_author_id.py	/^from sklearn.naive_bayes import GaussianNB$/;"	kind:namespace	line:22
 GaussianNB	final_project/poi_id.py	/^from sklearn.naive_bayes import GaussianNB$/;"	kind:namespace	line:35
 GridSearchCV	pca/eigenfaces.py	/^from sklearn.grid_search import GridSearchCV$/;"	kind:namespace	line:28
-KMeans	k_means/k_means_cluster.py	/^from sklearn.cluster import KMeans$/;"	kind:namespace	line:67
+KMeans	k_means/k_means_cluster.py	/^from sklearn.cluster import KMeans$/;"	kind:namespace	line:82
 PERF_FORMAT_STRING	final_project/tester.py	/^Recall: {:>0.{display_precision}f}\\tF1: {:>0.{display_precision}f}\\tF2: {:>0.{display_precision}f}"$/;"	kind:variable	line:21
 RESULTS_FORMAT_STRING	final_project/tester.py	/^\\tFalse negatives: {:4d}\\tTrue negatives: {:4d}"$/;"	kind:variable	line:23
 RandomizedPCA	pca/eigenfaces.py	/^from sklearn.decomposition import RandomizedPCA$/;"	kind:namespace	line:31
@@ -56,7 +56,7 @@ cross_validation	feature_selection/find_signature.py	/^from sklearn import cross
 cross_validation	tools/email_preprocess.py	/^from sklearn import cross_validation$/;"	kind:namespace	line:7
 data	evaluation/evaluate_poi_identifier.py	/^data = featureFormat(data_dict, features_list)$/;"	kind:variable	line:27
 data	final_project/poi_id.py	/^data = featureFormat(my_dataset, features_list, sort_keys = True)$/;"	kind:variable	line:25
-data	k_means/k_means_cluster.py	/^data = featureFormat(data_dict, features_list )$/;"	kind:variable	line:53
+data	k_means/k_means_cluster.py	/^data = featureFormat(data_dict, features_list )$/;"	kind:variable	line:54
 data	outliers/enron_outliers.py	/^data = featureFormat(data_dict, features)$/;"	kind:variable	line:13
 data	regression/finance_regression.py	/^data = featureFormat( dictionary, features_list, remove_any_zeroes=True)$/;"	kind:variable	line:25
 data	validation/validate_poi.py	/^data = featureFormat(data_dict, features_list)$/;"	kind:variable	line:25
@@ -77,6 +77,7 @@ email_preprocess.py	tools/email_preprocess.py	1;"	kind:file	line:1
 enron_data	datasets_questions/explore_enron_data.py	/^enron_data = pickle.load(open("..\/final_project\/final_project_dataset.pkl", "r"))$/;"	kind:variable	line:23
 enron_outliers.py	outliers/enron_outliers.py	1;"	kind:file	line:1
 evaluate_poi_identifier.py	evaluation/evaluate_poi_identifier.py	1;"	kind:file	line:1
+exercised_stock_options_data	k_means/k_means_cluster.py	/^exercised_stock_options_data = featureFormat(data_dict, ['exercised_stock_options'])$/;"	kind:variable	line:58
 explore_enron_data.py	datasets_questions/explore_enron_data.py	1;"	kind:file	line:1
 f_classif	tools/email_preprocess.py	/^from sklearn.feature_selection import SelectPercentile, f_classif$/;"	kind:namespace	line:9
 featureFormat	evaluation/evaluate_poi_identifier.py	/^from feature_format import featureFormat, targetFeatureSplit$/;"	kind:namespace	line:20
@@ -89,11 +90,12 @@ featureFormat	tools/feature_format.py	/^def featureFormat( dictionary, features,
 featureFormat	validation/validate_poi.py	/^from feature_format import featureFormat, targetFeatureSplit$/;"	kind:namespace	line:16
 feature_1	k_means/k_means_cluster.py	/^feature_1 = "salary"$/;"	kind:variable	line:49
 feature_2	k_means/k_means_cluster.py	/^feature_2 = "exercised_stock_options"$/;"	kind:variable	line:50
+feature_3	k_means/k_means_cluster.py	/^feature_3 = "total_payments"$/;"	kind:variable	line:51
 feature_format.py	tools/feature_format.py	1;"	kind:file	line:1
 features	outliers/enron_outliers.py	/^features = ["salary", "bonus"]$/;"	kind:variable	line:12
 features_list	evaluation/evaluate_poi_identifier.py	/^features_list = ["poi", "salary"]$/;"	kind:variable	line:25
 features_list	final_project/poi_id.py	/^features_list = ['poi','salary'] # You will need to use more features$/;"	kind:variable	line:13
-features_list	k_means/k_means_cluster.py	/^features_list = [poi, feature_1, feature_2]$/;"	kind:variable	line:52
+features_list	k_means/k_means_cluster.py	/^features_list = [poi, feature_1, feature_2, feature_3]$/;"	kind:variable	line:53
 features_list	regression/finance_regression.py	/^features_list = ["bonus", "salary"]$/;"	kind:variable	line:24
 features_list	validation/validate_poi.py	/^features_list = ["poi", "salary"]$/;"	kind:variable	line:23
 features_test	feature_selection/find_signature.py	/^features_test  = vectorizer.transform(features_test).toarray()$/;"	kind:variable	line:29
@@ -110,7 +112,7 @@ grade_slow	choose_your_own/your_algorithm.py	/^grade_slow = [features_train[ii][
 json	choose_your_own/class_vis.py	/^import json$/;"	kind:namespace	line:42
 k_means_cluster.py	k_means/k_means_cluster.py	1;"	kind:file	line:1
 keys	datasets_questions/explore_enron_data.py	/^keys = []$/;"	kind:variable	line:66
-kmeans	k_means/k_means_cluster.py	/^kmeans = KMeans(n_clusters=2, random_state=27)$/;"	kind:variable	line:68
+kmeans	k_means/k_means_cluster.py	/^kmeans = KMeans(n_clusters=2, init='k-means++', n_init=10, max_iter=300)$/;"	kind:variable	line:83
 labels_train	feature_selection/find_signature.py	/^labels_train   = labels_train[:150]$/;"	kind:variable	line:36
 lfw_people	pca/eigenfaces.py	/^lfw_people = fetch_lfw_people(min_faces_per_person=70, resize=0.4)$/;"	kind:variable	line:40
 load_classifier_and_data	final_project/tester.py	/^def load_classifier_and_data():$/;"	kind:function	line:89
@@ -182,11 +184,11 @@ plt	choose_your_own/your_algorithm.py	/^import matplotlib.pyplot as plt$/;"	kind
 plt	k_means/k_means_cluster.py	/^import matplotlib.pyplot as plt$/;"	kind:namespace	line:12
 plt	outliers/outlier_removal_regression.py	/^import matplotlib.pyplot as plt$/;"	kind:namespace	line:5
 plt	regression/finance_regression.py	/^import matplotlib.pyplot as plt$/;"	kind:namespace	line:49
-poi	k_means/k_means_cluster.py	/^poi  = "poi"$/;"	kind:variable	line:51
+poi	k_means/k_means_cluster.py	/^poi  = "poi"$/;"	kind:variable	line:52
 poiEmails	final_project/poi_email_addresses.py	/^def poiEmails():$/;"	kind:function	line:1
 poi_email_addresses.py	final_project/poi_email_addresses.py	1;"	kind:file	line:1
 poi_id.py	final_project/poi_id.py	1;"	kind:file	line:1
-pred	k_means/k_means_cluster.py	/^pred = kmeans.predict(finance_features)$/;"	kind:variable	line:70
+pred	k_means/k_means_cluster.py	/^pred = kmeans.predict(finance_features)$/;"	kind:variable	line:85
 prediction_titles	pca/eigenfaces.py	/^prediction_titles = [title(y_pred, y_test, target_names, i)$/;"	kind:variable	line:136
 predictions	outliers/outlier_removal_regression.py	/^    predictions = reg.predict(ages_train)$/;"	kind:variable	line:50
 prep_terrain_data.py	choose_your_own/prep_terrain_data.py	1;"	kind:file	line:1
@@ -201,6 +203,7 @@ pyplot	outliers/enron_outliers.py	/^import matplotlib.pyplot$/;"	kind:namespace	
 random	choose_your_own/prep_terrain_data.py	/^import random$/;"	kind:namespace	line:2
 random	outliers/outlier_removal_regression.py	/^import random$/;"	kind:namespace	line:3
 re	text_learning/vectorize_text.py	/^import re$/;"	kind:namespace	line:5
+salary_data	k_means/k_means_cluster.py	/^salary_data = featureFormat(data_dict, ['salary'])$/;"	kind:variable	line:63
 scipy	tools/startup.py	/^    import scipy$/;"	kind:namespace	line:18
 sklearn	tools/startup.py	/^    import sklearn$/;"	kind:namespace	line:24
 startup.py	tools/startup.py	1;"	kind:file	line:1
