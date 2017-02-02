@@ -23,6 +23,8 @@ import logging
 import pylab as pl
 import numpy as np
 
+import sys
+
 from sklearn.cross_validation import train_test_split
 from sklearn.datasets import fetch_lfw_people
 from sklearn.grid_search import GridSearchCV
@@ -81,6 +83,8 @@ X_train_pca = pca.transform(X_train)
 X_test_pca = pca.transform(X_test)
 print "done in %0.3fs" % (time() - t0)
 
+print "1st variance :", pca.explained_variance_[0], '1st variance ratio :', pca.explained_variance_ratio_[0]
+print "2nd variance :", pca.explained_variance_[1], '2st variance ratio :', pca.explained_variance_ratio_[1]
 
 ###############################################################################
 # Train a SVM classification model
