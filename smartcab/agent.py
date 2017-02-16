@@ -56,7 +56,9 @@ class LearningAgent(Agent):
         ## TO DO ##
         ###########
         # Set 'state' as a tuple of relevant data for the agent
-        state = None
+        state = { 'heading': waypoint,
+                 'location': inputs,
+                 'deadline': deadline }
 
         return state
 
@@ -168,7 +170,10 @@ def run():
     #   display      - set to False to disable the GUI if PyGame is enabled
     #   log_metrics  - set to True to log trial and simulation results to /logs
     #   optimized    - set to True to change the default log file name
-    sim = Simulator(env, display=True, update_delay=0.1, log_metrics=True)
+
+    # Simulation variables are initialized for real-time learning agent construction.
+    #  sim = Simulator(env, display=True, update_delay=0.1, log_metrics=True)
+    sim = Simulator(env)
 
     ##############
     # Run the simulator
