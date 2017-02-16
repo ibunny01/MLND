@@ -267,7 +267,7 @@ def run():
 
     # Simulation variables are initialized for real-time learning agent construction.
     #  sim = Simulator(env, display=True, update_delay=0.1, log_metrics=True)
-    sim = Simulator(env, display=True, update_delay=0.001, log_metrics=True, discounted=True, optimized=True)
+    sim = Simulator(env, display=True, update_delay=0.5, log_metrics=True, discounted=True, optimized=True)
 
     # ------------------
     # Run the simulator
