@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import random
 import math
+import numpy as np
 from environment import Agent, Environment
 from planner import RoutePlanner
 from simulator import Simulator
@@ -24,6 +25,7 @@ class LearningAgent(Agent):
         ## TO DO ##
         ###########
         # Set any additional class parameters as needed
+        self.train_cnt = 0
 
 
     def reset(self, destination=None, testing=False):
@@ -41,6 +43,9 @@ class LearningAgent(Agent):
         # Update additional class parameters as needed
         # If 'testing' is True, set epsilon and alpha to 0
 
+        ###########
+        ## Implement a Q-Learning Driving Agent
+        ###########
         # In addition, use the following decay function for  ϵϵ :
         #
         #  ϵt+1=ϵt−0.05,for trial number t
@@ -50,7 +55,19 @@ class LearningAgent(Agent):
         #  been set here should be returned to their default setting when
         #  debugging. It is important that you understand what each flag does
         #  and how it affects the simulation!
-        self.epsilon -= 0.05
+        #
+        # self.epsilon -= 0.05
+
+        ###########
+        ## Implement a Q-Learning Driving Agent
+        ###########
+
+        self.train_cnt += 1
+
+        self.epsilon *= self.alpha
+        # self.epsilon = 1/(self.train_cnt)**2
+        # self.epsilon = math.e**(-self.alpha*self.train_cnt)
+        # self.epsilon = math.cos(self.alpha * self.train_cnt)
 
         if testing == True:
             self.epsilon = 0
@@ -140,7 +157,7 @@ class LearningAgent(Agent):
         return 0
 
     def Q_key_for(self, state):
-        return "{}|{}|{}|{}".format(state["light"], state["oncoming"], state["left"], state["waypoint"])
+        return "waypoint:{}|light:{}|oncoming:{}|left:{}".format(state["waypoint"], state["light"], state["oncoming"], state["left"])
 
 
     def choose_action(self, state):
@@ -161,11 +178,9 @@ class LearningAgent(Agent):
         action = random.choice(self.valid_actions)
 
         if self.learning:
-            action = self.get_maxQ_action(state)
-
-            if not self.get_maxQ_value > 0.0:
-               action = random.choice(self.valid_actions)
-
+            maxQ_action = self.get_maxQ_action(state)
+            random_action = random.choice(self.valid_actions)
+            action = np.random.choice([random_action, maxQ_action], 1, replace=False, p = [self.epsilon, 1.0-self.epsilon] )[0]
         return action
 
 
@@ -216,7 +231,7 @@ def run():
     #   verbose     - set to True to display additional output from the simulation
     #   num_dummies - discrete number of dummy agents in the environment, default is 100
     #   grid_size   - discrete number of intersections (columns, rows), default is (8, 6)
-    env = Environment(verbose=True)
+    env = Environment(verbose=False)
 
     ##############
     # Create the driving agent
@@ -224,7 +239,7 @@ def run():
     #   learning   - set to True to force the driving agent to use Q-learning
     #    * epsilon - continuous value for the exploration factor, default is 1
     #    * alpha   - continuous value for the learning rate, default is 0.5
-    agent = env.create_agent(LearningAgent, learning=True)
+    agent = env.create_agent(LearningAgent, learning=True, epsilon=1.0, alpha=0.90 )
 
     ##############
     # Follow the driving agent
@@ -242,14 +257,14 @@ def run():
 
     # Simulation variables are initialized for real-time learning agent construction.
     #  sim = Simulator(env, display=True, update_delay=0.1, log_metrics=True)
-    sim = Simulator(env, display=True, update_delay=0.1, log_metrics=True)
+    sim = Simulator(env, display=True, update_delay=0.001, optimized=True, log_metrics=True)
 
     ##############
     # Run the simulator
     # Flags:
     #   tolerance  - epsilon tolerance before beginning testing, default is 0.05
     #   n_test     - discrete number of testing trials to perform, default is 0
-    sim.run(n_test=10)
+    sim.run(n_test=10, tolerance=0.0005)
 
 
 if __name__ == '__main__':
