@@ -26,7 +26,7 @@ class LearningAgent(Agent):
         # -----------
         # Set any additional class parameters as needed
         self.gamma = gamma      # discount factor
-        self.train_cnt = 0      # training count
+        self.train_cnt = 0.0    # training count
 
 
     def reset(self, destination=None, testing=False):
@@ -44,6 +44,11 @@ class LearningAgent(Agent):
         # Update additional class parameters as needed
         # If 'testing' is True, set epsilon and alpha to 0
 
+        if testing == True:
+            self.epsilon = 0
+            self.alpha = 0
+            return None
+
         # -----------
         # Implement a Q-Learning Driving Agent
         # -----------
@@ -56,23 +61,19 @@ class LearningAgent(Agent):
         #  been set here should be returned to their default setting when
         #  debugging. It is important that you understand what each flag does
         #  and how it affects the simulation!
-        #
-        # self.epsilon -= 0.05
-
+        if not self.learning:
+            self.epsilon -= 0.05
         # -----------
         # Implement a Q-Learning Driving Agent
         # -----------
+        elif self.learning:
+            self.train_cnt += 1.0
 
-        self.train_cnt += 1
-
-        self.epsilon *= self.alpha
-        # self.epsilon = 1/(self.train_cnt)**2
-        # self.epsilon = math.e**(-self.alpha*self.train_cnt)
-        # self.epsilon = math.cos(self.alpha * self.train_cnt)
-
-        if testing == True:
-            self.epsilon = 0
-            self.alpha = 0
+            train_cnt_magnifier = 3.0               # if you want to train more 
+            self.epsilon = math.pow(self.alpha, self.train_cnt / train_cnt_magnifier)
+            # self.epsilon = 1/(self.train_cnt)**2
+            # self.epsilon = math.e**(-1.0*self.alpha*self.train_cnt)
+            # self.epsilon = math.cos(self.alpha * self.train_cnt)
 
         return None
 
@@ -252,7 +253,7 @@ def run():
     #   learning   - set to True to force the driving agent to use Q-learning
     #    * epsilon - continuous value for the exploration factor, default is 1
     #    * alpha   - continuous value for the learning rate, default is 0.5
-    agent = env.create_agent(LearningAgent, learning=True, epsilon=0.8, alpha=0.99, gamma=1.0 )
+    agent = env.create_agent(LearningAgent, learning=True, epsilon=0.8, alpha=0.80, gamma=1.0 )
 
     # ------------------
     # Follow the driving agent
@@ -277,7 +278,7 @@ def run():
     # Flags:
     #   tolerance  - epsilon tolerance before beginning testing, default is 0.05
     #   n_test     - discrete number of testing trials to perform, default is 0
-    sim.run(n_test=10, tolerance=0.001)
+    sim.run(n_test=10, tolerance=0.0000000000000000000000001)
 
 
 if __name__ == '__main__':

@@ -364,6 +364,9 @@ class Environment(object):
                 if state['deadline'] >= 0:
                     self.trial_data['success'] = 1
 
+                    # -----------
+                    # OPTIONAL
+                    # -----------
                     # When reaching the destination before the deadline, REWARD
                     # is set to a large value, and it gives vitality to the
                     # purpose of reaching the destination.
