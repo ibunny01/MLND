@@ -142,12 +142,11 @@ class LearningAgent(Agent):
         # If it is not, create a new dictionary for that state
         #   Then, for each action available, set the initial Q-value to 0.0
 
-        for action in self.valid_actions:
-            key = self.Q_key_for(state)
-            if not self.Q.has_key(key):
+        key = self.Q_key_for(state)
+        if not self.Q.has_key(key):
+            for action in self.valid_actions:
                 self.Q[key] = dict()
-                for action in self.valid_actions:
-                    self.Q[key][action] = 0.0
+                self.Q[key][action] = 0.0
 
         return
 
@@ -209,7 +208,11 @@ class LearningAgent(Agent):
             cur_value = self.Q_value_for(state, action)
             new_state = self.build_state()
 
-            learned_value = reward +  (self.gamma * self.get_maxQ_value(new_state))
+            # The reason for exclusion of future rewards will be discussed in
+            # the last rubric (Q9) : 
+            # learned_value = reward +  (self.gamma * self.get_maxQ_value(new_state))
+
+            learned_value = reward +  self.get_maxQ_value(new_state)
             new_value = cur_value + (self.alpha * (learned_value - cur_value))
 
             key = self.Q_key_for(state)
@@ -249,7 +252,7 @@ def run():
     #   learning   - set to True to force the driving agent to use Q-learning
     #    * epsilon - continuous value for the exploration factor, default is 1
     #    * alpha   - continuous value for the learning rate, default is 0.5
-    agent = env.create_agent(LearningAgent, learning=True, epsilon=1.0, alpha=0.80, gamma=0.5 )
+    agent = env.create_agent(LearningAgent, learning=True, epsilon=0.8, alpha=0.99, gamma=1.0 )
 
     # ------------------
     # Follow the driving agent
@@ -267,14 +270,14 @@ def run():
 
     # Simulation variables are initialized for real-time learning agent construction.
     #  sim = Simulator(env, display=True, update_delay=0.1, log_metrics=True)
-    sim = Simulator(env, display=True, update_delay=0.5, log_metrics=True, discounted=True, optimized=True)
+    sim = Simulator(env, display=False, update_delay=0.00005, log_metrics=True, discounted=False, optimized=True)
 
     # ------------------
     # Run the simulator
     # Flags:
     #   tolerance  - epsilon tolerance before beginning testing, default is 0.05
     #   n_test     - discrete number of testing trials to perform, default is 0
-    sim.run(n_test=10, tolerance=0.05)
+    sim.run(n_test=10, tolerance=0.001)
 
 
 if __name__ == '__main__':
