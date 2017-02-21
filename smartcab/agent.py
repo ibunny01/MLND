@@ -10,7 +10,7 @@ class LearningAgent(Agent):
     """ An agent that learns to drive in the Smartcab world.
     This is the object you will be modifying. """
 
-    def __init__(self, env, learning=False, epsilon=1.0, alpha=0.5, gamma=1.0):
+    def __init__(self, env, learning=False, epsilon=1.0, alpha=0.5, gamma=0.0):
         super(LearningAgent, self).__init__(env)     # Set the agent in the evironment
         self.planner = RoutePlanner(self.env, self)  # Create a route planner
         self.valid_actions = self.env.valid_actions  # The set of valid actions
@@ -57,23 +57,27 @@ class LearningAgent(Agent):
         #  debugging. It is important that you understand what each flag does
         #  and how it affects the simulation!
         #
-        # self.epsilon -= 0.05
-
-        # -----------
-        # Implement a Q-Learning Driving Agent
-        # -----------
-
-        self.train_cnt += 1
-
-        self.epsilon *= self.alpha
-        # self.epsilon = 1/(self.train_cnt)**2
-        # self.epsilon = math.e**(-self.alpha*self.train_cnt)
-        # self.epsilon = math.cos(self.alpha * self.train_cnt)
 
         if testing == True:
-            self.epsilon = 0
-            self.alpha = 0
+           self.epsilon = 0
+           self.alpha = 0
+        else:
+            if self.learning and self.train_cnt is not 0:
+                # -----------
+                # Implement a Q-Learning Driving Agent
+                # -----------
+                # Note: default Q learning epsilon function
+                #  self.epsilon -= 0.05
 
+                # Note: epsilon function variation
+                self.epsilon = self.alpha * math.pow( self.alpha, self.train_cnt/5.0 )
+
+                # Note: Another epsilon function
+                # self.epsilon = 1/(self.train_cnt)**2
+                # self.epsilon = math.e**(-self.alpha*self.train_cnt)
+                # self.epsilon = math.cos(self.alpha * self.train_cnt)
+
+        self.train_cnt += 1.0
         return None
 
     def build_state(self):
@@ -91,11 +95,10 @@ class LearningAgent(Agent):
         # -----------
         # Set 'state' as a tuple of relevant data for the agent
         state = {
+            "waypoint": waypoint,
             "light": inputs["light"],
             "oncoming": inputs["oncoming"],
             "left": inputs["left"],
-            "waypoint": waypoint,
-            "deadline": deadline
         }
 
         return state
@@ -155,7 +158,7 @@ class LearningAgent(Agent):
         if self.Q.has_key(key):
             if self.Q[key].has_key(action):
                 return self.Q[key][action]
-        return 0
+        return 0.0
 
     def Q_key_for(self, state):
         return "waypoint:{}|light:{}|oncoming:{}|left:{}".format(state["waypoint"], state["light"], state["oncoming"], state["left"])
@@ -182,14 +185,20 @@ class LearningAgent(Agent):
             # choose the best action according to Q-function
             maxQ_action = self.get_maxQ_action(state)
 
+            # # choose intended action with probaility epsilon
+            # probs = np.array([self.epsilon]+[(1.0-self.epsilon) / len(self.valid_actions)]*len(self.valid_actions))
+            # probs /= probs.sum()                        # to nomalize probabilities
+            # random_action = np.random.choice([self.next_waypoint]+self.valid_actions, 1, replace=False, p = probs )[0]
+
+            # In the selection of ACTION, ignore the WAYPOINT and select the complete random action.
             # choose intended action with probaility epsilon
-            probs = np.array([self.epsilon]+[(1.0-self.epsilon) / len(self.valid_actions)]*len(self.valid_actions))
-            probs /= probs.sum()                        # to nomalize probabilities
-            random_action = np.random.choice([self.next_waypoint]+self.valid_actions, 1, replace=False, p = probs )[0]
+            random_action = np.random.choice(self.valid_actions, 1)[0]
 
             # choose the best antion or intended action with probability epsilon
             # if training will be done and testing is about to begin, epsilon
             # will be 0.0 then we always choose the best action
+
+            print "probability epsilon : {}".format(self.epsilon)
             action = np.random.choice([random_action, maxQ_action], 1, replace=False, p = [self.epsilon, 1.0-self.epsilon] )[0]
         return action
 
@@ -212,7 +221,10 @@ class LearningAgent(Agent):
             # the last rubric (Q9) : 
             # learned_value = reward +  (self.gamma * self.get_maxQ_value(new_state))
 
-            learned_value = reward +  self.get_maxQ_value(new_state)
+            # Since our example does not consider future REWARDs, the value of
+            # self.gamma is set to an initial value of 0.0.
+            # Note: self.gamma = 0.0
+            learned_value = reward +  self.gamma * self.get_maxQ_value(new_state)
             new_value = cur_value + (self.alpha * (learned_value - cur_value))
 
             key = self.Q_key_for(state)
@@ -252,7 +264,7 @@ def run():
     #   learning   - set to True to force the driving agent to use Q-learning
     #    * epsilon - continuous value for the exploration factor, default is 1
     #    * alpha   - continuous value for the learning rate, default is 0.5
-    agent = env.create_agent(LearningAgent, learning=True, epsilon=0.8, alpha=0.99, gamma=1.0 )
+    agent = env.create_agent(LearningAgent, learning=True, epsilon=1.0, alpha=0.8, gamma=0.0 )
 
     # ------------------
     # Follow the driving agent
@@ -270,14 +282,14 @@ def run():
 
     # Simulation variables are initialized for real-time learning agent construction.
     #  sim = Simulator(env, display=True, update_delay=0.1, log_metrics=True)
-    sim = Simulator(env, display=False, update_delay=0.00005, log_metrics=True, discounted=False, optimized=True)
+    sim = Simulator(env, display=False, update_delay=0.00005, log_metrics=True, optimized=True, discounted=False)
 
     # ------------------
     # Run the simulator
     # Flags:
     #   tolerance  - epsilon tolerance before beginning testing, default is 0.05
     #   n_test     - discrete number of testing trials to perform, default is 0
-    sim.run(n_test=10, tolerance=0.001)
+    sim.run(n_test=10, tolerance=0.00000000000001)
 
 
 if __name__ == '__main__':

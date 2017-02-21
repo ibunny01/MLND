@@ -367,7 +367,7 @@ class Environment(object):
                     # When reaching the destination before the deadline, REWARD
                     # is set to a large value, and it gives vitality to the
                     # purpose of reaching the destination.
-                    reward += +40
+                    # reward += +40
 
                 # Stop the trial
                 self.done = True

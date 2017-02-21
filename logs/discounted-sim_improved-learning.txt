@@ -2,483 +2,489 @@
 | State-action rewards from Q-Learning
 \-----------------------------------------
 
-waypoint:left|light:green|oncoming:right|left:forward
- -- forward : 0.00
- -- right : 0.00
- -- None : -3.27
- -- left : 0.00
-
 waypoint:left|light:green|oncoming:left|left:forward
  -- forward : 0.00
+ -- None : 1.04
  -- right : 0.00
- -- None : 1.11
  -- left : 0.00
 
 waypoint:left|light:green|oncoming:left|left:right
  -- forward : 0.00
+ -- None : 0.27
  -- right : 0.00
- -- None : 0.51
  -- left : 0.00
 
 waypoint:left|light:red|oncoming:None|left:None
  -- forward : 0.00
+ -- None : 4.01
  -- right : 0.00
- -- None : 2.81
- -- left : -8.52
+ -- left : 0.00
 
 waypoint:forward|light:green|oncoming:forward|left:left
  -- forward : 0.00
+ -- None : 0.00
  -- right : 0.00
- -- None : -3.21
  -- left : 0.00
 
 waypoint:forward|light:green|oncoming:left|left:None
- -- forward : 40.72
+ -- forward : 0.00
+ -- None : 1.57
  -- right : 0.00
- -- None : 1.08
  -- left : 0.00
 
 waypoint:right|light:green|oncoming:None|left:left
- -- forward : 2.81
+ -- forward : 1.08
+ -- None : -4.74
  -- right : 0.00
- -- None : -4.61
  -- left : 0.00
 
 waypoint:forward|light:red|oncoming:forward|left:forward
  -- forward : 0.00
+ -- None : 3.16
  -- right : 0.00
- -- None : 1.46
  -- left : 0.00
 
 waypoint:forward|light:red|oncoming:forward|left:None
- -- forward : -7.58
+ -- forward : -6.61
+ -- None : 4.35
  -- right : 0.00
- -- None : 1.58
- -- left : 0.00
+ -- left : -6.83
 
 waypoint:forward|light:green|oncoming:left|left:forward
- -- forward : 0.00
- -- right : 0.00
- -- None : 1.49
- -- left : 0.00
-
-waypoint:left|light:red|oncoming:right|left:forward
- -- forward : 0.00
- -- right : 0.00
- -- None : 2.80
- -- left : -32.26
-
-waypoint:right|light:green|oncoming:left|left:right
- -- forward : 0.00
- -- right : 1.62
+ -- forward : 9.14
  -- None : 0.00
- -- left : 0.00
-
-waypoint:forward|light:red|oncoming:None|left:forward
- -- forward : 0.00
  -- right : 0.00
- -- None : 2.08
- -- left : -31.36
-
-waypoint:left|light:red|oncoming:left|left:None
- -- forward : 0.00
- -- right : 0.00
- -- None : 3.25
- -- left : 0.00
-
-waypoint:left|light:green|oncoming:left|left:None
- -- forward : 0.00
- -- right : 0.00
- -- None : 1.80
- -- left : 0.00
-
-waypoint:right|light:green|oncoming:None|left:right
- -- forward : 1.35
- -- right : 0.00
- -- None : -3.53
- -- left : 0.00
-
-waypoint:left|light:red|oncoming:left|left:forward
- -- forward : 0.00
- -- right : 0.00
- -- None : 1.48
- -- left : 0.00
-
-waypoint:forward|light:red|oncoming:None|left:None
- -- forward : -8.90
- -- right : 0.00
- -- None : 2.73
- -- left : 0.00
-
-waypoint:forward|light:red|oncoming:right|left:left
- -- forward : -7.83
- -- right : 0.00
- -- None : 1.52
- -- left : 0.00
-
-waypoint:right|light:red|oncoming:None|left:None
- -- forward : 0.00
- -- right : 3.91
- -- None : 0.00
- -- left : 0.00
-
-waypoint:forward|light:green|oncoming:None|left:forward
- -- forward : 2.28
- -- right : 0.00
- -- None : -4.02
- -- left : 0.00
-
-waypoint:forward|light:red|oncoming:left|left:None
- -- forward : -9.76
- -- right : 0.63
- -- None : 0.00
- -- left : -33.24
-
-waypoint:right|light:red|oncoming:forward|left:forward
- -- forward : 0.00
- -- right : 0.00
- -- None : 1.35
- -- left : 0.00
-
-waypoint:forward|light:red|oncoming:forward|left:left
- -- forward : 0.00
- -- right : 0.00
- -- None : 1.87
- -- left : 0.00
-
-waypoint:right|light:red|oncoming:left|left:None
- -- forward : 0.00
- -- right : 0.00
- -- None : 3.80
- -- left : 0.00
-
-waypoint:left|light:green|oncoming:None|left:right
- -- forward : 0.00
- -- right : 0.00
- -- None : -3.94
- -- left : 0.00
-
-waypoint:forward|light:green|oncoming:forward|left:forward
- -- forward : 0.98
- -- right : 0.00
- -- None : 0.00
- -- left : 0.00
-
-waypoint:forward|light:red|oncoming:None|left:left
- -- forward : 0.00
- -- right : 0.00
- -- None : 2.55
- -- left : -6.52
-
-waypoint:forward|light:red|oncoming:right|left:None
- -- forward : -10.43
- -- right : 0.00
- -- None : 2.17
- -- left : 0.00
-
-waypoint:right|light:red|oncoming:right|left:left
- -- forward : 0.00
- -- right : 0.00
- -- None : 0.00
- -- left : 0.00
-
-waypoint:forward|light:green|oncoming:None|left:left
- -- forward : 1.99
- -- right : 0.00
- -- None : -3.91
- -- left : 0.00
-
-waypoint:left|light:green|oncoming:right|left:right
- -- forward : 0.00
- -- right : 0.00
- -- None : -4.05
- -- left : 0.00
-
-waypoint:forward|light:green|oncoming:left|left:right
- -- forward : 0.00
- -- right : 0.00
- -- None : 1.26
- -- left : 0.00
-
-waypoint:right|light:green|oncoming:left|left:left
- -- forward : 0.00
- -- right : 0.00
- -- None : 1.26
- -- left : 0.00
-
-waypoint:forward|light:green|oncoming:forward|left:None
- -- forward : 2.73
- -- right : 0.00
- -- None : -4.41
- -- left : 0.00
-
-waypoint:forward|light:red|oncoming:left|left:left
- -- forward : 0.00
- -- right : 0.00
- -- None : 0.70
- -- left : 0.00
-
-waypoint:right|light:red|oncoming:left|left:right
- -- forward : 0.00
- -- right : 0.00
- -- None : 2.29
- -- left : 0.00
-
-waypoint:left|light:red|oncoming:forward|left:None
- -- forward : 0.00
- -- right : 0.00
- -- None : 3.53
- -- left : 0.00
-
-waypoint:forward|light:green|oncoming:left|left:left
- -- forward : 0.00
- -- right : 0.00
- -- None : 2.15
- -- left : 0.00
-
-waypoint:left|light:green|oncoming:forward|left:right
- -- forward : 0.00
- -- right : 0.00
- -- None : 0.00
- -- left : 0.00
-
-waypoint:forward|light:green|oncoming:right|left:forward
- -- forward : 2.27
- -- right : 0.00
- -- None : -4.49
- -- left : 0.00
-
-waypoint:right|light:red|oncoming:left|left:forward
- -- forward : 0.00
- -- right : 0.00
- -- None : 3.63
- -- left : 0.00
-
-waypoint:right|light:green|oncoming:right|left:None
- -- forward : 0.00
- -- right : 0.00
- -- None : 0.00
- -- left : -16.06
-
-waypoint:left|light:red|oncoming:None|left:forward
- -- forward : 0.00
- -- right : 0.00
- -- None : 2.90
- -- left : 0.00
-
-waypoint:right|light:red|oncoming:forward|left:None
- -- forward : 0.00
- -- right : 3.92
- -- None : 0.00
- -- left : -2.91
-
-waypoint:forward|light:green|oncoming:None|left:None
- -- forward : 3.72
- -- right : 1.58
- -- None : 0.00
- -- left : 0.08
-
-waypoint:left|light:red|oncoming:left|left:right
- -- forward : 0.00
- -- right : 0.00
- -- None : 1.41
- -- left : 0.00
-
-waypoint:forward|light:red|oncoming:None|left:right
- -- forward : 0.00
- -- right : 0.00
- -- None : 2.53
- -- left : 0.00
-
-waypoint:right|light:green|oncoming:left|left:forward
- -- forward : 0.00
- -- right : 33.42
- -- None : 0.00
- -- left : 0.00
-
-waypoint:right|light:red|oncoming:None|left:left
- -- forward : 0.00
- -- right : 0.00
- -- None : 1.68
- -- left : 0.00
-
-waypoint:left|light:green|oncoming:None|left:left
- -- forward : 1.86
- -- right : 0.00
- -- None : -4.30
- -- left : 0.00
-
-waypoint:right|light:green|oncoming:None|left:None
- -- forward : 1.30
- -- right : 3.38
- -- None : -4.79
- -- left : 0.00
-
-waypoint:left|light:green|oncoming:forward|left:left
- -- forward : 0.00
- -- right : 0.00
- -- None : -3.23
- -- left : 0.00
-
-waypoint:forward|light:green|oncoming:None|left:right
- -- forward : 3.39
- -- right : 0.00
- -- None : 0.00
- -- left : 0.00
-
-waypoint:forward|light:green|oncoming:right|left:None
- -- forward : 0.00
- -- right : 0.00
- -- None : 0.00
- -- left : 0.00
-
-waypoint:right|light:green|oncoming:right|left:left
- -- forward : 0.98
- -- right : 0.00
- -- None : -4.50
- -- left : 0.00
-
-waypoint:right|light:green|oncoming:forward|left:forward
- -- forward : 13.71
- -- right : 0.00
- -- None : -4.43
- -- left : 0.00
-
-waypoint:right|light:red|oncoming:None|left:forward
- -- forward : 0.00
- -- right : 0.00
- -- None : 0.83
- -- left : 0.00
-
-waypoint:left|light:green|oncoming:left|left:left
- -- forward : 0.00
- -- right : 0.00
- -- None : 0.00
  -- left : 0.00
 
 waypoint:left|light:red|oncoming:None|left:left
  -- forward : 0.00
- -- right : 0.00
- -- None : 2.46
- -- left : 0.00
-
-waypoint:left|light:red|oncoming:None|left:right
- -- forward : 0.00
- -- right : 0.00
- -- None : 2.25
- -- left : 0.00
-
-waypoint:left|light:green|oncoming:None|left:forward
- -- forward : 1.11
- -- right : 0.00
  -- None : 0.00
- -- left : 0.00
-
-waypoint:right|light:green|oncoming:forward|left:right
- -- forward : 1.32
  -- right : 0.00
- -- None : -3.90
  -- left : 0.00
 
-waypoint:left|light:green|oncoming:forward|left:forward
+waypoint:left|light:red|oncoming:left|left:left
  -- forward : 0.00
+ -- None : 2.54
  -- right : 0.00
+ -- left : 0.00
+
+waypoint:left|light:red|oncoming:right|left:forward
+ -- forward : 0.00
  -- None : 0.00
+ -- right : 0.00
  -- left : 0.00
 
-waypoint:left|light:green|oncoming:right|left:None
+waypoint:right|light:green|oncoming:right|left:left
  -- forward : 0.00
+ -- None : -4.70
  -- right : 0.00
- -- None : -3.96
  -- left : 0.00
 
-waypoint:forward|light:green|oncoming:forward|left:right
+waypoint:forward|light:red|oncoming:None|left:forward
  -- forward : 0.00
+ -- None : 2.60
  -- right : 0.00
- -- None : -3.80
  -- left : 0.00
 
-waypoint:left|light:green|oncoming:forward|left:None
- -- forward : 4.35
- -- right : 0.00
- -- None : -3.97
- -- left : 0.00
-
-waypoint:right|light:red|oncoming:right|left:None
+waypoint:left|light:red|oncoming:left|left:None
  -- forward : 0.00
+ -- None : 4.15
  -- right : 0.00
- -- None : 1.82
- -- left : 0.00
+ -- left : -7.42
 
-waypoint:forward|light:green|oncoming:right|left:left
+waypoint:left|light:green|oncoming:left|left:None
  -- forward : 0.00
+ -- None : 0.00
  -- right : 0.00
- -- None : -3.63
+ -- left : 5.86
+
+waypoint:right|light:green|oncoming:None|left:right
+ -- forward : 0.00
+ -- None : -4.50
+ -- right : 0.00
  -- left : 0.00
 
-waypoint:right|light:green|oncoming:None|left:forward
- -- forward : 4.30
+waypoint:left|light:red|oncoming:left|left:forward
+ -- forward : 0.00
+ -- None : 0.66
  -- right : 0.00
- -- None : -4.33
+ -- left : 0.00
+
+waypoint:forward|light:red|oncoming:None|left:None
+ -- forward : -8.47
+ -- None : 4.26
+ -- right : 0.00
+ -- left : -6.51
+
+waypoint:left|light:red|oncoming:forward|left:forward
+ -- forward : -31.02
+ -- None : 0.82
+ -- right : 0.00
+ -- left : 0.00
+
+waypoint:forward|light:red|oncoming:right|left:left
+ -- forward : 0.00
+ -- None : 1.98
+ -- right : 0.00
+ -- left : 0.00
+
+waypoint:right|light:red|oncoming:None|left:None
+ -- forward : 0.00
+ -- None : 1.81
+ -- right : 4.25
+ -- left : 0.00
+
+waypoint:forward|light:green|oncoming:None|left:forward
+ -- forward : 35.83
+ -- None : 0.00
+ -- right : 0.00
+ -- left : 0.00
+
+waypoint:forward|light:red|oncoming:left|left:forward
+ -- forward : -32.11
+ -- None : 1.77
+ -- right : 0.00
+ -- left : -32.37
+
+waypoint:right|light:red|oncoming:None|left:forward
+ -- forward : 0.00
+ -- None : 1.90
+ -- right : 0.00
+ -- left : 0.00
+
+waypoint:right|light:red|oncoming:forward|left:forward
+ -- forward : 0.00
+ -- None : 3.11
+ -- right : 0.00
+ -- left : 0.00
+
+waypoint:forward|light:red|oncoming:forward|left:left
+ -- forward : 0.00
+ -- None : 1.00
+ -- right : 0.00
+ -- left : 0.00
+
+waypoint:right|light:red|oncoming:left|left:None
+ -- forward : 0.00
+ -- None : 0.73
+ -- right : 8.63
  -- left : 0.00
 
 waypoint:left|light:red|oncoming:right|left:None
  -- forward : 0.00
+ -- None : 1.56
  -- right : 0.00
+ -- left : 0.00
+
+waypoint:forward|light:green|oncoming:forward|left:forward
+ -- forward : 0.00
+ -- None : -4.75
+ -- right : 0.00
+ -- left : 0.00
+
+waypoint:forward|light:red|oncoming:None|left:left
+ -- forward : 0.00
+ -- None : 2.52
+ -- right : 0.00
+ -- left : 0.00
+
+waypoint:forward|light:red|oncoming:right|left:None
+ -- forward : -7.48
+ -- None : 3.73
+ -- right : 0.00
+ -- left : 0.00
+
+waypoint:forward|light:green|oncoming:None|left:left
+ -- forward : 0.00
+ -- None : -3.81
+ -- right : 0.00
+ -- left : 5.67
+
+waypoint:left|light:green|oncoming:right|left:right
+ -- forward : 0.00
+ -- None : -4.00
+ -- right : 0.00
+ -- left : 0.00
+
+waypoint:right|light:green|oncoming:left|left:left
+ -- forward : 0.00
+ -- None : 1.18
+ -- right : 0.00
+ -- left : 0.00
+
+waypoint:forward|light:green|oncoming:forward|left:None
+ -- forward : 5.48
+ -- None : -3.72
+ -- right : 0.00
+ -- left : 0.00
+
+waypoint:forward|light:red|oncoming:left|left:None
+ -- forward : -8.03
+ -- None : 4.40
+ -- right : 0.00
+ -- left : 0.00
+
+waypoint:forward|light:red|oncoming:left|left:left
+ -- forward : 0.00
+ -- None : 0.92
+ -- right : 0.00
+ -- left : 0.00
+
+waypoint:left|light:red|oncoming:forward|left:None
+ -- forward : 0.00
+ -- None : 0.85
+ -- right : 1.07
+ -- left : 0.00
+
+waypoint:right|light:green|oncoming:forward|left:left
+ -- forward : 0.00
  -- None : 0.00
+ -- right : 1.74
  -- left : 0.00
 
-waypoint:left|light:red|oncoming:forward|left:left
- -- forward : 0.00
- -- right : 0.00
- -- None : 1.22
- -- left : 0.00
-
-waypoint:left|light:red|oncoming:right|left:left
- -- forward : 0.00
- -- right : 0.00
- -- None : 1.15
- -- left : 0.00
-
-waypoint:left|light:red|oncoming:forward|left:right
- -- forward : 0.00
- -- right : 0.00
- -- None : 0.83
- -- left : 0.00
-
-waypoint:right|light:green|oncoming:left|left:None
- -- forward : 0.00
- -- right : 0.00
- -- None : 1.68
- -- left : 0.00
-
-waypoint:forward|light:red|oncoming:forward|left:right
- -- forward : 0.00
- -- right : 0.00
+waypoint:forward|light:green|oncoming:left|left:left
+ -- forward : 3.21
  -- None : 0.00
+ -- right : 0.00
+ -- left : 0.00
+
+waypoint:forward|light:green|oncoming:right|left:forward
+ -- forward : 0.00
+ -- None : -3.53
+ -- right : 0.00
+ -- left : -16.05
+
+waypoint:right|light:red|oncoming:forward|left:left
+ -- forward : 0.00
+ -- None : 0.00
+ -- right : 0.00
+ -- left : 0.00
+
+waypoint:forward|light:green|oncoming:left|left:right
+ -- forward : 2.94
+ -- None : 0.00
+ -- right : 0.00
+ -- left : 0.00
+
+waypoint:forward|light:green|oncoming:right|left:None
+ -- forward : 3.41
+ -- None : -3.49
+ -- right : 0.00
+ -- left : 0.00
+
+waypoint:left|light:red|oncoming:None|left:forward
+ -- forward : 0.00
+ -- None : 1.86
+ -- right : 0.00
+ -- left : 0.00
+
+waypoint:right|light:red|oncoming:forward|left:None
+ -- forward : 0.00
+ -- None : 4.62
+ -- right : 0.00
+ -- left : 0.00
+
+waypoint:forward|light:green|oncoming:None|left:None
+ -- forward : 4.26
+ -- None : 0.00
+ -- right : 0.00
+ -- left : 0.00
+
+waypoint:left|light:red|oncoming:left|left:right
+ -- forward : -7.45
+ -- None : 0.78
+ -- right : 0.00
+ -- left : 0.00
+
+waypoint:forward|light:red|oncoming:None|left:right
+ -- forward : -31.25
+ -- None : 3.62
+ -- right : 0.00
+ -- left : 0.00
+
+waypoint:right|light:green|oncoming:left|left:forward
+ -- forward : 0.00
+ -- None : 1.11
+ -- right : 0.00
+ -- left : 0.00
+
+waypoint:forward|light:red|oncoming:right|left:forward
+ -- forward : -32.39
+ -- None : 1.80
+ -- right : 0.00
+ -- left : 0.00
+
+waypoint:left|light:green|oncoming:None|left:left
+ -- forward : 0.19
+ -- None : 0.00
+ -- right : 0.00
+ -- left : 2.55
+
+waypoint:right|light:green|oncoming:None|left:forward
+ -- forward : 3.08
+ -- None : -3.54
+ -- right : 0.00
+ -- left : 0.00
+
+waypoint:left|light:green|oncoming:forward|left:left
+ -- forward : 0.00
+ -- None : -3.82
+ -- right : 0.00
  -- left : 0.00
 
 waypoint:right|light:red|oncoming:left|left:left
  -- forward : 0.00
- -- right : 5.66
+ -- None : 2.88
+ -- right : 0.00
+ -- left : 0.00
+
+waypoint:left|light:green|oncoming:None|left:right
+ -- forward : 0.00
  -- None : 0.00
+ -- right : 0.00
+ -- left : 0.00
+
+waypoint:left|light:red|oncoming:right|left:right
+ -- forward : 0.00
+ -- None : 0.00
+ -- right : 0.00
+ -- left : 0.00
+
+waypoint:right|light:green|oncoming:forward|left:forward
+ -- forward : 0.00
+ -- None : -3.43
+ -- right : 0.00
+ -- left : 0.00
+
+waypoint:left|light:green|oncoming:left|left:left
+ -- forward : 0.00
+ -- None : 1.13
+ -- right : 0.00
+ -- left : 0.00
+
+waypoint:right|light:red|oncoming:right|left:left
+ -- forward : 0.00
+ -- None : 0.00
+ -- right : 2.03
+ -- left : 0.00
+
+waypoint:left|light:red|oncoming:None|left:right
+ -- forward : 0.00
+ -- None : 0.00
+ -- right : 0.00
+ -- left : 0.00
+
+waypoint:left|light:green|oncoming:None|left:forward
+ -- forward : 1.30
+ -- None : -4.49
+ -- right : 0.00
+ -- left : 0.00
+
+waypoint:right|light:green|oncoming:forward|left:right
+ -- forward : -0.28
+ -- None : -4.60
+ -- right : 0.00
+ -- left : 0.00
+
+waypoint:left|light:green|oncoming:forward|left:forward
+ -- forward : 1.39
+ -- None : -4.17
+ -- right : 0.00
+ -- left : 0.00
+
+waypoint:left|light:green|oncoming:right|left:None
+ -- forward : 0.00
+ -- None : -4.07
+ -- right : 0.00
+ -- left : 0.00
+
+waypoint:forward|light:green|oncoming:forward|left:right
+ -- forward : 0.00
+ -- None : -3.69
+ -- right : 0.00
+ -- left : 0.00
+
+waypoint:right|light:red|oncoming:right|left:None
+ -- forward : 0.00
+ -- None : 2.27
+ -- right : 0.00
  -- left : 0.00
 
 waypoint:right|light:green|oncoming:forward|left:None
+ -- forward : 1.33
+ -- None : -4.80
+ -- right : 0.00
+ -- left : 0.00
+
+waypoint:right|light:red|oncoming:left|left:right
  -- forward : 0.00
- -- right : 1.06
  -- None : 0.00
+ -- right : 2.62
+ -- left : 0.00
+
+waypoint:forward|light:green|oncoming:right|left:left
+ -- forward : 3.74
+ -- None : 0.00
+ -- right : 0.00
+ -- left : 0.00
+
+waypoint:right|light:green|oncoming:None|left:None
+ -- forward : 0.00
+ -- None : 0.00
+ -- right : 15.68
+ -- left : 0.00
+
+waypoint:right|light:red|oncoming:None|left:left
+ -- forward : 0.00
+ -- None : 3.60
+ -- right : 0.00
+ -- left : 0.00
+
+waypoint:forward|light:red|oncoming:left|left:right
+ -- forward : 0.00
+ -- None : 0.00
+ -- right : 0.00
+ -- left : 0.00
+
+waypoint:left|light:red|oncoming:forward|left:right
+ -- forward : 0.00
+ -- None : 0.00
+ -- right : 0.00
+ -- left : 0.00
+
+waypoint:right|light:red|oncoming:forward|left:right
+ -- forward : 0.00
+ -- None : 3.45
+ -- right : 0.00
+ -- left : 0.00
+
+waypoint:right|light:green|oncoming:left|left:None
+ -- forward : 0.00
+ -- None : 0.00
+ -- right : 2.01
+ -- left : 0.58
+
+waypoint:left|light:green|oncoming:None|left:None
+ -- forward : 0.72
+ -- None : -3.51
+ -- right : 4.42
+ -- left : 0.00
+
+waypoint:left|light:green|oncoming:forward|left:None
+ -- forward : 0.16
+ -- None : -3.36
+ -- right : 0.00
  -- left : 0.00
 
 waypoint:right|light:red|oncoming:None|left:right
  -- forward : 0.00
+ -- None : 0.00
  -- right : 0.00
- -- None : 1.43
  -- left : 0.00
 
-waypoint:left|light:green|oncoming:None|left:None
- -- forward : 3.04
- -- right : 1.06
- -- None : -3.49
- -- left : 1.13
+waypoint:forward|light:green|oncoming:None|left:right
+ -- forward : 4.30
+ -- None : -4.06
+ -- right : 0.03
+ -- left : 0.00
 
