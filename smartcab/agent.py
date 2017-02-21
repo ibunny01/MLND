@@ -70,7 +70,8 @@ class LearningAgent(Agent):
                 #  self.epsilon -= 0.05
 
                 # Note: epsilon function variation
-                self.epsilon = self.alpha * math.pow( self.alpha, self.train_cnt/5.0 )
+                train_cnt_magnifier = 5.0
+                self.epsilon = math.pow( self.alpha, self.train_cnt / train_cnt_magnifier )
 
                 # Note: Another epsilon function
                 # self.epsilon = 1/(self.train_cnt)**2
@@ -186,6 +187,7 @@ class LearningAgent(Agent):
             maxQ_action = self.get_maxQ_action(state)
 
             # # choose intended action with probaility epsilon
+            # # But in out project, we don't need to implement thing like this.
             # probs = np.array([self.epsilon]+[(1.0-self.epsilon) / len(self.valid_actions)]*len(self.valid_actions))
             # probs /= probs.sum()                        # to nomalize probabilities
             # random_action = np.random.choice([self.next_waypoint]+self.valid_actions, 1, replace=False, p = probs )[0]
