@@ -1,6 +1,8 @@
 # Machine Learning Engineer Nanodegree
 # Deep Learning
 ## Project: Build a Digit Recognition Program
+### John Park's READMD.org
+- [Additional Materials for this projects](README.org)
 
 ### Install
 
