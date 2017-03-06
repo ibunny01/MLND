@@ -1,0 +1,3 @@
+* TensorFlow
+** TensorFlow Variables
+[[file:TensorFlow%20Practice.ipynb][TensorFlow Variables Practice]]
