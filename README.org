@@ -1,0 +1,11 @@
+* Digit Recognition Program
+** References
+- [[https://keras.io/][Keras.io]] : Keras is a high-level neural networks library, written in
+  Python and capable of running on top of either TensorFlow or
+  Theano. It was developed with a focus on enabling fast
+  experimentation. Being able to go from idea to result with the least
+  possible delay is key to doing good research.
+- [[http://static.googleusercontent.com/media/research.google.com/en//pubs/archive/42241.pdf][Published Baseline Model]]
+- [[https://www.youtube.com/watch?v=vGPI_JvLoN0][Video]]
+- [[https://discussions.udacity.com/t/goodfellow-et-al-2013-architecture/202363][Forum Post]] : Discussion about the contents mentioned
+- [[https://discussions.udacity.com/t/what-loss-function-to-use-for-multi-digit-svhn-training/176897][Forum Post 2]] : Discussion about the loss function
