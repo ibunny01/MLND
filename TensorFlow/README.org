@@ -1,5 +1,5 @@
 * TensorFlow
-** The merits of TensorFlow
+** About TensorFlow
  다른 라이브러리와 다르게 텐서플로우는 연산을 파이선 코드에서 완전히 분리하는 특징이 있다.
 
  이 구조는 연산을 하기전에 그래프를 구성하는 과정에서 텐서의 크기를 보고 연산을 실행하기
@@ -7,6 +7,7 @@
 
  또한 실제 실행 코드는 C코드를 이용해서 디바이스에 직접 접근을 하기 때문에 속도가 빠르다
 는 장점이 있다.
-** TensorFlow Variables
+** TensorFlow HOWO-TO
 - [[file:TensorFlow-Variables-Practice.ipynb][TensorFlow Variables Practice]]
 - [[file:TensorFlow-Model-Training-Practice.ipynb][TensorFlow Model Training Practice]]
+- [[file:TensorFlow-Model-Save-Load-Practice.ipynb][TensorFlow Model Save Load Practice]]
