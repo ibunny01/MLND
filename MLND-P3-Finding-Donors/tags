@@ -1,0 +1,21 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.8	//
+accuracy_score	visuals.py	/^from sklearn.metrics import f1_score, accuracy_score$/;"	kind:namespace	line:17
+distribution	visuals.py	/^def distribution(data, transformed = False):$/;"	kind:function	line:20
+evaluate	visuals.py	/^def evaluate(results, accuracy, f1):$/;"	kind:function	line:51
+f1_score	visuals.py	/^from sklearn.metrics import f1_score, accuracy_score$/;"	kind:namespace	line:17
+feature_plot	visuals.py	/^def feature_plot(importances, X_train, y_train):$/;"	kind:function	line:122
+get_ipython	visuals.py	/^from IPython import get_ipython$/;"	kind:namespace	line:8
+matplotlib	visuals.py	/^import matplotlib.patches as mpatches$/;"	kind:namespace	line:13
+matplotlib	visuals.py	/^import matplotlib.pyplot as pl$/;"	kind:namespace	line:12
+mpatches	visuals.py	/^import matplotlib.patches as mpatches$/;"	kind:namespace	line:13
+np	visuals.py	/^import numpy as np$/;"	kind:namespace	line:14
+pd	visuals.py	/^import pandas as pd$/;"	kind:namespace	line:15
+pl	visuals.py	/^import matplotlib.pyplot as pl$/;"	kind:namespace	line:12
+time	visuals.py	/^from time import time$/;"	kind:namespace	line:16
+visuals.py	visuals.py	1;"	kind:file	line:1
+warnings	visuals.py	/^import warnings$/;"	kind:namespace	line:4
