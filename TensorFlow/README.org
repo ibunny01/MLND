@@ -8,4 +8,5 @@
  또한 실제 실행 코드는 C코드를 이용해서 디바이스에 직접 접근을 하기 때문에 속도가 빠르다
 는 장점이 있다.
 ** TensorFlow Variables
-[[file:TensorFlow%20Practice.ipynb][TensorFlow Variables Practice]]
+[[file:TensorFlow-Variables-Practice.ipynb][TensorFlow Variables Practice]]
+[[file:TensorFlow-Model-Training-Practice.ipynb][TensorFlow Model Training Practice]]
