@@ -1,3 +1,5 @@
+#+STARTUP: content
+
 * MLND: UDACITY MACHINE LEARNING
 ** MATERIALS
 [[file:MLND-For-Lecture-Contents][MLND Lectures Materials]]
@@ -6,20 +8,36 @@
 ** ASSIGNMENTS
 *** Titanic Survival Exploration
 [[file:MLND-P1-Titanic-Survival-Exploration][Assignments Result Github]]
+
 *** Boston Housing
+- Build a model to predict prices based on real estate data in the Boston area.
+- DecisionTreeRegressor is used to learn data and GridSearch is used to optimize the algorithm.
+- Technologies used: Numpy, Pandas, R2 score, Cross Validation, DecisionTreeRegressor, GridSearchCV
 [[file:MLND-P2-Boston-Housing][Assignments Result Github]]
+
 *** Finding donors
+- Based on the analysis that customers with income over 50K make donations, we leased other customers' data to label more than 50K customers.
+- Used various algorithms to analyze the results and how to optimize the algorithm.
+- Technologies used: GaussianNaiveBayes, KNN, Logistic Regression, AdaBoost, F beta / Accuracy score
 [[file:MLND-P3-Finding-Donors][Assignments Result Github]]
-*** Customer Segmentation
+
+*** Creating Customer Segmentation
+- Visualize and analyze customer data from wholesale companies. Correlation of each feature point is obtained and correlation is checked
+- Based on the insights obtained from the previous stage, PCA analyzes the feature points of each customer segment
+- Technologies used: PCA scikit-learn, seaborn
 [[file:MLND-P4-Customer-Segments][Assignments Result Github]]
+
 *** SmartCab
 [[file:MLND-P5-SmartCab][Assignments Results Github]]
+
 *** Digit Recognition
 [[file:MLND-P6-Digit-Recognition][Assignments Results Github]]
 
 ** SANDBOX
 - Practice Code regardind Machine Learning
+
 *** Practice Code for each machine learning algorithms
 [[file:MLND-Sandbox/][Sandbox for Machine Learning]]
+
 *** Practice Code for Tensorflow
 [[file:MLND-Sandbox/TensorFlow][Sandbox for TensorFlow]]
