@@ -28,6 +28,9 @@
 [[file:MLND-P4-Customer-Segments][Assignments Result Github]]
 
 *** SmartCab
+- Learn the model of taxi drivers using reinforcement learning.
+- Proceeds learning based on limited environment and rules and optimizes performance using it.
+- Technologies used: Numpy, Pandas, Q-Function
 [[file:MLND-P5-SmartCab][Assignments Results Github]]
 
 *** Digit Recognition
