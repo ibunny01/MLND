@@ -11,3 +11,5 @@
 - [[file:TensorFlow-Variables-Practice.ipynb][TensorFlow Variables Practice]]
 - [[file:TensorFlow-Model-Training-Practice.ipynb][TensorFlow Model Training Practice]]
 - [[file:TensorFlow-Model-Save-Load-Practice.ipynb][TensorFlow Model Save Load Practice]]
+- [[file:TensorFlow-TensorBoard.ipynb][TensorFlow TensorBoard Practice]]
+
