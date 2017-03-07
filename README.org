@@ -1,0 +1,25 @@
+* MLND: UDACITY MACHINE LEARNING
+** MATERIALS
+[[file:MLND-For-Lecture-Contents][MLND Lectures Materials]]
+[[file:MLND-ud120-projects][Intro to Machine Learning(UD120)]]
+
+** ASSIGNMENTS
+*** Titanic Survival Exploration
+[[file:MLND-P1-Titanic-Survival-Exploration][Assignments Result Github]]
+*** Boston Housing
+[[file:MLND-P2-Boston-Housing][Assignments Result Github]]
+*** Finding donors
+[[file:MLND-P3-Finding-Donors][Assignments Result Github]]
+*** Customer Segmentation
+[[file:MLND-P4-Customer-Segments][Assignments Result Github]]
+*** SmartCab
+[[file:MLND-P5-SmartCab][Assignments Results Github]]
+*** Digit Recognition
+[[file:MLND-P6-Digit-Recognition][Assignments Results Github]]
+
+** SANDBOX
+- Practice Code regardind Machine Learning
+*** Practice Code for each machine learning algorithms
+[[file:MLND-Sandbox/][Sandbox for Machine Learning]]
+*** Practice Code for Tensorflow
+[[file:MLND-Sandbox/TensorFlow][Sandbox for TensorFlow]]
