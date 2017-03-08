@@ -1,6 +1,10 @@
+#+STARTUP: CONTENT
+
 * MLND johnpark82 Sandbox
 ** Tensorflow
-[[file:TensorFlow][TensorFlow Sandbox]]x
+*** Test Dataset 
+[[https://drive.google.com/open?id=0B1UrJwDGWri2NHYtaDJUMEJrdHc][Download test image data]] (Thanks to [[https://github.com/leechanwoo/tensorflow-projects][chanwoo lee]])
+[[File:TensorFlow][TensorFlow Sandbox]]x
 
 * References
 ** Google Style Guide
