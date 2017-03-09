@@ -1,4 +1,7 @@
 * Digit Recognition Program
+** README.md that udacity proposed
+- [[file:README-udacity.md][README.md]]
+
 ** Datasets
 - [[http://ufldl.stanford.edu/housenumbers/][The Street View House Numbers (SVHN) Dataset]]
 - [[http://yaroslavvb.blogspot.kr/2011/09/notmnist-dataset.html][notMNIST dataset]]
