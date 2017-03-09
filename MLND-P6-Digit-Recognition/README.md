@@ -1,9 +1,9 @@
 # Machine Learning Engineer Nanodegree
 # Deep Learning
-## Project: Build a Digit Recognition Program
-### John Park's READMD.org
+## John Park's READMD.org ##
 - [Additional Materials for this projects](README.org)
 
+## Project: Build a Digit Recognition Program
 ### Install
 
 This project requires **Python 2.7** and the following Python libraries installed:
