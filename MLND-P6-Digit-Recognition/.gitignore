@@ -1,4 +1,6 @@
 MNIST_data/*.gz
+SVHN_data/*.gz
+SVHN_data/*.mat
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
