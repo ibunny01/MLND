@@ -1,15 +1,26 @@
 * Digit Recognition Program
-** README.md that udacity proposed
-- [[file:README-udacity.md][README.md]]
+
+** Papers References
+- [[http://static.googleusercontent.com/media/research.google.com/en//pubs/archive/42241.pdf][Paper: Multi-digit Number Recognition form Street View Imagery using Deep Convolutional Neural Netowrks]]
+- [[https://www.youtube.com/watch?v=vGPI_JvLoN0][Video]]
 
 ** Datasets
-- [[http://ufldl.stanford.edu/housenumbers/][The Street View House Numbers (SVHN) Dataset]]
+- [[http://ufldl.stanford.edu/housenumbers/][The Street View House Numbers (SVHN) Dataset]] : SVHN is a real-world
+  image dataset for developing machine learning and object recognition
+  algorithms with minimal requirement on data preprocessing and
+  formatting. It can be seen as similar in flavor to MNIST (e.g., the
+  images are of small cropped digits), but incorporates an order of
+  magnitude more labeled data (over 600,000 digit images) and comes
+  from a significantly harder, unsolved, real world problem
+  (recognizing digits and numbers in natural scene images). SVHN is
+  obtained from house numbers in Google Street View images.
+
 - [[http://yaroslavvb.blogspot.kr/2011/09/notmnist-dataset.html][notMNIST dataset]]
 - [[http://yann.lecun.com/exdb/mnist/][THE MNIST DATABASE of handwritten digits]]
 
-** References
-- [[http://static.googleusercontent.com/media/research.google.com/en//pubs/archive/42241.pdf][Paper: Multi-digit Number Recognition form Street View Imagery using Deep Convolutional Neural Netowrks]]
-- [[https://www.youtube.com/watch?v=vGPI_JvLoN0][Video]]
+** Implementation References
+- [[https://www.tensorflow.org/versions/0.6.0/tutorials/mnist/pros/index.html#deep-mnist-for-experts][MNIST tensorflow example]] : TensorFlow Multilayer Convolutional Network
+- [[https://www.tensorflow.org/versions/0.6.0/tutorials/deep_cnn/index.html][CIFAR-10 tensorflow example]] : TensorFlow Convolutional Neural Network
   
 ** Discussion Channels
 - [[https://discussions.udacity.com/t/goodfellow-et-al-2013-architecture/202363][Forum Post]] : Discussion about the contents mentioned
@@ -22,3 +33,6 @@
   Theano. It was developed with a focus on enabling fast
   experimentation. Being able to go from idea to result with the least
   possible delay is key to doing good research.
+
+** README.md that udacity proposed
+- [[file:README-udacity.md][README.md]]
