@@ -6,7 +6,7 @@ import urllib2
 import scipy.io as sio
 import numpy as np
 
-DEBUG = True
+DEBUG = False
 
 
 def _log(message):
@@ -143,6 +143,7 @@ def main():
 
     print(X_test.shape)
     print(y_test.shape)
+
 
 if __name__ == '__main__':
     main()
