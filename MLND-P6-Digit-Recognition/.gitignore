@@ -1,4 +1,6 @@
 MNIST_data/*.gz
+MNIST_data/*.pickle
+MNIST_data/*ubyte
 SVHN_data/*.gz
 SVHN_data/*.mat
 

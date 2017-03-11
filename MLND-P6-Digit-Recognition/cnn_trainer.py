@@ -1,12 +1,11 @@
 from __future__ import print_function
 
-import numpy as np
-import tensorflow as tf
-
-from PIL import Image
 import matplotlib.pyplot as plt
+import numpy as np
+from PIL import Image
 
-from train_data_loader import TrainDataLoader
+import tensorflow as tf
+from train_data_loader import DataLoader
 
 __DEBUG = False
 
@@ -171,7 +170,7 @@ class Trainer:
 def main():
     dirname = 'SVHN_data/'
 
-    loader = TrainDataLoader(dirname)
+    loader = DataLoader(dirname)
     trainer = Trainer()
 
     print('data loading...', end='\r\n')
@@ -198,7 +197,6 @@ def main():
     print('training.', end='\r\n')
     trainer.train()
     print('Done')
-
 
 if __name__ == '__main__':
     main()
