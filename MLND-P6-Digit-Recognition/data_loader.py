@@ -32,6 +32,12 @@ class Loader(object):
     image_height = None
     image_channel = None
 
+    training_data_digits = None
+    testing_data_digits = None
+
+    training_data = None
+    testing_data = None
+
     @staticmethod
     def maybe_download(base_url, dest_folder, filename, expected_bytes=None):
         if not os.path.exists(dest_folder):
@@ -98,17 +104,38 @@ class Loader(object):
     def generate_numbers(max_number, size):
         return np.random.randint(max_number, size=size)
 
+    @staticmethod
+    def label_to_onehot(original):
+        count_distinct_value = len(np.unique(original))
+        label_1hot = np.zeros((original.shape[0], count_distinct_value))
+        label_1hot[np.arange(original.shape[0]), np.transpose(original)] = 1
+
+        return label_1hot
+
     def init_data(self):
         raise NotImplementedError('Should have implemented this')
 
     def get_data(self, dataset="training"):
-        raise NotImplementedError('Should have implemented this')
+        if not self.training_data_digits or not self.testing_data_digits:
+            raise AssertionError('MNIST dataset may be initialized.')
+
+        if dataset == "training":
+            return self.training_data
+        else:
+            return self.testing_data
+
+    def get_digit_data(self, digit, dataset="training"):
+        if not self.training_data_digits or not self.testing_data_digits:
+            raise AssertionError('MNIST dataset may be initialized.')
+
+        if dataset == "training":
+            return self.training_data_digits[digit]
+        else:
+            return self.testing_data_digits[digit]
+
 
 
 class SVHNLoader(Loader):
-
-    training_data_digits = None
-    testing_data_digits = None
 
     def __init__(self):
 
@@ -122,6 +149,20 @@ class SVHNLoader(Loader):
     def init_data(self):
         if self.training_data_digits or self.testing_data_digits:
             raise AssertionError('svhn dataset may be initialized.')
+
+        if not os.path.exists(
+                os.path.join(self.dest_folder, "svhn_training_all.pickle")):
+            self.training_data = self.__load_data(dataset="training")
+            Loader.saveAsPickle(self.training_data,
+                                os.path.join(self.dest_folder,
+                                             "svhn_training_all.pickle"))
+
+        if not os.path.exists(
+                os.path.join(self.dest_folder, "svhn_testing_all.pickle")):
+            self.testing_data = self.__load_data(dataset="testing")
+            Loader.saveAsPickle(self.testing_data,
+                                os.path.join(self.dest_folder,
+                                             "svhn_testing_all.pickle"))
 
         for i in range(10):
             l = list()
@@ -147,6 +188,14 @@ class SVHNLoader(Loader):
                     d,
                     os.path.join(self.dest_folder,
                                  "svhn_testing_digit_" + str(i) + ".pickle"))
+
+        self.training_data = Loader.loadPickle(
+                os.path.join(self.dest_folder,
+                             "svhn_training_all.pickle"))
+
+        self.testing_data = Loader.loadPickle(
+            os.path.join(self.dest_folder,
+                         "svhn_testing_all.pickle"))
 
         self.training_data_digits = [
             Loader.loadPickle(
@@ -178,15 +227,13 @@ class SVHNLoader(Loader):
 
         loaded_dict = sio.loadmat(data_fname)
         X = loaded_dict['X']
-        _log(X.shape)
 
         # change the matrix's shape
         X_ret = []
         for i in range(X.shape[3]):
             X_ret.append(X[:, :, :, i])
         X_ret = (np.asarray(X_ret).astype(float)) / 255.
-        _log(X_ret.shape)
-
+ 
         # because the value of 10 has been represented '10',
         # we would make it translated into '0'
         y_ret = loaded_dict['y']
@@ -213,12 +260,6 @@ class SVHNLoader(Loader):
 
         return ret
 
-    def label_to_onehot(self, original):
-        count_distinct_value = len(np.unique(original))
-        label_1hot = np.zeros((original.shape[0], count_distinct_value))
-        label_1hot[np.arange(original.shape[0]), np.transpose(original)] = 1
-        return label_1hot
-
     def validate_data(self, images, labels, height=None, width=None):
         """
         Prints digits as image along with their labels
@@ -242,24 +283,6 @@ class SVHNLoader(Loader):
                 plt.tight_layout()
 
             plt.show()
-
-    def get_data(self, dataset="training"):
-        if not self.training_data_digits or not self.testing_data_digits:
-            raise AssertionError('SVHN dataset may be initialized.')
-
-        if dataset == "training":
-            return self.training_data_digits
-        else:
-            return self.testing_data_digits
-
-    def get_digit_data(self, digit, dataset="training"):
-        if not self.training_data_digits or not self.testing_data_digits:
-            raise AssertionError('SVHN dataset may be initialized.')
-
-        if dataset == "training":
-            return self.training_data_digits[digit]
-        else:
-            return self.testing_data_digits[digit]
 
     def __get_digit_data_rand(self, digit, dataset="training"):
         if not self.training_data_digits or not self.testing_data_digits:
@@ -329,6 +352,9 @@ class MNISTLoader(Loader):
     training_data_digits = None
     testing_data_digits = None
 
+    training_data = None
+    testing_data = None
+
     def __init__(self):
 
         self.dest_folder = 'MNIST_data/'
@@ -364,6 +390,20 @@ class MNISTLoader(Loader):
     def init_data(self):
         if self.training_data_digits or self.testing_data_digits:
             raise AssertionError('MNIST dataset may be initialized.')
+
+        if not os.path.exists(
+                os.path.join(self.dest_folder, "mnist_training_all.pickle")):
+            self.training_data = self.__load_data(dataset="training", path=self.dest_folder)
+            Loader.saveAsPickle(self.training_data,
+                                os.path.join(self.dest_folder,
+                                             "mnist_training_all.pickle"))
+
+        if not os.path.exists(
+                os.path.join(self.dest_folder, "mnist_testing_all.pickle")):
+            self.testing_data = self.__load_data(dataset="testing", path=self.dest_folder)
+            Loader.saveAsPickle(self.testing_data,
+                                os.path.join(self.dest_folder,
+                                             "mnist_testing_all.pickle"))
 
         for i in range(10):
             l = list()
@@ -404,6 +444,14 @@ class MNISTLoader(Loader):
                     os.path.join(self.dest_folder,
                                  "mnist_testing_digit_" + str(i) + ".pickle"))
 
+        self.training_data = Loader.loadPickle(
+                os.path.join(self.dest_folder,
+                             "mnist_training_all.pickle"))
+
+        self.testing_data = Loader.loadPickle(
+            os.path.join(self.dest_folder,
+                         "mnist_testing_all.pickle"))
+
         self.training_data_digits = [
             Loader.loadPickle(
                 os.path.join(self.dest_folder, "mnist_training_digit_" + str(i)
@@ -415,6 +463,7 @@ class MNISTLoader(Loader):
                 os.path.join(self.dest_folder, "mnist_testing_digit_" + str(i)
                              + ".pickle")) for i in range(10)
         ]
+
 
     def __load_data(self,
                     dataset="training",
@@ -513,7 +562,7 @@ class MNISTLoader(Loader):
                 labels[i] = labels_raw[indices[i]]
 
         if not asbytes:
-            images = images.astype(float) / 255.0
+            images = images.astype(float) / 255.
 
         ret = (images, )
         if return_labels:
@@ -524,12 +573,6 @@ class MNISTLoader(Loader):
             return ret[0]  # Don't return a tuple of one
         else:
             return ret
-
-    def label_to_onehot(self, original):
-        count_distinct_value = len(np.unique(original))
-        label_1hot = np.zeros((original.shape[0], count_distinct_value))
-        label_1hot[np.arange(original.shape[0]), np.transpose(original)] = 1
-        return label_1hot
 
     def validate_data(self, images, labels, height=None, width=None):
         """
@@ -559,24 +602,6 @@ class MNISTLoader(Loader):
                 plt.tight_layout()
 
             plt.show()
-
-    def get_data(self, dataset="training"):
-        if not self.training_data_digits or not self.testing_data_digits:
-            raise AssertionError('MNIST dataset may be initialized.')
-
-        if dataset == "training":
-            return self.training_data_digits
-        else:
-            return self.testing_data_digits
-
-    def get_digit_data(self, digit, dataset="training"):
-        if not self.training_data_digits or not self.testing_data_digits:
-            raise AssertionError('MNIST dataset may be initialized.')
-
-        if dataset == "training":
-            return self.training_data_digits[digit]
-        else:
-            return self.testing_data_digits[digit]
 
     def __get_digit_data_rand(self, digit, dataset="training"):
         if not self.training_data_digits or not self.testing_data_digits:
@@ -685,6 +710,7 @@ def generate_trainset_testset(loader, dest_folder, pickle_prefix=None):
                                          pickle_prefix + "_mixed_set.pickle"))
 
     ret = Loader.loadPickle(
+
         os.path.join(dest_folder, pickle_prefix + "_mixed_set.pickle"))
 
     return ret
