@@ -1,4 +1,10 @@
+#+STARTUP: CONTENTS
+
 * Digit Recognition Program
+
+** SOURCE CODE
+- [[file:data_loader.py]] : Dataset Loader
+  Generate synthetic imageset using previous data
 
 ** Papers References
 - [[http://static.googleusercontent.com/media/research.google.com/en//pubs/archive/42241.pdf][Paper: Multi-digit Number Recognition form Street View Imagery using Deep Convolutional Neural Netowrks]]

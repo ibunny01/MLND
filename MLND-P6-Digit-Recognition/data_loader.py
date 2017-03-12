@@ -25,6 +25,8 @@ def _log(message):
 
 
 class Loader(object):
+
+    pickle_prefix = None
     base_url = None
     dest_folder = None
 
@@ -37,6 +39,9 @@ class Loader(object):
 
     training_data = None
     testing_data = None
+
+    training_mixed_data = None
+    testing_mixed_data = None
 
     @staticmethod
     def maybe_download(base_url, dest_folder, filename, expected_bytes=None):
@@ -115,6 +120,13 @@ class Loader(object):
     def init_data(self):
         raise NotImplementedError('Should have implemented this')
 
+    def generate_mixed_digit_data(self,
+                                  numbers,
+                                  scale=1,
+                                  max_length=6,
+                                  dims=(64, 64)):
+        raise NotImplementedError('Should have implemented this')
+
     def get_data(self, dataset="training"):
         if not self.training_data_digits or not self.testing_data_digits:
             raise AssertionError('MNIST dataset may be initialized.')
@@ -133,12 +145,72 @@ class Loader(object):
         else:
             return self.testing_data_digits[digit]
 
+    def get_mixed_data(self, dataset="training"):
+
+        if not os.path.exists(self.dest_folder):
+            os.makedirs(self.dest_folder)
+
+        if not os.path.exists(
+                os.path.join(self.dest_folder,
+                             self.pickle_prefix + "_training_mixed_set.pickle")):
+
+            trainset_lbl = list()
+            trainset_lbl += Loader.generate_numbers(9, 1000).tolist()
+            trainset_lbl += Loader.generate_numbers(99, 1000).tolist()
+            trainset_lbl += Loader.generate_numbers(999, 1000).tolist()
+            trainset_lbl += Loader.generate_numbers(9999, 1000).tolist()
+            trainset_lbl += Loader.generate_numbers(99999, 1000).tolist()
+
+            trainset_lbl = np.array(trainset_lbl)
+            trainset_lbl = trainset_lbl[np.random.permutation(trainset_lbl.shape[0])]
+            trainset_lbl.reshape(trainset_lbl.shape[0])
+
+            trainset_data = self.generate_mixed_digit_data(trainset_lbl)
+            self.training_mixed_data = trainset_data
+
+            Loader.saveAsPickle(self.training_mixed_data,
+                                os.path.join(self.dest_folder,
+                                             self.pickle_prefix + "_training_mixed_set.pickle"))
+
+        self.training_mixed_data = Loader.loadPickle(os.path.join(self.dest_folder,
+                                             self.pickle_prefix + "_training_mixed_set.pickle"))
+
+        if not os.path.exists(
+                os.path.join(self.dest_folder,
+                             self.pickle_prefix + "_testing_mixed_set.pickle")):
+
+            testset_lbl = list()
+            testset_lbl += Loader.generate_numbers(9, 400).tolist()
+            testset_lbl += Loader.generate_numbers(99, 400).tolist()
+            testset_lbl += Loader.generate_numbers(999, 400).tolist()
+            testset_lbl += Loader.generate_numbers(9999, 400).tolist()
+            testset_lbl += Loader.generate_numbers(99999, 400).tolist()
+
+            testset_lbl = np.array(testset_lbl)
+            testset_lbl = testset_lbl[np.random.permutation(testset_lbl.shape[0])]
+            testset_lbl.reshape(testset_lbl.shape[0])
+
+            testset_data = self.generate_mixed_digit_data(testset_lbl)
+            self.testing_mixed_data = testset_data
+
+            Loader.saveAsPickle(self.testing_mixed_data,
+                                os.path.join(self.dest_folder,
+                                             self.pickle_prefix + "_testing_mixed_set.pickle"))
+
+        self.testing_mixed_data = Loader.loadPickle(os.path.join(self.dest_folder,
+                                             self.pickle_prefix + "_testing_mixed_set.pickle"))
+
+        if dataset == "training":
+            return self.training_mixed_data
+        else:
+            return self.testing_mixed_data
 
 
 class SVHNLoader(Loader):
 
     def __init__(self):
 
+        self.pickle_prefix = 'svhn'
         self.dest_folder = 'SVHN_data/'
         self.base_url = 'http://ufldl.stanford.edu/housenumbers/'
 
@@ -357,6 +429,7 @@ class MNISTLoader(Loader):
 
     def __init__(self):
 
+        self.pickle_prefix = 'mnist'
         self.dest_folder = 'MNIST_data/'
         self.base_url = 'http://yann.lecun.com/exdb/mnist/'
 
@@ -669,53 +742,6 @@ class MNISTLoader(Loader):
         return (images, values, digits, lengths)
 
 
-def generate_trainset_testset(loader, dest_folder, pickle_prefix=None):
-
-    ret = None
-    if not os.path.exists(dest_folder):
-        os.makedirs(dest_folder)
-
-    if not os.path.exists(
-            os.path.join(dest_folder, pickle_prefix + "_mixed_set.pickle")):
-
-        trainset = list()
-        trainset += Loader.generate_numbers(9, 5).tolist()
-        trainset += Loader.generate_numbers(99, 50).tolist()
-        trainset += Loader.generate_numbers(999, 500).tolist()
-        trainset += Loader.generate_numbers(9999, 5000).tolist()
-        trainset += Loader.generate_numbers(99999, 500).tolist()
-
-        trainset = np.array(trainset)
-        trainset = trainset[np.random.permutation(trainset.shape[0])]
-        trainset.reshape(trainset.shape[0])
-
-        testset = list()
-        testset += Loader.generate_numbers(9, 2).tolist()
-        testset += Loader.generate_numbers(99, 20).tolist()
-        testset += Loader.generate_numbers(999, 200).tolist()
-        testset += Loader.generate_numbers(9999, 2000).tolist()
-        testset += Loader.generate_numbers(99999, 200).tolist()
-
-        testset = np.array(testset)
-        testset = testset[np.random.permutation(testset.shape[0])]
-        testset.reshape(testset.shape[0])
-
-        train_images = loader.generate_mixed_digit_data(trainset)
-        test_images = loader.generate_mixed_digit_data(testset)
-
-        ret = {"training": train_images, "testing": test_images}
-
-        Loader.saveAsPickle(ret,
-                            os.path.join(dest_folder,
-                                         pickle_prefix + "_mixed_set.pickle"))
-
-    ret = Loader.loadPickle(
-
-        os.path.join(dest_folder, pickle_prefix + "_mixed_set.pickle"))
-
-    return ret
-
-
 def main():
     mnist_loader = MNISTLoader()
     svhn_loader = SVHNLoader()
@@ -742,15 +768,13 @@ def main():
     dt2 = svhn_loader.get_digit_data(1, "testing")
     # svhn_loader.validate_data(dt2[0], dt2[1])
 
-    mnist_mixed_set = generate_trainset_testset(mnist_loader, 'MIXED_data/',
-                                                'mnist')
-    svhn_mixed_set = generate_trainset_testset(svhn_loader, 'MIXED_data/',
-                                               'svhn')
+    mnist_mixed_set = mnist_loader.get_mixed_data()
+    svhn_mixed_set = svhn_loader.get_mixed_data()
 
-    mnist_loader.validate_data(mnist_mixed_set["training"][0],
-                               mnist_mixed_set["training"][1], 64, 64)
-    svhn_loader.validate_data(svhn_mixed_set["training"][0],
-                              svhn_mixed_set["training"][1], 64, 64)
+    mnist_loader.validate_data(mnist_mixed_set[0],
+                               mnist_mixed_set[1], 64, 64)
+    svhn_loader.validate_data(svhn_mixed_set[0],
+                              svhn_mixed_set[1], 64, 64)
 
     # mnist images serialization testcase
     # training_data_digits = list()

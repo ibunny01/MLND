@@ -5,7 +5,7 @@ import numpy as np
 import tensorflow as tf
 from PIL import Image
 
-from data_loader import MNISTLoader, SVHNLoader, generate_trainset_testset
+from data_loader import MNISTLoader, SVHNLoader
 
 _DEBUG = True
 
@@ -26,6 +26,7 @@ class Trainer:
     tf_accuracy = None
     tf_loss = None
 
+    raw_image_shape = None
     image_shape = None
     label_shape = None
 
@@ -37,10 +38,15 @@ class Trainer:
     tf_debug4 = None
 
     def __init__(self, image_shape=[None, 32, 32, 3], label_shape=[None, 10]):
+
         self.image_shape = image_shape
         self.label_shape = label_shape
+        self.raw_image_shape = self.image_shape if image_shape[3] != 1 else image_shape[0:3]
 
-        self.tf_x = tf.placeholder(tf.float32, self.image_shape)
+        _log('input shape must be ', end='')
+        _log(self.raw_image_shape)
+
+        self.tf_x = tf.placeholder(tf.float32, self.raw_image_shape)
         self.tf_y_ = tf.placeholder(tf.float32, self.label_shape)
 
         self.tf_keep_prob = tf.placeholder(tf.float32)
@@ -64,7 +70,7 @@ class Trainer:
     def set_model(self):
         self.is_model_initialized = True
 
-        x_input = tf.reshape(self.tf_x, [-1, 28, 28, 1])
+        x_input = tf.reshape(self.tf_x, [-1] + self.image_shape[1:4])
 
         # convolution vector definition
         w_conv1 = self.weight_variable([5, 5, 1, 32])
@@ -72,15 +78,6 @@ class Trainer:
 
         w_conv2 = self.weight_variable([5, 5, 32, 64])
         b_conv2 = self.bias_variable([64])
-
-        # w_conv3 = self.weight_variable([5, 5, 32, 64])
-        # b_conv3 = self.bias_variable([64])
-
-        # # w_conv4 = self.weight_variable([5, 5, 32, 32])
-        # # b_conv4 = self.bias_variable([32])
-
-        # w_conv5 = self.weight_variable([5, 5, 32, 128])
-        # b_conv5 = self.bias_variable([128])
 
         w_fc1 = self.weight_variable([7 * 7 * 64, 1024])
         b_fc1 = self.bias_variable([1024])
@@ -95,15 +92,6 @@ class Trainer:
         h_conv2 = tf.nn.relu(self.conv2d(h_pool1, w_conv2) + b_conv2)
         h_pool2 = self.max_pool_2x2(h_conv2)
 
-        # h_conv3 = tf.nn.relu(self.conv2d(h_conv1, w_conv3) + b_conv3)
-        # h_pool3 = self.max_pool_2x2(h_conv3)
-
-        # # h_conv4 = tf.nn.relu(self.conv2d(h_pool3, w_conv4) + b_conv4)
-        # # h_pool4 = self.max_pool_2x2(h_conv4)
-
-        # h_conv5 = tf.nn.relu(self.conv2d(h_pool3, w_conv5) + b_conv5)
-        # h_pool5 = self.max_pool_2x2(h_conv5)
-
         # fully connected layer
         h_pool2_flat = tf.reshape(h_pool2, [-1, 7 * 7 * 64])
         h_fc1 = tf.nn.relu(tf.matmul(h_pool2_flat, w_fc1) + b_fc1)
@@ -115,9 +103,9 @@ class Trainer:
         predict = tf.matmul(h_fc1_dropout, w_fc2) + b_fc2
 
         # loss calculation
-        softmax_cross_entropy = tf.nn.softmax_cross_entropy_with_logits(labels=self.tf_y_,
+        softmax = tf.nn.softmax_cross_entropy_with_logits(labels=self.tf_y_,
                                                           logits=predict)
-        self.tf_loss = tf.reduce_mean(softmax_cross_entropy)
+        self.tf_loss = tf.reduce_mean(softmax)
 
         # loss optimizer 
         self.tf_optimizer = tf.train.AdamOptimizer(1e-4).minimize(self.tf_loss)
@@ -238,25 +226,28 @@ def main():
 
     _log('data loading...', end='\r\n')
 
-    trainer.train_dataset = list(loader.get_data("training"))
-    trainer.test_dataset = list(loader.get_data("testing"))
+    trainer.train_dataset = list(loader.get_mixed_data("training"))
+    trainer.test_dataset = list(loader.get_mixed_data("testing"))
 
-    trainer.train_dataset[0] = trainer.train_dataset[0].reshape([-1, 28, 28, 1])
-    trainer.test_dataset[0] = trainer.test_dataset[0].reshape([-1, 28, 28, 1])
-    trainer.train_dataset[1] = trainer.train_dataset[1]
-    trainer.test_dataset[1] = trainer.test_dataset[1]
+    import pdb; pdb.set_trace()
+
+    trainer.train_dataset[0] = trainer.train_dataset[0]
+    trainer.test_dataset[0] = trainer.test_dataset[0]
+    trainer.train_dataset[1] = trainer.train_dataset[2]
+    trainer.test_dataset[1] = trainer.test_dataset[2]
 
     trainer.train_dataset.append(np.array(loader.label_to_onehot(trainer.train_dataset[1])))
     trainer.test_dataset.append(np.array(loader.label_to_onehot(trainer.test_dataset[1])))
 
-    _log('Done')
-
     _log('data validation...', end='\r\n')
 
     # To check image input
-    _log('chking image data')
+    _log('input image data shape : ', end='')
     _log(trainer.train_dataset[0].shape)
-    _log(trainer.train_dataset[0][0,:,:].shape)
+
+    # To check label input
+    _log('input label data shape : ', end='')
+    _log(trainer.train_dataset[1].shape)
 
     # if _DEBUG:
     # fig = plt.figure()
@@ -266,16 +257,9 @@ def main():
     #                 cmap='Greys')
     # plt.show()
 
-    # To check label input
-    _log('checking label data')
-    _log(trainer.train_dataset[1].shape)
-    _log(trainer.train_dataset[1][0])
-    _log('Done')
-
-    _log('training.', end='\r\n')
+    _log('training...')
     trainer.set_model()
     trainer.train()
-    _log('Done')
 
 if __name__ == '__main__':
     main()
