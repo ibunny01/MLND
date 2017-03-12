@@ -2,9 +2,9 @@ from __future__ import print_function
 
 import matplotlib.pyplot as plt
 import numpy as np
+import tensorflow as tf
 from PIL import Image
 
-import tensorflow as tf
 from train_data_loader import DataLoader
 
 __DEBUG = False

@@ -32,6 +32,7 @@ class Loader(object):
     image_height = None
     image_channel = None
 
+    @staticmethod
     def maybe_download(base_url, dest_folder, filename, expected_bytes=None):
         if not os.path.exists(dest_folder):
             os.makedirs(dest_folder)
@@ -51,6 +52,7 @@ class Loader(object):
                             '. Can you get to it with a browser ?')
         return filename
 
+    @staticmethod
     def maybe_untargz(filename, dest_folder, force=False):
         extraction_dir = filename.split('.')[0]
         if not os.path.isdir(extraction_dir):
@@ -62,6 +64,7 @@ class Loader(object):
         else:
             print("Folder" + extraction_dir + " already exists. Skipping")
 
+    @staticmethod
     def saveAsPickle(images, filename):
         try:
             with open(filename, 'wb') as f:
@@ -70,10 +73,12 @@ class Loader(object):
         except Exception as e:
             print('Unable to save images to ', filename, ':', e)
 
+    @staticmethod
     def loadPickle(file):
         with open(file, 'rb') as pickle_file:
             return pickle.load(pickle_file)
 
+    @staticmethod
     def split_validation(train_data, train_label, split_ratio=0.9):
 
         permutation_indices = np.random.permutation(train_data.shape[0])
@@ -88,6 +93,10 @@ class Loader(object):
         train_lb_set = train_lb_reidx[:split_pos]
 
         return (train_dt_set, train_lb_set, valid_dt_set, valid_lb_set)
+
+    @staticmethod
+    def generate_numbers(max_number, size):
+        return np.random.randint(max_number, size=size)
 
     def init_data(self):
         raise NotImplementedError('Should have implemented this')
@@ -119,11 +128,9 @@ class SVHNLoader(Loader):
             l.append(i)
 
             if not os.path.exists(
-                os.path.join(self.dest_folder, "svhn_training_digit_" +
+                    os.path.join(self.dest_folder, "svhn_training_digit_" +
                                  str(i) + ".pickle")):
-                d = self.__load_data(
-                    dataset="training",
-                    digits=l)
+                d = self.__load_data(dataset="training", digits=l)
 
                 Loader.saveAsPickle(
                     d,
@@ -131,12 +138,10 @@ class SVHNLoader(Loader):
                                  "svhn_training_digit_" + str(i) + ".pickle"))
 
             if not os.path.exists(
-                os.path.join(self.dest_folder, "svhn_testing_digit_" + str( 
+                    os.path.join(self.dest_folder, "svhn_testing_digit_" + str(
                         i) + ".pickle")):
 
-                d = self.__load_data(
-                    dataset="testing",
-                    digits=i)
+                d = self.__load_data(dataset="testing", digits=i)
 
                 Loader.saveAsPickle(
                     d,
@@ -151,10 +156,9 @@ class SVHNLoader(Loader):
 
         self.testing_data_digits = [
             Loader.loadPickle(
-                os.path.join(self.dest_folder, "svhn_testing_digit_" + str(i)
-                             + ".pickle")) for i in range(10)
+                os.path.join(self.dest_folder, "svhn_testing_digit_" + str(i) +
+                             ".pickle")) for i in range(10)
         ]
-
 
     def download_data(self):
         svhn_train_images = Loader.maybe_download(
@@ -186,15 +190,13 @@ class SVHNLoader(Loader):
         # because the value of 10 has been represented '10',
         # we would make it translated into '0'
         y_ret = loaded_dict['y']
-        count_distinct_value = len(np.unique(y_ret))
 
         for i in range(len(y_ret)):
             if not y_ret[i] % 10:
                 y_ret[i] = 0
 
         # I'll use numpy advanced indexing for one-hot encoding implementation
-        y_ret_1hot = np.zeros((y_ret.shape[0], count_distinct_value))
-        y_ret_1hot[np.arange(y_ret.shape[0]), np.transpose(y_ret)] = 1
+        y_ret_1hot = self.label_to_onehot(y_ret)
 
         indices = []
         if digits is not None:
@@ -208,8 +210,14 @@ class SVHNLoader(Loader):
         ret = (X_ret[indices, :, :, :], )
         ret += (y_ret[indices], )
         ret += (y_ret_1hot[indices, :], )
- 
+
         return ret
+
+    def label_to_onehot(self, original):
+        count_distinct_value = len(np.unique(original))
+        label_1hot = np.zeros((original.shape[0], count_distinct_value))
+        label_1hot[np.arange(original.shape[0]), np.transpose(original)] = 1
+        return label_1hot
 
     def validate_data(self, images, labels, height=None, width=None):
         """
@@ -258,15 +266,23 @@ class SVHNLoader(Loader):
             raise AssertionError('SVHN dataset may be initialized.')
 
         if dataset == "training":
-            return self.training_data_digits[digit][0][np.random.randint(self.training_data_digits[digit][0].shape[0])]
+            return self.training_data_digits[digit][0][np.random.randint(
+                self.training_data_digits[digit][0].shape[0])]
         else:
-            return self.testing_data_digits[digit][0][np.random.randint(self.testing_data_digits[digit][0].shape[0])]
+            return self.testing_data_digits[digit][0][np.random.randint(
+                self.testing_data_digits[digit][0].shape[0])]
 
-    def generate_mixed_digit_data(self, numbers, scale=1, max_length=6, dims=(64, 64)):
+    def generate_mixed_digit_data(self,
+                                  numbers,
+                                  scale=1,
+                                  max_length=6,
+                                  dims=(64, 64)):
 
         images = np.ones([len(numbers), dims[0], dims[1], self.image_channel])
         values = np.zeros(len(numbers)).astype(int)
-        lengths = np.zeros([len(numbers), ]).astype(int)
+        lengths = np.zeros([
+            len(numbers),
+        ]).astype(int)
         digits = np.zeros([len(numbers), 6]).astype(int)
 
         for i, number in enumerate(numbers):
@@ -279,22 +295,21 @@ class SVHNLoader(Loader):
             digits[i, 0:lengths[i]] = num_digits[:lengths[i]]
 
             # generate mixed images. it will just paste images to righthand direction
-            num_images = np.zeros([self.image_height,
-                                   self.image_width * len(num_digits),
-                                   self.image_channel])
+            num_images = np.zeros([
+                self.image_height, self.image_width * len(num_digits),
+                self.image_channel
+            ])
             for j, digit in enumerate(num_digits):
 
                 v = self.__get_digit_data_rand(digit)
-                num_images[0:self.image_height,
-                           j*self.image_width:(j+1)*self.image_width,
-                           0:self.image_channel] = self.__get_digit_data_rand(digit)
+                num_images[0:self.image_height, j * self.image_width:(
+                    j + 1) * self.image_width, 0:self.
+                           image_channel] = self.__get_digit_data_rand(digit)
 
             # make pasted images to 64x64 matrix
-            scale = float(dims[0]) / (self.image_width * (lengths[i]+1))
+            scale = float(dims[0]) / (self.image_width * (lengths[i] + 1))
             if scale != 1:
-                num_images = imresize(num_images,
-                                      scale,
-                                      interp='bilinear')
+                num_images = imresize(num_images, scale, interp='bilinear')
 
             # make image list
             max_top = dims[0] - num_images.shape[0]
@@ -303,9 +318,8 @@ class SVHNLoader(Loader):
             top = np.random.randint(0, max_top) if max_top > 0 else 0
             left = np.random.randint(0, max_left) if max_left > 0 else 0
 
-            images[i, top:top+num_images.shape[0],
-                   left:left+num_images.shape[1],
-                   0:self.image_channel] = num_images
+            images[i, top:top + num_images.shape[0], left:left +
+                   num_images.shape[1], 0:self.image_channel] = num_images
 
         return (images, values, digits, lengths)
 
@@ -511,6 +525,12 @@ class MNISTLoader(Loader):
         else:
             return ret
 
+    def label_to_onehot(self, original):
+        count_distinct_value = len(np.unique(original))
+        label_1hot = np.zeros((original.shape[0], count_distinct_value))
+        label_1hot[np.arange(original.shape[0]), np.transpose(original)] = 1
+        return label_1hot
+
     def validate_data(self, images, labels, height=None, width=None):
         """
         Prints digits as image along with their labels
@@ -524,14 +544,18 @@ class MNISTLoader(Loader):
             img_data = (images * 255).astype(int)
             img_labels = labels
 
-            indices = np.random.randint(img_data.shape[0] - 1, size=valid_size) if valid_size > 12 else range(valid_size)
+            indices = np.random.randint(
+                img_data.shape[0] - 1,
+                size=valid_size) if valid_size > 12 else range(valid_size)
             fig = plt.figure(figsize=(12, 3), dpi=80)
 
             for i, idx in enumerate(indices):
                 plt.subplot(1, valid_size, i + 1)
                 plt.title(img_labels[idx])
                 plt.imshow(
-                    img_data[idx].reshape(height, width), interpolation='nearest', cmap='Greys')
+                    img_data[idx].reshape(height, width),
+                    interpolation='nearest',
+                    cmap='Greys')
                 plt.tight_layout()
 
             plt.show()
@@ -559,15 +583,25 @@ class MNISTLoader(Loader):
             raise AssertionError('MNIST dataset may be initialized.')
 
         if dataset == "training":
-            return self.training_data_digits[digit][0][np.random.randint(self.training_data_digits[digit][0].shape[0])].reshape(self.image_height, self.image_width)
+            return self.training_data_digits[digit][0][np.random.randint(
+                self.training_data_digits[digit][0].shape[0])].reshape(
+                    self.image_height, self.image_width)
         else:
-            return self.testing_data_digits[digit][0][np.random.randint(self.testing_data_digits[digit][0].shape[0])].reshape(self.image_height, self.image_width)
+            return self.testing_data_digits[digit][0][np.random.randint(
+                self.testing_data_digits[digit][0].shape[0])].reshape(
+                    self.image_height, self.image_width)
 
-    def generate_mixed_digit_data(self, numbers, scale=1, max_length=6, dims=(64, 64)):
+    def generate_mixed_digit_data(self,
+                                  numbers,
+                                  scale=1,
+                                  max_length=6,
+                                  dims=(64, 64)):
 
         images = np.zeros([len(numbers), dims[0], dims[1]])
         values = np.zeros(len(numbers)).astype(int)
-        lengths = np.zeros([len(numbers), ]).astype(int)
+        lengths = np.zeros([
+            len(numbers),
+        ]).astype(int)
         digits = np.zeros([len(numbers), 6]).astype(int)
 
         for i, number in enumerate(numbers):
@@ -583,20 +617,19 @@ class MNISTLoader(Loader):
             lengths[i] -= 1
 
             # generate mixed images. it will just paste images to righthand direction
-            num_images = np.zeros([self.image_height,
-                                   self.image_width * len(num_digits)])
+            num_images = np.zeros(
+                [self.image_height, self.image_width * len(num_digits)])
             for j, digit in enumerate(num_digits):
 
                 v = self.__get_digit_data_rand(digit)
-                num_images[0:self.image_height,
-                           j*self.image_width:(j+1)*self.image_width] = self.__get_digit_data_rand(digit)
+                num_images[0:self.image_height, j * self.image_width:(j + 1) *
+                           self.image_width] = self.__get_digit_data_rand(
+                               digit)
 
             # make pasted images to 64x64 matrix
-            scale = float(dims[0]) / (self.image_width * (lengths[i]+1))
+            scale = float(dims[0]) / (self.image_width * (lengths[i] + 1))
             if scale != 1:
-                num_images = imresize(num_images,
-                                      scale,
-                                      interp='bilinear')
+                num_images = imresize(num_images, scale, interp='bilinear')
 
             # make image list
             max_top = dims[0] - num_images.shape[0]
@@ -605,12 +638,56 @@ class MNISTLoader(Loader):
             top = np.random.randint(0, max_top) if max_top > 0 else 0
             left = np.random.randint(0, max_left) if max_left > 0 else 0
 
-            images[i, top:top+num_images.shape[0],
-                   left:left+num_images.shape[1]] = num_images
+            images[i, top:top + num_images.shape[0], left:left +
+                   num_images.shape[1]] = num_images
 
         return (images, values, digits, lengths)
 
 
+def generate_trainset_testset(loader, dest_folder, pickle_prefix=None):
+
+    ret = None
+    if not os.path.exists(dest_folder):
+        os.makedirs(dest_folder)
+
+    if not os.path.exists(
+            os.path.join(dest_folder, pickle_prefix + "_mixed_set.pickle")):
+
+        trainset = list()
+        trainset += Loader.generate_numbers(9, 5).tolist()
+        trainset += Loader.generate_numbers(99, 50).tolist()
+        trainset += Loader.generate_numbers(999, 500).tolist()
+        trainset += Loader.generate_numbers(9999, 5000).tolist()
+        trainset += Loader.generate_numbers(99999, 500).tolist()
+
+        trainset = np.array(trainset)
+        trainset = trainset[np.random.permutation(trainset.shape[0])]
+        trainset.reshape(trainset.shape[0])
+
+        testset = list()
+        testset += Loader.generate_numbers(9, 2).tolist()
+        testset += Loader.generate_numbers(99, 20).tolist()
+        testset += Loader.generate_numbers(999, 200).tolist()
+        testset += Loader.generate_numbers(9999, 2000).tolist()
+        testset += Loader.generate_numbers(99999, 200).tolist()
+
+        testset = np.array(testset)
+        testset = testset[np.random.permutation(testset.shape[0])]
+        testset.reshape(testset.shape[0])
+
+        train_images = loader.generate_mixed_digit_data(trainset)
+        test_images = loader.generate_mixed_digit_data(testset)
+
+        ret = {"training": train_images, "testing": test_images}
+
+        Loader.saveAsPickle(ret,
+                            os.path.join(dest_folder,
+                                         pickle_prefix + "_mixed_set.pickle"))
+
+    ret = Loader.loadPickle(
+        os.path.join(dest_folder, pickle_prefix + "_mixed_set.pickle"))
+
+    return ret
 
 
 def main():
@@ -623,24 +700,31 @@ def main():
     mnist_loader.init_data()
     svhn_loader.init_data()
 
+    # print(
+    #     mnist_loader.label_to_onehot(
+    #         np.array([0, 1, 2, 3, 4, 5]).reshape(6, 1)))
+
     dl1 = mnist_loader.get_digit_data(0, "training")
-    mnist_loader.validate_data(dl1[0], dl1[1])
+    # mnist_loader.validate_data(dl1[0], dl1[1])
 
     dt1 = mnist_loader.get_digit_data(0, "testing")
-    mnist_loader.validate_data(dt1[0], dt1[1])
+    # mnist_loader.validate_data(dt1[0], dt1[1])
 
     dl2 = svhn_loader.get_digit_data(1, "training")
-    svhn_loader.validate_data(dl2[0], dl2[1])
+    # svhn_loader.validate_data(dl2[0], dl2[1])
 
     dt2 = svhn_loader.get_digit_data(1, "testing")
-    svhn_loader.validate_data(dt2[0], dt2[1])
+    # svhn_loader.validate_data(dt2[0], dt2[1])
 
-    mixed = mnist_loader.generate_mixed_digit_data([35, 123, 6664, 2234, 55434, 123456])
-    mnist_loader.validate_data(mixed[0], mixed[1], 64, 64)
+    mnist_mixed_set = generate_trainset_testset(mnist_loader, 'MIXED_data/',
+                                                'mnist')
+    svhn_mixed_set = generate_trainset_testset(svhn_loader, 'MIXED_data/',
+                                               'svhn')
 
-    mixed = svhn_loader.generate_mixed_digit_data([35, 123, 6664, 2234, 55434, 123456])
-    svhn_loader.validate_data(mixed[0], mixed[1], 64, 64)
-
+    mnist_loader.validate_data(mnist_mixed_set["training"][0],
+                               mnist_mixed_set["training"][1], 64, 64)
+    svhn_loader.validate_data(svhn_mixed_set["training"][0],
+                              svhn_mixed_set["training"][1], 64, 64)
 
     # mnist images serialization testcase
     # training_data_digits = list()
