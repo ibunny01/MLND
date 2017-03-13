@@ -1,0 +1,4 @@
+* Neural Networks
+** Deravatives of sigmoid
+[[file:Summaries/deravatives-of-sigmoid.jpg][deravatives of sigmoid]]
+
