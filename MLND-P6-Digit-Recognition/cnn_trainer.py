@@ -286,14 +286,23 @@ class CNNTrainer(Trainer):
                              self.tf_l2_beta: 16e-4,
                              self.tf_keep_prob: 0.5}
 
+                feed_accu ={self.tf_x: batch[0],
+                             self.tf_y_: batch[1],
+                             self.tf_learning_rate: 3.1e-4,
+                             self.tf_l2_beta: 16e-4,
+                             self.tf_keep_prob: 1.0}
+
                 feed_test = {self.tf_x: self.test_dataset[0],
                              self.tf_y_: self.test_dataset[4],
                              self.tf_learning_rate: 3.1e-4,
                              self.tf_l2_beta: 16e-4,
                              self.tf_keep_prob: 1.}
 
-                # Logging training
                 if not i % 100:
+                    print(".", end='')
+
+                # Logging training
+                if not i % 1000:
 
                     # Check batch images for the training
                     if False:
@@ -311,8 +320,9 @@ class CNNTrainer(Trainer):
                         plt.show()
 
                     _loss, _train_accuracy = sess.run([self.tf_loss, self.tf_accuracy],
-                                                      feed_dict=feed_test)
+                                                      feed_dict=feed_accu)
 
+                    print("")
                     print("step %d, loss : %g / training_accuracy: %g" %
                           (i, _loss, _train_accuracy))
 
