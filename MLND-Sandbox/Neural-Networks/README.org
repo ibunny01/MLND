@@ -1,4 +1,6 @@
+#+STARTUP: inlineimages
+
 * Neural Networks
 ** Deravatives of sigmoid
-[[file:Summaries/deravatives-of-sigmoid.jpg][deravatives of sigmoid]]
+   [[file:Summaries/deravatives-of-sigmoid.jpg]]
 
