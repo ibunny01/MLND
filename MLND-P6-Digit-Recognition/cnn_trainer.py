@@ -265,7 +265,7 @@ class MNISTTrainer(CNNTrainer):
 
             _log('. : 1 training epoch')
 
-            for epoch in range(400):
+            for epoch in range(200):
 
                 # Shuffling the train sets
                 indices = np.random.permutation(range(self.train_dataset[0].shape[0]))
@@ -288,7 +288,8 @@ class MNISTTrainer(CNNTrainer):
                             plt.subplot(1, 12, i+1)
                             plt.title(batch[2][i])
                             plt.imshow(batch[0][i,:,:].reshape(64, 64),
-                                       interpolation='nearest')
+                                       interpolation='nearest',
+                                       cmap='Grey')
                             plt.tight_layout()
 
                         plt.show()
@@ -533,7 +534,7 @@ class SVHNTrainer(CNNTrainer):
 
             _log('. : 1 training epoch')
 
-            for epoch in range(400):
+            for epoch in range(200):
 
                 # Shuffling the train sets
                 indices = np.random.permutation(range(self.train_dataset[0].shape[0]))
@@ -671,14 +672,6 @@ def train_for_mnist_synthetic():
     _log('input label data shape : ', end='')
     _log(trainer.train_dataset[1].shape)
 
-    # if _DEBUG:
-    # fig = plt.figure()
-    # fig.add_subplot(1, 1, 1)
-    # plt.imshow(trainer.train_dataset[0][0,:,:],
-    #                 interpolation='nearest',
-    #                 cmap='Greys')
-    # plt.show()
-
     _log('training...')
     trainer.set_model()
     trainer.train()
@@ -721,14 +714,6 @@ def train_for_svhn_synthetic():
     # To check label input
     _log('input label data shape : ', end='')
     _log(trainer.train_dataset[1].shape)
-
-    # if _DEBUG:
-    # fig = plt.figure()
-    # fig.add_subplot(1, 1, 1)
-    # plt.imshow(trainer.train_dataset[0][0,:,:],
-    #                 interpolation='nearest',
-    #                 cmap='Greys')
-    # plt.show()
 
     _log('training...')
     trainer.set_model()
