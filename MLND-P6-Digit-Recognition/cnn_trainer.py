@@ -292,7 +292,7 @@ class MNISTTrainer(CNNTrainer):
             self.tf_loss += tf.reduce_mean(softmax_d3)
             self.tf_loss += tf.reduce_mean(softmax_d4)
             self.tf_loss += tf.reduce_mean(softmax_d5)
-            self.tf_loss += tf.reduce_mean(softmax_d6)
+            # self.tf_loss += tf.reduce_mean(softmax_d6)
 
             tf.summary.scalar('loss', self.tf_loss)
 
@@ -317,29 +317,29 @@ class MNISTTrainer(CNNTrainer):
         with tf.Session() as sess:
             sess.run(tf.global_variables_initializer())
 
+            # generate tensorflow summary merged
+            merged = tf.summary.merge_all()
+            train_writer = tf.summary.FileWriter(self.summary_dirname, sess.graph)
+
+            # Batching data
+            batch_size = 50
+            train_size = self.train_dataset[0].shape[0]
+
+            # hyper-parameters
+            learning_rate = 3.1e-4
+            l2_beta = 16e-4
+            keep_prob = 0.5
+
+            feed_train = None
+            feed_accu = None
+            feed_test = None
+
             if for_training:
-                # generate tensorflow summary merged
-                merged = tf.summary.merge_all()
-                train_writer = tf.summary.FileWriter(self.summary_dirname, sess.graph)
-
-                # Batching data
-                batch_size = 50
-                train_size = self.train_dataset[0].shape[0]
-
-                # hyper-parameters
-                learning_rate = 3.1e-4
-                l2_beta = 16e-4
-                keep_prob = 0.5
-
                 _log('we\'re about to training using %d trainset...' % self.train_dataset[0].shape[0])
                 _log('trainset size : {:4d}'.format(train_size))
                 _log('batch    size : {:4d}'.format(batch_size))
 
                 _log('. : 1 training epoch')
-
-                feed_train = None
-                feed_accu = None
-                feed_test = None
 
                 for epoch in range(200):
 
@@ -382,12 +382,6 @@ class MNISTTrainer(CNNTrainer):
                                      self.tf_l2_beta: l2_beta,
                                      self.tf_keep_prob: 1.0}
 
-                        feed_test = {self.tf_x: self.test_dataset[0],
-                                     self.tf_y_: self.test_dataset[4],
-                                     self.tf_learning_rate: learning_rate,
-                                     self.tf_l2_beta: l2_beta,
-                                     self.tf_keep_prob: 1.0}
-
                         # Do training
                         self.tf_optimizer.run(feed_dict=feed_train)
 
@@ -408,7 +402,14 @@ class MNISTTrainer(CNNTrainer):
                         print("epoch {:4d} -> loss : {:05.2f} / training_accuracy: {:05.2f}".format(
                             epoch, _loss, _train_accuracy))
 
-            self.ckpt_saver.restore(self.ckpt_fname)
+            self.ckpt_saver.restore(sess, self.ckpt_fname)
+
+            feed_test = {self.tf_x: self.test_dataset[0],
+                         self.tf_y_: self.test_dataset[4],
+                         self.tf_learning_rate: learning_rate,
+                         self.tf_l2_beta: l2_beta,
+                         self.tf_keep_prob: 1.0}
+
             print('testing accuracy {:05.2f}'.format(self.tf_accuracy.eval(feed_dict=feed_test)))
         return
 
@@ -440,7 +441,7 @@ class SVHNTrainer(CNNTrainer):
 
     seed = 42
 
-    def __init__(self, image_shape=[None, 32, 32, 3], label_shape=[None, 10]):
+    def __init__(self, image_shape=[None, 32, 32, 3], label_shape=[None, 10], train_name=None):
 
         # set image, label shape
         self.image_shape = image_shape
@@ -519,7 +520,7 @@ class SVHNTrainer(CNNTrainer):
         param_lst += [w_fc2_len, w_fc2_d1, w_fc2_d2, w_fc2_d3, w_fc2_d4, w_fc2_d5, w_fc2_d6, ]
         param_lst += [b_fc2_len, b_fc2_d1, b_fc2_d2, b_fc2_d3, b_fc2_d4, b_fc2_d5, b_fc2_d6, ]
 
-        saver = tf.train.Saver(param_lst)
+        self.ckpt_saver = tf.train.Saver(param_lst)
 
         # convolution layer
         with tf.name_scope('hidden_layer1') as hl_scope1:
@@ -599,7 +600,7 @@ class SVHNTrainer(CNNTrainer):
             self.tf_loss += tf.reduce_mean(softmax_d3)
             self.tf_loss += tf.reduce_mean(softmax_d4)
             self.tf_loss += tf.reduce_mean(softmax_d5)
-            self.tf_loss += tf.reduce_mean(softmax_d6)
+            # self.tf_loss += tf.reduce_mean(softmax_d6)
 
             tf.summary.scalar('loss', self.tf_loss)
 
@@ -624,19 +625,23 @@ class SVHNTrainer(CNNTrainer):
         with tf.Session() as sess:
             sess.run(tf.global_variables_initializer())
 
+            # Batching data
+            batch_size = 50
+            train_size = self.train_dataset[0].shape[0]
+
+            # hyper-parameters
+            learning_rate = 3.1e-4
+            l2_beta = 16e-4
+            keep_prob = 0.5
+
+            feed_train = None
+            feed_accu = None
+            feed_test = None
+
             if for_training:
                 # generate tensorflow summary merged
                 merged = tf.summary.merge_all()
                 train_writer = tf.summary.FileWriter(self.summary_dirname, sess.graph)
-
-                # Batching data
-                batch_size = 50
-                train_size = self.train_dataset[0].shape[0]
-
-                # hyper-parameters
-                learning_rate = 3.1e-4
-                l2_beta = 16e-4
-                keep_prob = 0.5
 
                 _log('we\'re about to training using %d trainset...' % self.train_dataset[0].shape[0])
                 _log('trainset size : {:4d}'.format(train_size))
@@ -644,11 +649,7 @@ class SVHNTrainer(CNNTrainer):
 
                 _log('. : 1 training epoch')
 
-                feed_train = None
-                feed_accu = None
-                feed_test = None
-
-                for epoch in range(200):
+                for epoch in range(450):
 
                     # Shuffling the train sets
                     indices = np.random.permutation(range(self.train_dataset[0].shape[0]))
@@ -688,20 +689,17 @@ class SVHNTrainer(CNNTrainer):
                                      self.tf_l2_beta: l2_beta,
                                      self.tf_keep_prob: 1.0}
 
-                        feed_test = {self.tf_x: self.test_dataset[0],
-                                     self.tf_y_: self.test_dataset[4],
-                                     self.tf_learning_rate: learning_rate,
-                                     self.tf_l2_beta: l2_beta,
-                                     self.tf_keep_prob: 1.0}
-
                         # Do training
                         self.tf_optimizer.run(feed_dict=feed_train)
-                        self.ckpt_saver.save(sess, self.ckpt_fname)
 
                     # tensorflow logging for tensorboard
                     _summaries = sess.run(merged, feed_dict=feed_train)
                     train_writer.add_summary(_summaries, epoch)
 
+                    # save model weights and biases
+                    self.ckpt_saver.save(sess, self.ckpt_fname)
+
+                    # logging loss and accuracy
                     print(".", end='')
                     if not epoch % 20:
                         _loss, _train_accuracy = sess.run([self.tf_loss, self.tf_accuracy],
@@ -711,7 +709,14 @@ class SVHNTrainer(CNNTrainer):
                         print("epoch {:4d} -> loss : {:05.2f} / training_accuracy: {:05.2f}".format(
                             epoch, _loss, _train_accuracy))
 
-            self.ckpt_saver.restore(self.ckpt_fname)
+            self.ckpt_saver.restore(sess, self.ckpt_fname)
+
+            feed_test = {self.tf_x: self.test_dataset[0],
+                         self.tf_y_: self.test_dataset[4],
+                         self.tf_learning_rate: learning_rate,
+                         self.tf_l2_beta: l2_beta,
+                         self.tf_keep_prob: 1.0}
+
             print('testing accuracy {:05.2f}'.format(self.tf_accuracy.eval(feed_dict=feed_test)))
         return
 
@@ -789,10 +794,10 @@ def train_for_mnist_synthetic():
 
     _log('training...')
     trainer.set_model()
-    trainer.train()
+    trainer.train(for_training=False)
 
 def train_for_svhn_synthetic():
-    loader = SVHNLoader('svhn_synthetic')
+    loader = SVHNLoader()
     loader.init_data()
 
     trainer = SVHNTrainer([None, 64, 64, 3], [None, 70], train_name='svhn_synthetic')
@@ -827,12 +832,12 @@ def train_for_svhn_synthetic():
 
     _log('training...')
     trainer.set_model()
-    trainer.train()
+    trainer.train(for_training=False)
 
 def main():
     # train_for_mnist_normal()
-    train_for_mnist_synthetic()
-    # train_for_svhn_synthetic()
+    # train_for_mnist_synthetic()
+    train_for_svhn_synthetic()
 
     gc.collect()
 
