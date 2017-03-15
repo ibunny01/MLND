@@ -3,6 +3,8 @@ MNIST_data/*.pickle
 MNIST_data/*ubyte
 SVHN_data/*.gz
 SVHN_data/*.mat
+ckpt/*
+summary/*
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
