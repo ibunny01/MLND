@@ -3,6 +3,7 @@ MNIST_data/*.pickle
 MNIST_data/*ubyte
 SVHN_data/*.gz
 SVHN_data/*.mat
+KR_data/*
 ckpt/*
 summary/*
 
