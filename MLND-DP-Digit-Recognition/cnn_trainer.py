@@ -6,8 +6,8 @@ import os
 
 import matplotlib.pyplot as plt
 import numpy as np
-import tensorflow as tf
 
+import tensorflow as tf
 from data_loader import MNISTLoader, SVHNLoader
 from image_process import ImageProcess
 
@@ -308,13 +308,13 @@ class MNISTTrainer(CNNTrainer):
         # accuracy calculation
         with tf.name_scope('accuracy_calculation') as acc_scope:
             pred_combined = tf.stack([pred_len, pred_d1, pred_d2, pred_d3, pred_d4, pred_d5, pred_d6], axis=1)
-            predict = tf.reshape(pred_combined, (-1, 70))
+            predict = tf.reshape(pred_combined, (-1, 7, 10))
             is_correct_pred = tf.equal(
-                tf.argmax(predict, 1), tf.argmax(tf.reshape(self.tf_y_, (-1,7,10)), 1))
+                tf.argmax(predict, 2), tf.argmax(tf.reshape(self.tf_y_, (-1,7,10)), 2))
             self.tf_accuracy = tf.reduce_mean(tf.cast(is_correct_pred, tf.float32))
             tf.summary.scalar('accuracy', self.tf_accuracy)
 
-            self.pred_value = predict
+            self.pred_value = tf.argmax(predict, 2)
 
 
     def train(self, for_training=True):
@@ -419,6 +419,31 @@ class MNISTTrainer(CNNTrainer):
 
             print('testing accuracy {:05.2f}'.format(self.tf_accuracy.eval(feed_dict=feed_test)))
         return
+
+    def predict(self, test_dataset):
+        if not self.is_model_initialized:
+            raise AssertionError('you must initilize model using set_model function')
+
+        label = np.zeros(test_dataset.shape[0] * 70).reshape(-1, 70)
+        pred = None
+
+        with tf.Session() as sess:
+            self.ckpt_saver.restore(sess, self.ckpt_fname)
+
+            # hyper-parameters
+            learning_rate = 3.1e-4
+            l2_beta = 16e-4
+
+            feed_test = {self.tf_x: test_dataset,
+                         self.tf_y_: label,
+                         self.tf_learning_rate: learning_rate,
+                         self.tf_l2_beta: l2_beta,
+                         self.tf_keep_prob: 1.0}
+
+            pred = sess.run(self.pred_value,
+                            feed_dict=feed_test)
+
+        return pred
 
 
 class SVHNTrainer(CNNTrainer):
@@ -720,6 +745,9 @@ class SVHNTrainer(CNNTrainer):
                         print("epoch {:4d} -> loss : {:05.2f} / training_accuracy: {:05.2f}".format(
                             epoch, _loss, _train_accuracy))
 
+                        if _loss < 5. and _train_accuracy > 0.8:
+                            break 
+
             self.ckpt_saver.restore(sess, self.ckpt_fname)
 
             feed_test = {self.tf_x: self.test_dataset[0],
@@ -783,14 +811,6 @@ def train_for_mnist_normal():
     _log('input label data shape : ', end='')
     _log(trainer.train_dataset[1].shape)
 
-    # if _DEBUG:
-    # fig = plt.figure()
-    # fig.add_subplot(1, 1, 1)
-    # plt.imshow(trainer.train_dataset[0][0,:,:],
-    #                 interpolation='nearest',
-    #                 cmap='Greys')
-    # plt.show()
-
     _log('training...')
     trainer.set_model()
     trainer.train()
@@ -832,7 +852,7 @@ def train_for_mnist_synthetic():
 
     _log('training...')
     trainer.set_model()
-    trainer.train(for_training=False)
+    trainer.train(for_training=True)
 
 
 def train_for_svhn_synthetic():
@@ -871,7 +891,12 @@ def train_for_svhn_synthetic():
 
     _log('training...')
     trainer.set_model()
-    trainer.train(for_training=False)
+    trainer.train(for_training=True)
+
+
+def predict_real_image_using_svhn():
+    trainer = SVHNTrainer([None, 64, 64, 3], [None, 70], train_name='svhn_synthetic')
+    _log('data loading...', end='\r\n')
 
     _log('testring for real dataset...')
     fname_list = [
@@ -884,14 +909,18 @@ def train_for_svhn_synthetic():
 
     ip = ImageProcess()
     img = np.array([ip.processImage(fname) for fname in fname_list])
+
+    _log('predict...')
+    trainer.set_model()
     print(trainer.predict(img))
 
 
 def main():
     # train_for_mnist_normal()
-    # train_for_mnist_synthetic()
-    train_for_svhn_synthetic()
-
+    train_for_mnist_synthetic()
+    # train_for_svhn_synthetic()
+    # predict_real_image_using_svhn()
+    
     gc.collect()
 
 if __name__ == '__main__':

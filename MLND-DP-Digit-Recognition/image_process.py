@@ -28,15 +28,15 @@ class ImageProcess(object):
         self.cap.release()
         cv2.destroyAllWindows()
 
-    def processVideo(self, toGray=False):
+    def processVideo(self, toGray=False, toShape=[64., 64.]):
         ret, frame = self.cap.read()
 
         if toGray:
             frame = cv2.cvtColor(frame,
                                 cv2.COLOR_BGR2GRAY)
 
-        h_sf = 64. / gray.shape[0]
-        w_sf = 64. / gray.shape[1]
+        h_sf = toShape[0] / img.shape[0]
+        w_sf = toShape[1] / img.shape[1]
         frame_rescaled = cv2.resize(frame,
                                    None,
                                    fx=w_sf,
@@ -52,7 +52,7 @@ class ImageProcess(object):
         return frame_rescaled
 
 
-    def processImage(self, fname, toGray=False):
+    def processImage(self, fname, toGray=False, toShape = [64., 64.]):
 
         _log("%s is loading..." % fname)
         # Load an color image
@@ -63,8 +63,8 @@ class ImageProcess(object):
             img = cv2.cvtColor(img,
                                 cv2.COLOR_BGR2GRAY)
 
-        h_sf = 64. / img.shape[0]
-        w_sf = 64. / img.shape[1]
+        h_sf = toShape[0] / img.shape[0]
+        w_sf = toShape[1] / img.shape[1]
         img_scaled = cv2.resize(img,
                                  None,
                                  fx=w_sf,
