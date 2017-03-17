@@ -119,6 +119,12 @@ class Loader(object):
 
         return label_1hot
 
+    @staticmethod
+    def onehot_to_label(encoded):
+        return np.array([np.where(e == 1)[0]
+                         for e in np.rollaxis(encoded,0)]).reshape([-1])
+
+
     def init_data(self):
         raise NotImplementedError('Should have implemented this')
 
@@ -744,7 +750,7 @@ class MNISTLoader(Loader):
         return (images, values, digits, lengths)
 
 
-def main():
+def testcase_for_loader():
     mnist_loader = MNISTLoader()
     svhn_loader = SVHNLoader()
 
@@ -753,10 +759,6 @@ def main():
 
     mnist_loader.init_data()
     svhn_loader.init_data()
-
-    # print(
-    #     mnist_loader.label_to_onehot(
-    #         np.array([0, 1, 2, 3, 4, 5]).reshape(6, 1)))
 
     dl1 = mnist_loader.get_digit_data(0, "training")
     # mnist_loader.validate_data(dl1[0], dl1[1])
@@ -778,6 +780,34 @@ def main():
     svhn_loader.validate_data(svhn_mixed_set[0],
                               svhn_mixed_set[1], 64, 64)
 
+    # cross validation testcase
+    for i in range(0, 10):
+        da = Loader.loadPickle(
+            os.path.join(mnist_loader.dest_folder, "mnist_training_digit_" +
+                         str(i) + ".pickle"))
+        # mnist_loader.validate_data(da)
+
+        train_dt, train_lb, valid_dt, valid_lb = Loader.split_validation(
+            dl1[0], dl1[1])
+
+        print('train_dt size : %d' % train_dt.shape[0])
+        print('train_lb size : %d' % train_lb.shape[0])
+        print('valid_dt size : %d' % valid_dt.shape[0])
+        print('valid_lb size : %d' % valid_lb.shape[0])
+
+
+def main():
+    # testcase_for_loader()
+
+    encoded = Loader.label_to_onehot(
+            np.array([0, 1, 2, 3, 4, 5]).reshape(6, 1))
+
+    print(encoded)
+
+    decoded = Loader.onehot_to_label(encoded)
+
+    print(decoded)
+
     # mnist images serialization testcase
     # training_data_digits = list()
     # for i in range(10):
@@ -798,21 +828,6 @@ def main():
     #         os.path.join(mnist_loader.dest_folder,
     #                      "mnist_training_digit_" + str(i) + ".pickle"))
     #     training_data_digits.append(d)
-
-    # cross validation testcase
-    for i in range(0, 10):
-        da = Loader.loadPickle(
-            os.path.join(mnist_loader.dest_folder, "mnist_training_digit_" +
-                         str(i) + ".pickle"))
-        # mnist_loader.validate_data(da)
-
-        train_dt, train_lb, valid_dt, valid_lb = Loader.split_validation(
-            dl1[0], dl1[1])
-
-        print('train_dt size : %d' % train_dt.shape[0])
-        print('train_lb size : %d' % train_lb.shape[0])
-        print('valid_dt size : %d' % valid_dt.shape[0])
-        print('valid_lb size : %d' % valid_lb.shape[0])
 
     # serialize svhn images into pickle format
     # for i in range(10):

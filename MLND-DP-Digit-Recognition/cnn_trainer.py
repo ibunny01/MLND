@@ -2,26 +2,29 @@ from __future__ import print_function
 
 import gc
 import math
+import os
 
 import matplotlib.pyplot as plt
 import numpy as np
-from PIL import Image
-
 import tensorflow as tf
+
 from data_loader import MNISTLoader, SVHNLoader
+from image_process import ImageProcess
 
 _DEBUG = True
+
 
 def _log(message, end='\r\n'):
     if _DEBUG:
         print(message, end=end)
 
+
 class CNNTrainer:
 
-    train_name='convolution_neural_networks_train'
-    summary_dirname=None
-    ckpt_saver=None
-    ckpt_fname=None
+    train_name = 'convolution_neural_networks_train'
+    summary_dirname = None
+    ckpt_saver = None
+    ckpt_fname = None
 
     def __init__(self):
 
@@ -105,6 +108,7 @@ class CNNTrainer:
     #         layer = tf.nn.relu(layer)
     #     return weights, biases, layer
 
+
 class MNISTTrainer(CNNTrainer):
 
     tf_x = None
@@ -132,6 +136,7 @@ class MNISTTrainer(CNNTrainer):
     tf_debug4 = None
 
     seed = 42
+    pred_value = None
 
     def __init__(self, image_shape=[None, 32, 32, 3], label_shape=[None, 10], train_name=None):
 
@@ -305,9 +310,11 @@ class MNISTTrainer(CNNTrainer):
             pred_combined = tf.stack([pred_len, pred_d1, pred_d2, pred_d3, pred_d4, pred_d5, pred_d6], axis=1)
             predict = tf.reshape(pred_combined, (-1, 70))
             is_correct_pred = tf.equal(
-                tf.argmax(predict, 1), tf.argmax(self.tf_y_, 1))
+                tf.argmax(predict, 1), tf.argmax(tf.reshape(self.tf_y_, (-1,7,10)), 1))
             self.tf_accuracy = tf.reduce_mean(tf.cast(is_correct_pred, tf.float32))
             tf.summary.scalar('accuracy', self.tf_accuracy)
+
+            self.pred_value = predict
 
 
     def train(self, for_training=True):
@@ -440,6 +447,8 @@ class SVHNTrainer(CNNTrainer):
     tf_debug4 = None
 
     seed = 42
+    pred_value = None
+
 
     def __init__(self, image_shape=[None, 32, 32, 3], label_shape=[None, 10], train_name=None):
 
@@ -611,11 +620,13 @@ class SVHNTrainer(CNNTrainer):
         # accuracy calculation
         with tf.name_scope('accuracy_calculation') as acc_scope:
             pred_combined = tf.stack([pred_len, pred_d1, pred_d2, pred_d3, pred_d4, pred_d5, pred_d6], axis=1)
-            predict = tf.reshape(pred_combined, (-1, 70))
+            predict = tf.reshape(pred_combined, (-1, 7, 10))
             is_correct_pred = tf.equal(
-                tf.argmax(predict, 1), tf.argmax(self.tf_y_, 1))
+                tf.argmax(predict, 2), tf.argmax(tf.reshape(self.tf_y_, (-1,7,10)), 2))
             self.tf_accuracy = tf.reduce_mean(tf.cast(is_correct_pred, tf.float32))
             tf.summary.scalar('accuracy', self.tf_accuracy)
+
+            self.pred_value = tf.argmax(predict, 2)
 
 
     def train(self, for_training=True):
@@ -721,6 +732,32 @@ class SVHNTrainer(CNNTrainer):
         return
 
 
+    def predict(self, test_dataset):
+        if not self.is_model_initialized:
+            raise AssertionError('you must initilize model using set_model function')
+
+        label = np.zeros(test_dataset.shape[0] * 70).reshape(-1, 70)
+        pred = None
+
+        with tf.Session() as sess:
+            self.ckpt_saver.restore(sess, self.ckpt_fname)
+
+            # hyper-parameters
+            learning_rate = 3.1e-4
+            l2_beta = 16e-4
+
+            feed_test = {self.tf_x: test_dataset,
+                         self.tf_y_: label,
+                         self.tf_learning_rate: learning_rate,
+                         self.tf_l2_beta: l2_beta,
+                         self.tf_keep_prob: 1.0}
+
+            pred = sess.run(self.pred_value,
+                            feed_dict=feed_test)
+
+        return pred
+
+
 def train_for_mnist_normal():
     loader = MNISTLoader('mnist')
     loader.init_data()
@@ -757,6 +794,7 @@ def train_for_mnist_normal():
     _log('training...')
     trainer.set_model()
     trainer.train()
+
 
 def train_for_mnist_synthetic():
     loader = MNISTLoader()
@@ -796,6 +834,7 @@ def train_for_mnist_synthetic():
     trainer.set_model()
     trainer.train(for_training=False)
 
+
 def train_for_svhn_synthetic():
     loader = SVHNLoader()
     loader.init_data()
@@ -833,6 +872,20 @@ def train_for_svhn_synthetic():
     _log('training...')
     trainer.set_model()
     trainer.train(for_training=False)
+
+    _log('testring for real dataset...')
+    fname_list = [
+        os.path.join('./KR_data', 'IMG_20170315_201204260.jpg'),
+        os.path.join('./KR_data', 'IMG_20170315_201212453.jpg'),
+        os.path.join('./KR_data', 'IMG_20170315_201232407_BURST000_COVER_TOP.jpg'),
+        os.path.join('./KR_data', 'IMG_20170315_201232407_BURST001.jpg'),
+        os.path.join('./KR_data', 'IMG_20170315_203000566.jpg'),
+    ]
+
+    ip = ImageProcess()
+    img = np.array([ip.processImage(fname) for fname in fname_list])
+    print(trainer.predict(img))
+
 
 def main():
     # train_for_mnist_normal()

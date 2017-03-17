@@ -28,54 +28,64 @@ class ImageProcess(object):
         self.cap.release()
         cv2.destroyAllWindows()
 
-    def processVideo(self):
-        while(True):
-            ret, frame = self.cap.read()
+    def processVideo(self, toGray=False):
+        ret, frame = self.cap.read()
 
-            gray = cv2.cvtColor(frame,
+        if toGray:
+            frame = cv2.cvtColor(frame,
                                 cv2.COLOR_BGR2GRAY)
 
-            h_sf = 64. / gray.shape[0]
-            w_sf = 64. / gray.shape[1]
-            gray_rescaled = cv2.resize(gray,
-                                       None,
-                                       fx=w_sf,
-                                       fy=h_sf,
-                                       interpolation=cv2.INTER_CUBIC)
+        h_sf = 64. / gray.shape[0]
+        w_sf = 64. / gray.shape[1]
+        frame_rescaled = cv2.resize(frame,
+                                   None,
+                                   fx=w_sf,
+                                   fy=h_sf,
+                                   interpolation=cv2.INTER_CUBIC)
 
+        if False:
             cv2.imshow('frame',
-                       gray_rescaled)
+                       frame_rescaled)
 
-            if cv2.waitKey(1) & 0xFF == ord('q'):
-                break
+            cv2.waitKey(0)
 
-    def processImage(self, fname):
+        return frame_rescaled
+
+
+    def processImage(self, fname, toGray=False):
 
         _log("%s is loading..." % fname)
         # Load an color image
         img = cv2.imread(fname, 1)
-        # Convert color image to grayscale
-        gray = cv2.cvtColor(img,
-                            cv2.COLOR_BGR2GRAY)
 
-        h_sf = 64. / gray.shape[0]
-        w_sf = 64. / gray.shape[1]
-        gray_scaled = cv2.resize(gray,
+        # Convert color image to grayscale
+        if toGray:
+            img = cv2.cvtColor(img,
+                                cv2.COLOR_BGR2GRAY)
+
+        h_sf = 64. / img.shape[0]
+        w_sf = 64. / img.shape[1]
+        img_scaled = cv2.resize(img,
                                  None,
                                  fx=w_sf,
                                  fy=h_sf,
                                  interpolation=cv2.INTER_CUBIC)
 
-        cv2.imshow('frame',
-                   gray_scaled)
+        if False:
+            cv2.imshow('frame',
+                       img_scaled)
 
-        cv2.waitKey(0)
+            cv2.waitKey(0)
+
+        return img_scaled
 
 
 def main():
     ip = ImageProcess()
     # ip.captureVideo()
-    ip.processImage(os.path.join('./KR_data/','IMG_20170315_201204260.jpg'))
+    img = ip.processImage(os.path.join('./KR_data/','IMG_20170315_201204260.jpg'))
+
+    print(img.shape)
 
 
 if __name__ == '__main__':

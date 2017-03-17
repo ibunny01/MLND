@@ -35,11 +35,15 @@
 - Technologies used: Numpy, Pandas, Q-Function
 [[file:MLND-P5-SmartCab][Assignments Results Github]]
 
+*** Image Classification
+- 
+[[file:MLND-P6-Image-Recognition/][Assignments Results Github]]
+
 *** Digit Recognition
 - Convolution Neural Network is used to project a project that recognizes five consecutive numbers. (Data using MNIST)
 - Since there was no data set of consecutive images, the training set was constructed using the existing MNIST and SVHN datasets. And by learning this set, I was able to recognize a reasonable level of data.
 - Technologies used: Tensorflow, Scipy, Numpy, Convolution Neural Network, Maxpooling, ReLu, L2 Regularizer
-[[file:MLND-P6-Digit-Recognition][Assignments Results Github]]
+[[file:MLND-DP-Digit-Recognition][Assignments Results Github]]
 
 ** SANDBOX
 - Practice Code regardind Machine Learning
