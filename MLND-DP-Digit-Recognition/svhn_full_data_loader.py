@@ -153,7 +153,7 @@ class Loader(object):
         else:
             return self.testing_data_digits[digit]
 
-    def get_mixed_data(self, dataset="training", grayscaled=False):
+    def get_mixed_data(self, dataset="training"):
 
         if not os.path.exists(self.dest_folder):
             os.makedirs(self.dest_folder)
@@ -173,7 +173,7 @@ class Loader(object):
             trainset_lbl = trainset_lbl[np.random.permutation(trainset_lbl.shape[0])]
             trainset_lbl.reshape(trainset_lbl.shape[0])
 
-            trainset_data = self.generate_mixed_digit_data(trainset_lbl, grayscaled=grayscaled)
+            trainset_data = self.generate_mixed_digit_data(trainset_lbl)
             self.training_mixed_data = trainset_data
 
             Loader.saveAsPickle(self.training_mixed_data,
@@ -198,7 +198,7 @@ class Loader(object):
             testset_lbl = testset_lbl[np.random.permutation(testset_lbl.shape[0])]
             testset_lbl.reshape(testset_lbl.shape[0])
 
-            testset_data = self.generate_mixed_digit_data(testset_lbl, grayscaled=grayscaled)
+            testset_data = self.generate_mixed_digit_data(testset_lbl)
             self.testing_mixed_data = testset_data
 
             Loader.saveAsPickle(self.testing_mixed_data,
@@ -214,12 +214,12 @@ class Loader(object):
             return self.testing_mixed_data
 
 
-class SVHNLoader(Loader):
+class SVHNFullLoader(Loader):
 
     def __init__(self):
 
-        self.pickle_prefix = 'svhn'
-        self.dest_folder = 'SVHN_data/'
+        self.pickle_prefix = 'svhn_full'
+        self.dest_folder = 'SVHN_full_data/'
         self.base_url = 'http://ufldl.stanford.edu/housenumbers/'
 
         self.image_width = 32
@@ -291,11 +291,11 @@ class SVHNLoader(Loader):
 
     def download_data(self):
         svhn_train_images = Loader.maybe_download(
-            self.base_url, self.dest_folder, 'train_32x32.mat', 182040794)
+            self.base_url, self.dest_folder, 'train.tar.gz', 404141560)
         svhn_test_images = Loader.maybe_download(
-            self.base_url, self.dest_folder, 'test_32x32.mat', 64275384)
+            self.base_url, self.dest_folder, 'test.tar.gz', 276555967)
         svhn_extra_images = Loader.maybe_download(
-            self.base_url, self.dest_folder, 'extra_32x32.mat', 1329278602)
+            self.base_url, self.dest_folder, 'extra.tar.gz', 1955489752)
 
     def load_data(self, dataset='training', digits=None):
         files = {'training': 'train_32x32.mat', 'testing': 'test_32x32.mat'}
@@ -359,7 +359,7 @@ class SVHNLoader(Loader):
             for i, idx in enumerate(indices):
                 plt.subplot(1, valid_size, i + 1)
                 plt.title(img_labels[idx])
-                plt.imshow(img_data[idx], interpolation='nearest', cmap='Greys')
+                plt.imshow(img_data[idx], interpolation='nearest')
                 plt.tight_layout()
 
             plt.show()
@@ -379,11 +379,9 @@ class SVHNLoader(Loader):
                                   numbers,
                                   scale=1,
                                   max_length=6,
-                                  dims=(64, 64),
-                                  grayscaled=False):
+                                  dims=(64, 64)):
 
-        target_channel = 1 if grayscaled else self.image_channel
-        images = np.ones([len(numbers), dims[0], dims[1], target_channel])
+        images = np.ones([len(numbers), dims[0], dims[1], self.image_channel])
         values = np.zeros(len(numbers)).astype(int)
         lengths = np.zeros([
             len(numbers),
@@ -423,37 +421,29 @@ class SVHNLoader(Loader):
             top = np.random.randint(0, max_top) if max_top > 0 else 0
             left = np.random.randint(0, max_left) if max_left > 0 else 0
 
-            # if grayscaled parameter has been activated, num_images will be
-            # dot-producted
-            if grayscaled:
-                num_images = np.dot(num_images[:,:,:], [0.299, 0.587, 0.114])
-                num_images = num_images.reshape(num_images.shape[0], num_images.shape[1], 1)
-
             images[i, top:top + num_images.shape[0], left:left +
-                       num_images.shape[1], 0:target_channel] = num_images
+                   num_images.shape[1], 0:self.image_channel] = num_images
 
-        if grayscaled:
-            images = images.reshape(images.shape[0], images.shape[1], images.shape[2])
         return (images, values, digits, lengths)
 
 
 def testcase_for_loader():
-    svhn_loader = SVHNLoader()
-    svhn_loader.download_data()
-    svhn_loader.init_data()
+    svhn_full_loader = SVHNFullLoader()
+    svhn_full_loader.download_data()
+    svhn_full_loader.init_data()
 
-    dl = svhn_loader.get_digit_data(1, "training")
-    dt = svhn_loader.get_digit_data(1, "testing")
+    dl = svhn_full_loader.get_digit_data(1, "training")
+    dt = svhn_full_loader.get_digit_data(1, "testing")
 
-    svhn_mixed_set = svhn_loader.get_mixed_data(grayscaled=True)
+    svhn_mixed_set = svhn_full_loader.get_mixed_data()
 
-    svhn_loader.validate_data(svhn_mixed_set[0],
+    svhn_full_loader.validate_data(svhn_mixed_set[0],
                               svhn_mixed_set[1], 64, 64)
 
     # cross validation testcase
     for i in range(0, 10):
         da = Loader.loadPickle(
-            os.path.join(svhn_loader.dest_folder, "svhn_training_digit_" +
+            os.path.join(svhn_full_loader.dest_folder, "svhn_training_digit_" +
                          str(i) + ".pickle"))
         # mnist_loader.validate_data(da)
 
@@ -469,9 +459,9 @@ def testcase_for_loader():
 def main():
     testcase_for_loader()
 
-    # svhn_loader = SVHNLoader()
-    # svhn_loader.download_data()
-    # svhn_loader.init_data()
+    # svhn_full_loader = SVHNLoader()
+    # svhn_full_loader.download_data()
+    # svhn_full_loader.init_data()
 
     # encoded = Loader.label_to_onehot(
     #         np.array([0, 1, 2, 3, 4, 5]).reshape(6, 1))
@@ -485,19 +475,19 @@ def main():
     # # serialize svhn images into pickle format
     # for i in range(10):
 
-    #     d = svhn_loader.load_data('training', digits=i)
+    #     d = svhn_full_loader.load_data('training', digits=i)
 
     #     Loader.saveAsPickle(
     #         d,
-    #         os.path.join(svhn_loader.dest_folder,
+    #         os.path.join(svhn_full_loader.dest_folder,
     #                      "svhn_training_digit_" + str(i) + ".pickle"))
 
     # for i in range(0, 10):
 
     #     da = Loader.loadPickle(
-    #         os.path.join(svhn_loader.dest_folder, "svhn_training_digit_" + str(
+    #         os.path.join(svhn_full_loader.dest_folder, "svhn_training_digit_" + str(
     #             i) + ".pickle"))
-    #     # svhn_loader.validate_data(da)
+    #     # svhn_full_loader.validate_data(da)
 
 
 if __name__ == '__main__':

@@ -170,7 +170,7 @@ class SVHNTrainer(CNNTrainer):
         x_input = tf.reshape(self.tf_x, [-1] + self.image_shape[1:4])
 
         # convolution vector definition
-        w_conv1 = self.weight_variable([5, 5, 3, 16], name='conv1')
+        w_conv1 = self.weight_variable([5, 5, 1, 16], name='conv1')
         b_conv1 = self.bias_variable([16], name='conv1')
 
         w_conv2 = self.weight_variable([5, 5, 16, 32], name='conv2')
@@ -456,7 +456,7 @@ def train_for_svhn_synthetic():
     loader = SVHNLoader()
     loader.init_data()
 
-    trainer = SVHNTrainer([None, 64, 64, 3], [None, 70], train_name='svhn_synthetic')
+    trainer = SVHNTrainer([None, 64, 64, 1], [None, 70], train_name='svhn_synthetic')
 
     _log('data loading...', end='\r\n')
 
@@ -492,7 +492,7 @@ def train_for_svhn_synthetic():
 
 
 def predict_real_image_using_svhn():
-    trainer = SVHNTrainer([None, 64, 64, 3], [None, 70], train_name='svhn_synthetic')
+    trainer = SVHNTrainer([None, 64, 64, 1], [None, 70], train_name='svhn_synthetic')
     _log('data loading...', end='\r\n')
 
     _log('testring for real dataset...')
@@ -505,7 +505,7 @@ def predict_real_image_using_svhn():
     ]
 
     ip = ImageProcess()
-    img = np.array([ip.processImage(fname) for fname in fname_list])
+    img = np.array([ip.processImage(fname, toGray=True) for fname in fname_list])
 
     trainer.set_model()
     print(trainer.predict(img))

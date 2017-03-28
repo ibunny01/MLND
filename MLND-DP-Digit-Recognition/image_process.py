@@ -1,6 +1,7 @@
 import os.path
 
 import numpy as np
+from matplotlib import pyplot as plt
 
 import cv2
 
@@ -83,8 +84,10 @@ class ImageProcess(object):
 def main():
     ip = ImageProcess()
     # ip.captureVideo()
-    img = ip.processImage(os.path.join('./KR_data/','IMG_20170315_201204260.jpg'))
+    img = ip.processImage(os.path.join('./KR_data/','IMG_20170315_201204260.jpg'), toGray=True)
 
+    plt.imshow(img, interpolation='nearest', cmap='Greys')
+    plt.show()
     print(img.shape)
 
 
