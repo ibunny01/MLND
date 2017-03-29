@@ -1,9 +1,8 @@
 import os.path
 
+import cv2
 import numpy as np
 from matplotlib import pyplot as plt
-
-import cv2
 
 _DEBUG = True
 
@@ -29,62 +28,80 @@ class ImageProcess(object):
         self.cap.release()
         cv2.destroyAllWindows()
 
-    def processVideo(self, toGray=False, toShape=[64., 64.]):
-        ret, frame = self.cap.read()
+    def __postProcess(self,
+                      frame,
+                      toGray=False,
+                      toShape=[64., 64.],
+                      rects=list(),
+                      updateRects=False):
+
+        drawRectangle = False
+
+        # Convert color image to grayscale
+        h_sf = toShape[0] / frame.shape[0]
+        w_sf = toShape[1] / frame.shape[1]
+        frame_scaled = cv2.resize(
+            frame, None, fx=w_sf, fy=h_sf, interpolation=cv2.INTER_CUBIC)
+
+        for r in rects:
+
+            for k, v in r.items():
+                r[k] = int(v)
+
+            if drawRectangle:
+                p1 = tuple(int(p) for p in (r['left'] * w_sf, r['top'] * h_sf, ))
+                p2 = tuple(
+                    int(p)
+                    for p in (p1[0] + r['width'] * w_sf, p1[1] + r['height'] * h_sf))
+
+                line_rgb = (255, 0, 0)
+                line_type = 1
+                cv2.rectangle(frame_scaled, p1, p2, line_rgb, line_type)
+
+            if updateRects:
+                idx = rects.index(r)
+                rects[idx]['left'] *= w_sf
+                rects[idx]['top'] *= h_sf
+                rects[idx]['width'] *= w_sf
+                rects[idx]['height'] *= h_sf
 
         if toGray:
-            frame = cv2.cvtColor(frame,
-                                cv2.COLOR_BGR2GRAY)
-
-        h_sf = toShape[0] / img.shape[0]
-        w_sf = toShape[1] / img.shape[1]
-        frame_rescaled = cv2.resize(frame,
-                                   None,
-                                   fx=w_sf,
-                                   fy=h_sf,
-                                   interpolation=cv2.INTER_CUBIC)
+            frame_scaled = cv2.cvtColor(frame_scaled, cv2.COLOR_BGR2GRAY)
 
         if False:
-            cv2.imshow('frame',
-                       frame_rescaled)
-
+            cv2.imshow('frame', frame_scaled)
             cv2.waitKey(0)
 
-        return frame_rescaled
+        return frame_scaled
 
+    def processVideo(self, toGray=False, toShape=[64., 64.], rects=list(), updateRects=False):
 
-    def processImage(self, fname, toGray=False, toShape = [64., 64.]):
+        # Load an color image
+        ret, frame = self.cap.read()
+        ret = self.__postProcess(frame, toGray, toShape, rects, updateRects)
+
+        return ret
+
+    def processImage(self,
+                     fname,
+                     toGray=False,
+                     toShape=[64., 64.],
+                     rects=list(),
+                     updateRects=False):
 
         _log("%s is loading..." % fname)
         # Load an color image
         img = cv2.imread(fname, 1)
+        ret = self.__postProcess(img, toGray, toShape, rects, updateRects)
 
-        # Convert color image to grayscale
-        if toGray:
-            img = cv2.cvtColor(img,
-                                cv2.COLOR_BGR2GRAY)
-
-        h_sf = toShape[0] / img.shape[0]
-        w_sf = toShape[1] / img.shape[1]
-        img_scaled = cv2.resize(img,
-                                 None,
-                                 fx=w_sf,
-                                 fy=h_sf,
-                                 interpolation=cv2.INTER_CUBIC)
-
-        if False:
-            cv2.imshow('frame',
-                       img_scaled)
-
-            cv2.waitKey(0)
-
-        return img_scaled
+        return ret
 
 
 def main():
     ip = ImageProcess()
     # ip.captureVideo()
-    img = ip.processImage(os.path.join('./KR_data/','IMG_20170315_201204260.jpg'), toGray=True)
+    img = ip.processImage(
+        os.path.join('./KR_data/', 'IMG_20170315_201204260.jpg'), toGray=True)
 
     plt.imshow(img, interpolation='nearest', cmap='Greys')
     plt.show()
