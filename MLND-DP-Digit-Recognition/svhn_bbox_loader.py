@@ -107,12 +107,13 @@ class Loader(object):
 
     @staticmethod
     def label_to_onehot(original):
-        decimal_kind_of_digit = 10
+        decimal_kind_of_digit = 64
 
         count_distinct_value = max(
             len(np.unique(original)), decimal_kind_of_digit)
         label_1hot = np.zeros((original.shape[0], count_distinct_value))
-        label_1hot[np.arange(original.shape[0]), np.transpose(original)] = 1
+        label_1hot[np.arange(original.shape[0]), np.transpose(original) %
+                   count_distinct_value] = 1
 
         return label_1hot
 

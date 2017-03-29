@@ -67,6 +67,7 @@ class ImageProcess(object):
 
         if toGray:
             frame_scaled = cv2.cvtColor(frame_scaled, cv2.COLOR_BGR2GRAY)
+            frame_scaled = frame_scaled * 1.0/255.0
 
         if False:
             cv2.imshow('frame', frame_scaled)

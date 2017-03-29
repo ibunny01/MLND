@@ -19,6 +19,64 @@ def _log(message, end='\r\n'):
         print(message, end=end)
 
 
+def weights_init_stddev(w, h, d_in):
+    # https://arxiv.org/pdf/1502.01852v1.pdf
+    return math.sqrt(2.0 / (w * h * d_in))
+
+
+def get_conv2d(name,
+               data,
+               patch,
+               d_in,
+               d_out,
+               stride,
+               pooling=None,
+               image_shape=(None, 64, 64, 1)):
+
+    stddev = weights_init_stddev(image_shape[1], image_shape[2], d_in)
+
+    with tf.name_scope(str('%s_namescope' % name)) as hl_scope:
+        weights = tf.Variable(
+            tf.truncated_normal([patch, patch, d_in, d_out], stddev=stddev),
+            dtype=tf.float32,
+            name=str('%s_w' % name))
+
+        biases = tf.Variable(
+            tf.zeros([d_out]), dtype=tf.float32, name=str('%s_b' % name))
+
+        layer = tf.nn.relu(
+            tf.nn.conv2d(data, weights, stride, padding='SAME') + biases)
+
+        if pooling is not None:
+            layer = tf.nn.max_pool(layer, pooling, pooling, padding='SAME')
+
+    return weights, biases, layer, hl_scope
+
+
+def get_fc(name, data, depth, relu=True, dropout=True, keep_prob=1.0, seed=42):
+    with tf.name_scope(str('%s_namescope' % name)) as hl_scope:
+        inbound = int(data.get_shape()[1])
+        weights = tf.Variable(
+            tf.truncated_normal(
+                [inbound, depth],
+                stddev=math.sqrt(2.0 / inbound),
+                dtype=tf.float32,
+                name=str('%s_w' % name)))
+
+        biases = tf.Variable(
+            tf.zeros([depth]), dtype=tf.float32, name=str('%s_b' % name))
+
+        layer = tf.matmul(data, weights) + biases
+
+        if relu is True:
+            layer = tf.nn.relu(layer)
+
+        if dropout is True:
+            layer = tf.nn.dropout(layer, keep_prob, seed=seed)
+
+    return weights, biases, layer, hl_scope
+
+
 class CNNTrainer:
 
     train_name = 'convolution_neural_networks_train'
@@ -28,50 +86,11 @@ class CNNTrainer:
 
     seed = 42
 
+    _TF_DEBUG = None
+
     def __init__(self):
 
         return
-
-    def weights_init_stddev(self, d_in):
-        raise NotImplementedError('Should have implemented this')
-
-    def get_conv2d(self, name, data, patch, d_in, d_out, stride, pooling=None):
-        with tf.name_scope(str('%s_namescope' % name)) as hl_scope:
-            weights = tf.Variable(
-                tf.truncated_normal(
-                    [patch, patch, d_in, d_out],
-                    stddev=self.weights_init_stddev(d_in)),
-                name=str('%s_w' % name))
-
-            biases = tf.Variable(tf.zeros([d_out]), name=str('%s_b' % name))
-
-            layer = tf.nn.relu(
-                tf.nn.conv2d(data, weights, stride, padding='SAME') + biases)
-
-            if pooling is not None:
-                layer = tf.nn.max_pool(layer, pooling, pooling, padding='SAME')
-
-        return weights, biases, layer, hl_scope
-
-    def get_fc(self, name, data, depth, relu=True, dropout=True,
-               keep_prob=1.0):
-        with tf.name_scope(str('%s_namescope' % name)) as hl_scope:
-            inbound = int(data.get_shape()[1])
-            weights = tf.Variable(
-                tf.truncated_normal(
-                    [inbound, depth],
-                    stddev=math.sqrt(2.0 / inbound),
-                    name=str('%s_w' % name)))
-            biases = tf.Variable(tf.zeros([depth]), name=str('%s_b' % name))
-            layer = tf.matmul(data, weights) + biases
-
-            if relu is True:
-                layer = tf.nn.relu(layer)
-
-            if dropout is True:
-                layer = tf.nn.dropout(layer, keep_prob, seed=self.seed)
-
-        return weights, biases, layer, hl_scope
 
 
 class SVHNTrainer(CNNTrainer):
@@ -112,7 +131,7 @@ class SVHNTrainer(CNNTrainer):
 
         # set tf variables for input, labels and hyper-parameters
         self.tf_x = tf.placeholder(tf.float32, self.raw_image_shape)
-        self.tf_y_ = tf.placeholder(tf.int32, self.label_shape)
+        self.tf_y_ = tf.placeholder(tf.int64, self.label_shape)
 
         self.tf_learning_rate = tf.placeholder(tf.float32)
         self.tf_l2_beta = tf.placeholder(tf.float32)
@@ -126,66 +145,66 @@ class SVHNTrainer(CNNTrainer):
 
         return
 
-    def weights_init_stddev(self, d_in):
-        # https://arxiv.org/pdf/1502.01852v1.pdf
-        return math.sqrt(2.0 /
-                         (self.image_shape[1] * self.image_shape[2] * d_in))
-
     def set_model(self):
         self.is_model_initialized = True
 
         x_input = tf.reshape(self.tf_x, [-1] + self.image_shape[1:4])
 
         # convolution vector definition
-        w_conv1, b_conv1, l_conv1, ns_conv1 = self.get_conv2d(
+
+        w_conv1, b_conv1, l_conv1, ns_conv1 = get_conv2d(
             'conv1',
             data=x_input,
             patch=5,
             d_in=1,
             d_out=16,
             stride=[1, 1, 1, 1],
-            pooling=[1, 2, 2, 1], )
+            pooling=[1, 2, 2, 1],
+            image_shape=self.image_shape, )
 
-        w_conv2, b_conv2, l_conv2, ns_conv2 = self.get_conv2d(
+        w_conv2, b_conv2, l_conv2, ns_conv2 = get_conv2d(
             'conv2',
             data=l_conv1,
             patch=5,
             d_in=16,
             d_out=32,
             stride=[1, 1, 1, 1],
-            pooling=[1, 2, 2, 1], )
+            pooling=[1, 2, 2, 1],
+            image_shape=self.image_shape, )
 
-        w_conv3, b_conv3, l_conv3, ns_conv3 = self.get_conv2d(
+        w_conv3, b_conv3, l_conv3, ns_conv3 = get_conv2d(
             'conv3',
             data=l_conv2,
             patch=5,
             d_in=32,
             d_out=64,
             stride=[1, 1, 1, 1],
-            pooling=[1, 2, 2, 1], )
+            pooling=[1, 2, 2, 1],
+            image_shape=self.image_shape, )
 
-        w_conv4, b_conv4, l_conv4, ns_conv4 = self.get_conv2d(
+        w_conv4, b_conv4, l_conv4, ns_conv4 = get_conv2d(
             'conv1',
             data=l_conv3,
             patch=5,
             d_in=64,
             d_out=128,
             stride=[1, 1, 1, 1],
-            pooling=[1, 2, 2, 1], )
+            pooling=[1, 2, 2, 1],
+            image_shape=self.image_shape, )
 
         shape = l_conv4.get_shape().as_list()
-        reshape = tf.reshape(l_conv4, [-1, shape[1] * shape[2] * shape[3]])
+        l_reshape = tf.reshape(l_conv4, [-1, shape[1] * shape[2] * shape[3]])
 
         # weight & bias matrix depends on features
-        w_fc1, b_fc1, fc1, ns_fc1 = self.get_fc(
+        w_fc1, b_fc1, fc1, ns_fc1 = get_fc(
             'fc1',
-            reshape,
+            l_reshape,
             256,
             relu=True,
             dropout=True,
             keep_prob=self.tf_keep_prob)
 
-        w_fc2, b_fc2, fc2, ns_fc2 = self.get_fc(
+        w_fc2, b_fc2, fc2, ns_fc2 = get_fc(
             'fc2',
             fc1,
             128,
@@ -193,40 +212,55 @@ class SVHNTrainer(CNNTrainer):
             dropout=True,
             keep_prob=self.tf_keep_prob)
 
-        # count of bound box
-        w_len, b_len, pred_len, ns_len = self.get_fc(
-            'bboxes_len', fc2, 1, relu=False, dropout=False)
-
         # bound boxes position
-        num_labels = self.label_shape[1] - 1
+        num_bboxes = 6
+        num_coord = 4
+        num_label = num_bboxes * num_coord
+        max_coord_val = self.image_shape[1]
+
+        # count of bound box
+        w_len, b_len, pred_len, ns_len = get_fc(
+            'fc3_bboxes_len', fc2, num_bboxes, relu=False, dropout=False)
 
         bboxes_param = [
-            self.get_fc(
-                str('fc3_pos_%d_%d' % (i / 4, i % 4)), fc2, 1, relu=False)
-            for i in range(num_labels)
+            get_fc(
+                str('fc3_bboxes_pos_%d_%d' % (i / 4, i % 4)),
+                fc2,
+                max_coord_val,
+                relu=False) for i in range(num_label)
         ]
 
-        bboxes_weights = [bboxes_param[i][0] for i in range(num_labels)]
-        bboxes_biases = [bboxes_param[i][1] for i in range(num_labels)]
-        bboxes_pred = tf.stack([bboxes_param[i][2] for i in range(num_labels)])
+        bboxes_weights = [bboxes_param[i][0] for i in range(num_label)]
+        bboxes_biases = [bboxes_param[i][1] for i in range(num_label)]
+        bboxes_pred = tf.stack(
+            [bboxes_param[i][2] for i in range(num_label)], axis=1)
 
         # loss calculation
         with tf.name_scope('loss_calculation') as lc_scope:
-            softmax_len = tf.nn.sparse_softmax_cross_entropy_with_logits(
-                labels=tf.reshape(self.tf_y_, (-1, 25))[:, 0], logits=pred_len)
-            softmax_pred = []
+            len_labels = self.tf_y_[:, 0]
+            len_logits = pred_len
 
-            for i in range(num_labels):
-                softmax_pred.append(
-                    tf.nn.sparse_softmax_cross_entropy_with_logits(
-                        labels=tf.reshape(self.tf_y_, (-1, 25))[i + 1],
-                        logits=bboxes_pred[i]))
+            softmax_len = tf.nn.sparse_softmax_cross_entropy_with_logits(
+                labels=len_labels, logits=len_logits)
+            loss_len = tf.reduce_mean(softmax_len)
 
             regularization = tf.nn.l2_loss(w_fc1) + tf.nn.l2_loss(b_fc1)
-            self.tf_loss = self.tf_l2_beta * regularization
-            for softmax in softmax_pred:
-                self.tf_loss += tf.reduce_mean(softmax)
+            l2_regularizer = self.tf_l2_beta * regularization
 
+            bboxes_loss = 0.0
+
+            bbox_labels = self.tf_y_[:, 1:]
+            bbox_logits = bboxes_pred[:, :, :]
+
+            bbox_loss = tf.clip_by_value(
+                tf.reduce_mean(
+                    tf.nn.sparse_softmax_cross_entropy_with_logits(
+                        labels=bbox_labels, logits=bbox_logits), 0), 1e-10,
+                1.0)
+
+            bboxes_loss = tf.reduce_sum(bbox_loss)
+            self.tf_loss = loss_len + l2_regularizer + bboxes_loss
+            self._TF_DEBUG = self.tf_loss
             tf.summary.scalar('loss', self.tf_loss)
 
         # loss optimizer
@@ -241,15 +275,23 @@ class SVHNTrainer(CNNTrainer):
 
         # accuracy calculation
         with tf.name_scope('accuracy_calculation') as acc_scope:
-            pred_combined = tf.stack([pred_len, bboxes_pred], axis=1)
-            predict = tf.reshape(pred_combined, (-1, 25))
-            is_correct_pred = tf.equal(predict,
-                                       tf.reshape(self.tf_y_, (-1, 25)))
-            self.tf_accuracy = tf.reduce_mean(
-                tf.cast(is_correct_pred, tf.float32))
+
+            pred_len = tf.argmax(tf.nn.softmax(pred_len), 1)
+            pred_coord = tf.argmax(
+                tf.nn.softmax(
+                    tf.reshape(bboxes_pred, (-1, num_label, max_coord_val))),
+                2)
+
+            merged_labels = tf.concat(
+                [tf.reshape(pred_len, (-1, 1)), pred_coord], 1)
+
+            is_correct = tf.equal(merged_labels,
+                                  tf.reshape(self.tf_y_, (-1, 25)))
+
+            self.tf_accuracy = tf.reduce_mean(tf.cast(is_correct, tf.float32))
             tf.summary.scalar('accuracy', self.tf_accuracy)
 
-            self.pred_value = predict
+            self.pred_value = merged_labels
 
         # set up saver for continuous learning
         # https://www.tensorflow.org/api_docs/python/tf/train/Saver
@@ -306,7 +348,7 @@ class SVHNTrainer(CNNTrainer):
                                                      sess.graph)
 
                 _log('we\'re about to training using %d trainset...' %
-                     self.train_dataset[0].shape[0])
+                     train_size)
                 _log('trainset size : {:4d}'.format(train_size))
                 _log('batch    size : {:4d}'.format(batch_size))
 
@@ -315,20 +357,18 @@ class SVHNTrainer(CNNTrainer):
                 for epoch in range(1000):
 
                     # Shuffling the train sets
-                    indices = np.random.permutation(
-                        range(self.train_dataset[0].shape[0]))
-                    for i, _ in enumerate(self.train_dataset):
+                    indices = np.random.permutation(range(train_size))
+                    for i in range(len(self.train_dataset)):
                         self.train_dataset[i] = self.train_dataset[i][indices]
 
                     # batch_ training
                     for batch_step in range(0, train_size, batch_size):
 
                         batch = [
-                            self.train_dataset['images'][batch_step:batch_step
-                                                         + batch_size],
-                            self.train_dataset['labels_for_tr'][
-                                batch_step:batch_step + batch_size].astype(
-                                    np.float32),
+                            self.train_dataset[0][batch_step:batch_step +
+                                                  batch_size],
+                            self.train_dataset[1][batch_step:batch_step +
+                                                  batch_size],
                         ]
 
                         # Check batch images for the training
@@ -362,6 +402,7 @@ class SVHNTrainer(CNNTrainer):
 
                         # Do training
                         self.tf_optimizer.run(feed_dict=feed_train)
+                        #print(self._TF_DEBUG.eval(feed_dict=feed_accu))
 
                     # tensorflow logging for tensorboard
                     _summaries = sess.run(merged, feed_dict=feed_train)
@@ -372,24 +413,25 @@ class SVHNTrainer(CNNTrainer):
 
                     # logging loss and accuracy
                     print(".", end='')
-                    if not epoch % 20:
+                    if not epoch % 1:
                         _loss, _train_accuracy = sess.run(
                             [self.tf_loss, self.tf_accuracy],
                             feed_dict=feed_accu)
 
                         print('')
                         print(
-                            "epoch {:4d} -> loss : {:05.2f} / training_accuracy: {:05.2f}".
+                            "epoch {:5d} -> loss : {:9.2f} / training_accuracy: {:9.2f}".
                             format(epoch, _loss, _train_accuracy))
+                        print(_loss)
 
-                        if _loss < 5. or _train_accuracy >= 0.70:
+                        if _loss < 3. or _train_accuracy >= 0.850:
                             break
 
             self.ckpt_saver.restore(sess, self.ckpt_fname)
 
             feed_test = {
                 self.tf_x: self.test_dataset[0],
-                self.tf_y_: self.test_dataset[4],
+                self.tf_y_: self.test_dataset[1],
                 self.tf_learning_rate: learning_rate,
                 self.tf_l2_beta: l2_beta,
                 self.tf_keep_prob: 1.0
@@ -404,7 +446,7 @@ class SVHNTrainer(CNNTrainer):
             raise AssertionError(
                 'you must initilize model using set_model function')
 
-        label = np.zeros(test_dataset.shape[0] * 70).reshape(-1, 70)
+        label = np.zeros(test_dataset.shape[0] * 25).reshape(-1, 25)
         pred = None
 
         with tf.Session() as sess:
@@ -437,16 +479,36 @@ def train():
 
     _log('data loading...', end='\r\n')
 
-    trainer.train_dataset = loader.get_data("training")
-    trainer.test_dataset = loader.get_data("testing")
+    train_dataset = loader.get_data("training")
+    test_dataset = loader.get_data("testing")
 
-    train_labels = trainer.train_dataset['bboxes_cnt'] + trainer.train_dataset[
-        'bboxes_pt']
-    test_labels = trainer.test_dataset['bboxes_cnt'] + trainer.test_dataset[
-        'bboxes_pt']
+    train_labels = np.c_[np.array(train_dataset['bboxes_cnt']).reshape((
+        -1, 1)), np.array(train_dataset['bboxes_pt'])]
+    train_labels[:, 0] = train_labels[:, 0] % 6
 
-    trainer.train_dataset['labels_for_tr'] = train_labels
-    trainer.test_dataset['labels_for_tr'] = test_labels
+    train_labels_1hot = np.array(
+        [[loader.label_to_onehot(digit)] for digit in train_labels.T])
+    train_labels_1hot = np.transpose(train_labels_1hot, (1, 2, 0, 3))
+    train_labels_1hot = train_labels_1hot.reshape((-1, 25 * 64))
+
+    test_labels = np.c_[np.array(test_dataset['bboxes_cnt']).reshape((-1, 1)),
+                        np.array(test_dataset['bboxes_pt'])]
+    test_labels[:, 0] = test_labels[:, 0] % 6
+
+    test_labels_1hot = np.array(
+        [[loader.label_to_onehot(digit)] for digit in test_labels.T])
+    test_labels_1hot = np.transpose(test_labels_1hot, (1, 2, 0, 3))
+    test_labels_1hot = test_labels_1hot.reshape((-1, 25 * 64))
+
+    trainer.train_dataset = list()
+    trainer.train_dataset.append(np.array(train_dataset['images']))
+    trainer.train_dataset.append(np.array(train_labels))
+    trainer.train_dataset.append(np.array(train_labels_1hot))
+
+    trainer.test_dataset = list()
+    trainer.test_dataset.append(np.array(test_dataset['images']))
+    trainer.test_dataset.append(np.array(test_labels))
+    trainer.test_dataset.append(np.array(test_labels_1hot))
 
     _log('training...')
     trainer.set_model()
