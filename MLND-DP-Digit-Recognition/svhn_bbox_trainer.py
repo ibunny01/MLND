@@ -6,8 +6,8 @@ import os
 
 import matplotlib.pyplot as plt
 import numpy as np
-import tensorflow as tf
 
+import tensorflow as tf
 from image_process import ImageProcess
 from svhn_bbox_loader import SVHNBboxLoader
 
@@ -220,7 +220,7 @@ class SVHNTrainer(CNNTrainer):
 
         # count of bound box
         w_len, b_len, pred_len, ns_len = get_fc(
-            'fc3_bboxes_len', fc2, num_bboxes, relu=False, dropout=False)
+            'fc3_bboxes_len', fc2, max_coord_val, relu=False, dropout=False)
 
         bboxes_param = [
             get_fc(
@@ -237,10 +237,10 @@ class SVHNTrainer(CNNTrainer):
 
         # loss calculation
         with tf.name_scope('loss_calculation') as lc_scope:
-            len_labels = self.tf_y_[:, 0]
+            len_labels = self.tf_y_[:, 0, :]
             len_logits = pred_len
 
-            softmax_len = tf.nn.sparse_softmax_cross_entropy_with_logits(
+            softmax_len = tf.nn.softmax_cross_entropy_with_logits(
                 labels=len_labels, logits=len_logits)
             loss_len = tf.reduce_mean(softmax_len)
 
@@ -249,19 +249,18 @@ class SVHNTrainer(CNNTrainer):
 
             bboxes_loss = 0.0
 
-            bbox_labels = self.tf_y_[:, 1:]
-            bbox_logits = bboxes_pred[:, :, :]
+            bbox_labels = self.tf_y_[:, 1:, :]
+            bbox_logits = bboxes_pred
 
-            bbox_loss = tf.clip_by_value(
-                tf.reduce_mean(
-                    tf.nn.sparse_softmax_cross_entropy_with_logits(
-                        labels=bbox_labels, logits=bbox_logits), 0), 1e-10,
-                1.0)
+            bbox_loss = tf.nn.softmax_cross_entropy_with_logits(
+                        labels=bbox_labels, logits=bbox_logits)
+            reduced_mean_bbox_loss = tf.reduce_mean(bbox_loss, 0)
 
-            bboxes_loss = tf.reduce_sum(bbox_loss)
+            bboxes_loss = tf.reduce_sum(reduced_mean_bbox_loss)
             self.tf_loss = loss_len + l2_regularizer + bboxes_loss
-            self._TF_DEBUG = self.tf_loss
             tf.summary.scalar('loss', self.tf_loss)
+
+            self._TF_DEBUG = bbox_loss
 
         # loss optimizer
         with tf.name_scope('training') as tr_scope:
@@ -285,8 +284,11 @@ class SVHNTrainer(CNNTrainer):
             merged_labels = tf.concat(
                 [tf.reshape(pred_len, (-1, 1)), pred_coord], 1)
 
-            is_correct = tf.equal(merged_labels,
-                                  tf.reshape(self.tf_y_, (-1, 25)))
+            labels = tf.argmax(self.tf_y_, 2)
+
+            import pdb; pdb.set_trace()
+
+            is_correct = tf.equal(merged_labels, labels)
 
             self.tf_accuracy = tf.reduce_mean(tf.cast(is_correct, tf.float32))
             tf.summary.scalar('accuracy', self.tf_accuracy)
@@ -330,7 +332,10 @@ class SVHNTrainer(CNNTrainer):
 
             # Batching dat
             batch_size = 50
-            train_size = self.train_dataset[0].shape[0]
+            train_tot_sz = self.train_dataset[0].shape[0]
+
+            train_size = 0
+            valid_size = 0
 
             # hyper-parameters
             learning_rate = 3.1e-4
@@ -348,8 +353,8 @@ class SVHNTrainer(CNNTrainer):
                                                      sess.graph)
 
                 _log('we\'re about to training using %d trainset...' %
-                     train_size)
-                _log('trainset size : {:4d}'.format(train_size))
+                     train_tot_sz)
+                _log('trainset size : {:4d}'.format(train_tot_sz))
                 _log('batch    size : {:4d}'.format(batch_size))
 
                 _log('. : 1 training epoch')
@@ -357,18 +362,22 @@ class SVHNTrainer(CNNTrainer):
                 for epoch in range(1000):
 
                     # Shuffling the train sets
-                    indices = np.random.permutation(range(train_size))
+                    indices = np.random.permutation(range(train_tot_sz))
                     for i in range(len(self.train_dataset)):
                         self.train_dataset[i] = self.train_dataset[i][indices]
+
+                    # split train and valid set
+                    train_data, train_label, valid_data, valid_label = SVHNBboxLoader.split_validation(self.train_dataset[0], self.train_dataset[2])
+
+                    train_size = train_data.shape[0]
+                    valid_size = valid_data.shape[0]
 
                     # batch_ training
                     for batch_step in range(0, train_size, batch_size):
 
                         batch = [
-                            self.train_dataset[0][batch_step:batch_step +
-                                                  batch_size],
-                            self.train_dataset[1][batch_step:batch_step +
-                                                  batch_size],
+                            train_data[batch_step:batch_step + batch_size],
+                            train_label[batch_step:batch_step + batch_size],
                         ]
 
                         # Check batch images for the training
@@ -393,8 +402,8 @@ class SVHNTrainer(CNNTrainer):
                         }
 
                         feed_accu = {
-                            self.tf_x: batch[0],
-                            self.tf_y_: batch[1],
+                            self.tf_x: valid_data,
+                            self.tf_y_: valid_label,
                             self.tf_learning_rate: learning_rate,
                             self.tf_l2_beta: l2_beta,
                             self.tf_keep_prob: 1.0
@@ -402,7 +411,7 @@ class SVHNTrainer(CNNTrainer):
 
                         # Do training
                         self.tf_optimizer.run(feed_dict=feed_train)
-                        #print(self._TF_DEBUG.eval(feed_dict=feed_accu))
+                        # print(self._TF_DEBUG.eval(feed_dict=feed_accu))
 
                     # tensorflow logging for tensorboard
                     _summaries = sess.run(merged, feed_dict=feed_train)
@@ -430,8 +439,8 @@ class SVHNTrainer(CNNTrainer):
             self.ckpt_saver.restore(sess, self.ckpt_fname)
 
             feed_test = {
-                self.tf_x: self.test_dataset[0],
-                self.tf_y_: self.test_dataset[1],
+                self.tf_x: self.test_dataset[0][:5000],
+                self.tf_y_: self.test_dataset[2][:5000],
                 self.tf_learning_rate: learning_rate,
                 self.tf_l2_beta: l2_beta,
                 self.tf_keep_prob: 1.0
@@ -446,7 +455,7 @@ class SVHNTrainer(CNNTrainer):
             raise AssertionError(
                 'you must initilize model using set_model function')
 
-        label = np.zeros(test_dataset.shape[0] * 25).reshape(-1, 25)
+        label = np.zeros(test_dataset.shape[0] * 25*64).reshape(-1, 25, 64)
         pred = None
 
         with tf.Session() as sess:
@@ -475,7 +484,7 @@ def train():
     loader.init_data()
 
     trainer = SVHNTrainer(
-        [None, 64, 64, 1], [None, 25], train_name='svhn_synthetic')
+        [None, 64, 64, 1], [None, 25, 64], train_name='svhn_synthetic')
 
     _log('data loading...', end='\r\n')
 
@@ -484,40 +493,61 @@ def train():
 
     train_labels = np.c_[np.array(train_dataset['bboxes_cnt']).reshape((
         -1, 1)), np.array(train_dataset['bboxes_pt'])]
-    train_labels[:, 0] = train_labels[:, 0] % 6
 
     train_labels_1hot = np.array(
         [[loader.label_to_onehot(digit)] for digit in train_labels.T])
     train_labels_1hot = np.transpose(train_labels_1hot, (1, 2, 0, 3))
-    train_labels_1hot = train_labels_1hot.reshape((-1, 25 * 64))
+    train_labels_1hot = train_labels_1hot.reshape((-1, 25, 64))
+
+    train_digit_labels = np.c_[np.array(train_dataset['bboxes_cnt']).reshape((-1,1)),
+                               np.array(train_dataset['labels'])]
+
+    import pdb; pdb.set_trace()
+    train_digit_labels_1hot = np.array(
+        [[loader.label_to_onehot(digit, 11)] for digit in train_digit_labels.T])
+    train_digit_labels_1hot = np.transpose(train_digit_labels_1hot, (1, 2, 0, 3))
+    train_digit_labels_1hot = train_digit_labels_1hot.reshape((-1, 7, 11))
+
 
     test_labels = np.c_[np.array(test_dataset['bboxes_cnt']).reshape((-1, 1)),
                         np.array(test_dataset['bboxes_pt'])]
-    test_labels[:, 0] = test_labels[:, 0] % 6
 
     test_labels_1hot = np.array(
         [[loader.label_to_onehot(digit)] for digit in test_labels.T])
     test_labels_1hot = np.transpose(test_labels_1hot, (1, 2, 0, 3))
-    test_labels_1hot = test_labels_1hot.reshape((-1, 25 * 64))
+    test_labels_1hot = test_labels_1hot.reshape((-1, 25, 64))
+
+    test_digit_labels = np.c_[np.array(test_dataset['bboxes_cnt']).reshape((-1,1)),
+                               np.array(test_dataset['labels'])]
+
+    test_digit_labels_1hot = np.array(
+        [[loader.label_to_onehot(digit, 11)] for digit in test_digit_labels.T])
+    test_digit_labels_1hot = np.transpose(test_digit_labels_1hot, (1, 2, 0, 3))
+    test_digit_labels_1hot = test_digit_labels_1hot.reshape((-1, 7, 11))
+
 
     trainer.train_dataset = list()
     trainer.train_dataset.append(np.array(train_dataset['images']))
     trainer.train_dataset.append(np.array(train_labels))
     trainer.train_dataset.append(np.array(train_labels_1hot))
+    trainer.train_dataset.append(np.array(train_digit_labels))
+    trainer.train_dataset.append(np.array(train_digit_labels_1hot))
 
     trainer.test_dataset = list()
     trainer.test_dataset.append(np.array(test_dataset['images']))
     trainer.test_dataset.append(np.array(test_labels))
     trainer.test_dataset.append(np.array(test_labels_1hot))
+    trainer.test_dataset.append(np.array(test_digit_labels))
+    trainer.test_dataset.append(np.array(test_digit_labels_1hot))
 
     _log('training...')
     trainer.set_model()
-    trainer.train(for_training=True)
+    trainer.train(for_training=False)
 
 
 def predict_real_image_using_svhn():
     trainer = SVHNTrainer(
-        [None, 64, 64, 1], [None, 25], train_name='svhn_synthetic')
+        [None, 64, 64, 1], [None, 25, 64], train_name='svhn_synthetic')
     _log('data loading...', end='\r\n')
 
     _log('testring for real dataset...')

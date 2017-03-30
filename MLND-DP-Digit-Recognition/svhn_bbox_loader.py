@@ -106,8 +106,7 @@ class Loader(object):
         return np.random.randint(max_number, size=size)
 
     @staticmethod
-    def label_to_onehot(original):
-        decimal_kind_of_digit = 64
+    def label_to_onehot(original, decimal_kind_of_digit=64):
 
         count_distinct_value = max(
             len(np.unique(original)), decimal_kind_of_digit)
